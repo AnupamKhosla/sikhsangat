@@ -1,57 +1,63 @@
-# SikhSangat Mirroring (Scrapper)
+# SikhSangat Digital Archive
 
-High-performance, anonymous, and robust scraper for generating a fully functional offline mirror of `sikhsangat.com`.
+A high-performance, robust preservation tool designed for the historical archiving of the `sikhsangat.com` public forum. 
+
+## Mission
+To ensure the long-term accessibility of public discourse and religious scholarship. This project generates a fully functional, offline-capable digital twin of the forum for educational research, historical preservation, and public utility.
 
 ## Features
-- **Adaptive IP Rotation:** Automatically rotates between Tor and a pool of SOCKS5 proxies.
-- **AJAX "Baking":** Uses Playwright to render and expand dynamic content (Tabs, Load More, etc.) before saving.
-- **Memory Optimized:** Uses a shared browser instance for verification and limits concurrency to avoid heap crashes.
-- **GitHub Pages Ready:** Generates output in the `docs/` folder, compatible with GitHub Pages.
-- **Behavioral Side-Testing:** Verifies link integrity and AJAX functionality offline for every saved page.
+- **Adaptive Preservation Engine:** Utilizes rotating network pathways (Tor, SOCKS5) to ensure non-disruptive, respectful data collection.
+- **Dynamic Content Rendering:** Employs Playwright to accurately capture and "bake" dynamic elements (Tabs, expanded content) into stable, static HTML files.
+- **Resource Optimization:** Features a shared-browser architecture for efficient memory management and high-reliability verification.
+- **Archive-Ready Structure:** Optimized for hosting as a static site via GitHub Pages or local filesystem access.
+- **Automated Quality Assurance:** Built-in behavioral testing to verify link integrity and interactive functionality within the archive.
 
 ## Setup
 
-1. **Install dependencies:**
+1. **Environment Preparation:**
    ```bash
    npm install
    ```
 
-2. **Ensure Tor is running (optional but recommended):**
+2. **Network Routing (Optional):**
    ```bash
    # On macOS
    brew install tor
    brew services start tor
    ```
 
-3. **Start the Mirroring Engine:**
+3. **Initiate Archival Process:**
    ```bash
    node index.js
    ```
 
 4. **Monitor Progress:**
-   Open `http://127.0.0.1:3000` to view the real-time dashboard.
+   Access the real-time monitoring dashboard at `http://127.0.0.1:3000`.
 
-## Deployment to GitHub Pages
+## Publication to Digital Archive (GitHub Pages)
 
-1. **Initialize Git and Push:**
+The repository is pre-configured to host the public archive via the `docs/` directory.
+
+1. **Commit and Sync:**
    ```bash
-   git init
    git add .
-   git commit -m "Initialize SikhSangat Mirror"
-   git remote add origin https://github.com/anupamkhosla/sikhsangat.git
-   git push -u origin main
+   git commit -m "Synchronize archive update"
+   git push origin main
    ```
 
-2. **Enable GitHub Pages:**
-   - Go to your repo **Settings** -> **Pages**.
+2. **Enable Public Access:**
+   - Navigate to the repository **Settings** -> **Pages**.
    - Under **Build and deployment**, select **Deploy from a branch**.
-   - Select `main` (or your current branch) and folder `/docs`.
+   - Choose the `main` branch and the `/docs` folder.
    - Click **Save**.
 
-Your site will be live at `https://anupamkhosla.github.io/sikhsangat/www.sikhsangat.com/index.html`.
+The public archive will be accessible at `https://anupamkhosla.github.io/sikhsangat/www.sikhsangat.com/index.html`.
 
-## Technical Specs
-- **Engine:** Node.js + Crawlee + Playwright
-- **Anonymity:** Tor SOCKS5 + Proxy Rotation
-- **Concurrency:** Auto-scales based on available unique IPs (Proxy count * 3)
-- **State Management:** Progress saved in `logs/scraper_config.json` and Crawlee `storage` folder.
+## Technical Specifications
+- **Core Engine:** Node.js + Crawlee + Playwright
+- **Anonymity Layer:** Multi-path SOCKS5 + Tor Rotation
+- **Scalability:** Adaptive concurrency based on verified network entry points.
+- **Persistence:** State tracking via `logs/scraper_config.json` and Crawlee's integrated storage layer.
+
+## Ethical & Legal Use
+This tool is intended for personal use, educational research, and the preservation of public data for the purpose of posterity. Users are responsible for ensuring their use complies with local regulations and respects the terms of service of the target platform.
