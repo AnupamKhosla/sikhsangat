@@ -8,52 +8,61 @@ import { fileURLToPath } from 'url';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT_DIR = path.join(__dirname, '..');
 const CONFIG_FILE = path.join(ROOT_DIR, 'logs', 'scraper_config.json');
-const QA_FILE = path.join(ROOT_DIR, 'logs', 'verification_state.json');
-const OUTPUT_DIR = path.join(ROOT_DIR, 'docs'); // Changed for GitHub Pages
+const OUTPUT_DIR = path.join(ROOT_DIR, 'docs');
 
 const app = express();
 const httpServer = createServer(app);
 const io = new Server(httpServer);
 
 app.use(express.json());
-app.use('/mirror', express.static(OUTPUT_DIR));
+
+// FIX: Ensure .html files are viewed, not downloaded
+app.use('/mirror', express.static(OUTPUT_DIR, {
+    setHeaders: (res, filePath) => {
+        if (filePath.endsWith('.html')) {
+            res.setHeader('Content-Type', 'text/html');
+        }
+    }
+}));
+
 app.use('/snapshots', express.static(path.join(ROOT_DIR, 'logs', 'snapshots')));
 
 app.get('/', (req, res) => {
-    let config = { currentJitter: 4000, maxConcurrency: 5, downloadedCount: 0 };
+    let config = { downloadedCount: 0, currentJitter: 4000, maxConcurrency: 1 };
     if (fs.existsSync(CONFIG_FILE)) config = fs.readJsonSync(CONFIG_FILE);
-    
     let html = fs.readFileSync(path.join(__dirname, 'dashboard.html'), 'utf8');
-    
-    // SSR: Inject the real data
-    html = html.replace('__COUNT__', config.downloadedCount);
-    html = html.replace('__JITTER__', config.currentJitter);
-    html = html.replace('__THREADS__', config.maxConcurrency);
-    
+    html = html.replace('__COUNT__', config.downloadedCount)
+               .replace('__JITTER__', config.currentJitter)
+               .replace('__THREADS__', config.maxConcurrency);
     res.send(html);
 });
 
-app.get('/api/init', (req, res) => {
-    let config = { currentJitter: 4000, maxConcurrency: 5, downloadedCount: 0 };
-    if (fs.existsSync(CONFIG_FILE)) config = fs.readJsonSync(CONFIG_FILE);
-    res.json({ config });
-});
-
+// Paginated QA API
 app.get('/qa/list', (req, res) => {
+    const page = parseInt(req.query.page) || 1;
+    const limit = 50;
+    const start = (page - 1) * limit;
+
     const files = [];
     const walk = (dir) => {
         if (!fs.existsSync(dir)) return;
         fs.readdirSync(dir).forEach(f => {
             const full = path.join(dir, f);
             if (fs.statSync(full).isDirectory()) walk(full);
-            else if (f === 'index.html') {
-                const rel = path.relative(OUTPUT_DIR, full);
-                if (rel !== 'index.html') files.push({ path: rel });
+            else if (f.endsWith('.html')) {
+                files.push({ path: path.relative(OUTPUT_DIR, full) });
             }
         });
     };
     walk(OUTPUT_DIR);
-    res.json(files);
+    
+    const paginated = files.slice(start, start + limit);
+    res.json({
+        files: paginated,
+        total: files.length,
+        pages: Math.ceil(files.length / limit),
+        currentPage: page
+    });
 });
 
 app.post('/log', (req, res) => {
