@@ -1,4 +1,3 @@
-import { PlaywrightCrawler, RequestQueue, LogLevel } from 'crawlee';
 import fs from 'fs-extra';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -6,251 +5,165 @@ import { chromium } from 'playwright-extra';
 import StealthPlugin from 'puppeteer-extra-plugin-stealth';
 import * as cheerio from 'cheerio';
 import axios from 'axios';
-import pixelmatch from 'pixelmatch';
-import { PNG } from 'pngjs';
-import prettier from 'prettier';
-import ProxyManager from './proxy-manager.js';
-import { ProxyConfiguration } from 'crawlee';
+import PQueue from 'p-queue';
 
 chromium.use(StealthPlugin());
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT_DIR = path.join(__dirname, '..');
-const OUTPUT_DIR = path.join(ROOT_DIR, 'docs'); // Changed for GitHub Pages
-const SNAPSHOT_DIR = path.join(ROOT_DIR, 'logs', 'snapshots');
-const BASE_URL = 'https://www.sikhsangat.com';
+const OUTPUT_DIR = path.join(ROOT_DIR, 'docs');
+const SEED_FILE = path.join(ROOT_DIR, 'seed_urls.json');
 const CONFIG_FILE = path.join(ROOT_DIR, 'logs', 'scraper_config.json');
 
-const CORS_PROXIES = [
-    'https://api.allorigins.win/get?url=',
-    'https://api.codetabs.com/v1/proxy?quest=',
-    'https://test.cors.workers.dev/?'
-];
-
-// --- SYSTEM STATE ---
-let systemIsBroken = false;
-let config = { 
-    currentJitter: 2000, 
-    maxConcurrency: ProxyManager.getConcurrencyLimit(), 
-    downloadedCount: 0 
-};
+let config = { downloadedCount: 0, currentJitter: 4000, maxConcurrency: 3 };
 
 if (fs.existsSync(CONFIG_FILE)) {
-    try { config = { ...config, ...fs.readJsonSync(CONFIG_FILE) }; } catch(e) {}
+    try {
+        const saved = fs.readJsonSync(CONFIG_FILE);
+        config = { ...config, ...saved, maxConcurrency: 3 };
+    } catch(e) {}
 }
 
-// SHARED BROWSER FOR TESTS (To save memory)
-let testBrowser = null;
-async function getTestBrowser() {
-    if (!testBrowser || !testBrowser.isConnected()) {
-        testBrowser = await chromium.launch({ headless: true });
-    }
-    return testBrowser;
-}
-
-// ADAPTIVE CONCURRENCY
-config.maxConcurrency = ProxyManager.getConcurrencyLimit();
-config.currentJitter = 2000;
-
-const saveConfig = () => fs.writeJsonSync(CONFIG_FILE, config, { spaces: 2 });
-
-const pushUpdate = async (msg, extra = {}) => {
+const logAction = async (msg) => {
     const timestamp = new Date().toLocaleTimeString();
-    const logLine = `[${timestamp}] ${msg}`;
-    console.log(logLine);
-    fs.appendFileSync(path.join(ROOT_DIR, 'logs', 'scraper.log'), logLine + '\n');
-    try { await axios.post('http://127.0.0.1:3000/log', { msg: logLine, config, ...extra }, { timeout: 1000 }); } catch (e) {}
+    const logMsg = `\x1b[1;34m[${timestamp}] [FOREGROUND] ${msg}\x1b[0m`;
+    console.log(logMsg);
+    try {
+        await axios.post('http://127.0.0.1:3000/log', { 
+            msg: `[${timestamp}] ${msg}`,
+            config: config 
+        }, { timeout: 1000 });
+    } catch(e) {}
 };
 
-let localIp = 'UNKNOWN';
-async function getLocalIp() {
-    try {
-        const res = await axios.get('https://api.ipify.org?format=json', { timeout: 5000 });
-        localIp = res.data.ip;
-    } catch(e) {
-        localIp = 'LOCAL_IP';
-    }
-}
+const saveConfig = () => {
+    fs.outputJsonSync(CONFIG_FILE, config, { spaces: 2 });
+};
 
-// --- CORS PROXY FETCHER ---
-async function fetchViaCorsProxy(url) {
-    for (const proxyBase of CORS_PROXIES) {
-        try {
-            const encodedUrl = encodeURIComponent(url);
-            const proxyUrl = proxyBase.includes('allorigins') ? `${proxyBase}${encodedUrl}` : `${proxyBase}${url}`;
-            const res = await axios.get(proxyUrl, { timeout: 10000 });
-            
-            let data = res.data;
-            if (proxyBase.includes('allorigins')) data = data.contents;
-            
-            return data;
-        } catch (e) { continue; }
-    }
-    return null;
-}
-
-// --- BEHAVIORAL SIDE-TESTER (Memory Optimized) ---
-async function runBehavioralTest(localPath) {
-    const browser = await getTestBrowser();
-    const page = await browser.newPage();
-    const relPath = path.relative(OUTPUT_DIR, localPath);
+function getLocalPath(url) {
     try {
-        await page.goto(`file://${localPath}`, { waitUntil: 'domcontentloaded', timeout: 30000 });
-        
-        // Link Integrity Test
-        const absoluteLinks = await page.$$eval('a', links => links.filter(a => a.href.includes('sikhsangat.com')).length);
-        if (absoluteLinks > 0) {
-            console.warn(`[VRT WARN] Found ${absoluteLinks} absolute links on ${relPath}`);
+        const u = new URL(url);
+        let hostname = u.hostname;
+        let pathname = u.pathname;
+        let search = u.search;
+        if (pathname === '/' && !search) pathname = '/index.html';
+        if (pathname.includes('index.php') && search) {
+            let clean = search.replace(/^\?\//, '').replace(/[&?]/g, '_');
+            pathname = '/' + clean;
         }
-
-        // Behavioral Tab Test (Based on SITE_ANALYSIS.md)
-        const tabs = await page.$$('[data-role="tab"]');
-        if (tabs.length > 0) {
-            await tabs[0].click();
-            await page.waitForTimeout(500);
-            const isVisible = await page.isVisible('.ipsTabs_panel:not(.ipsHide)');
-            if (!isVisible) console.warn(`[VRT WARN] Tab expansion failed offline on ${relPath}`);
+        if (!path.extname(pathname) || pathname.endsWith('/')) {
+            pathname = path.join(pathname, 'index.html');
         }
-
-        await pushUpdate(`[HEALTH] PASS: ${relPath}`);
-    } catch (e) {
-        console.error(`\x1b[1;31m[TEST FAIL] ${relPath}: ${e.message}\x1b[0m`);
-    } finally { 
-        await page.close(); // Only close the page, keep the browser
-    }
-}
-
-async function beautifyContent(content, type) {
-    try {
-        let crushed = content.replace(/\n\s*\n/g, '\n');
-        return await prettier.format(crushed, { parser: type === 'js' ? 'babel' : type, printWidth: 100, tabWidth: 2, htmlWhitespaceSensitivity: 'ignore' });
-    } catch (e) { return content; }
-}
-
-function getLocalPath(urlStr) {
-    try {
-        const uO = new URL(urlStr, BASE_URL);
-        let pathname = uO.pathname.replace('index.php', '');
-        if (uO.search.startsWith('?/')) {
-            const sub = uO.search.substring(2).split('&')[0];
-            if (sub) pathname = path.join(pathname, sub);
-        }
-        const segments = pathname.split('/').filter(s => s);
-        let fullPath = path.join(OUTPUT_DIR, uO.hostname, ...segments);
-        if (!path.extname(fullPath) || fullPath.endsWith('/')) fullPath = path.join(fullPath, 'index.html');
-        return fullPath;
+        return path.join(OUTPUT_DIR, hostname, pathname);
     } catch(e) { return path.join(OUTPUT_DIR, 'error.html'); }
 }
 
-function getRelativePath(fromUrl, toUrl) {
-    try {
-        const fromLocal = getLocalPath(fromUrl);
-        const toLocal = getLocalPath(toUrl);
-        let rel = path.posix.relative(path.posix.dirname(fromLocal), toLocal);
-        return rel.startsWith('.') ? rel : './' + rel;
-    } catch (e) { return toUrl; }
-}
-
-async function downloadAsset(page, url) {
-    const fs_path = getLocalPath(url);
-    if (await fs.pathExists(fs_path)) return;
-    try {
-        let body;
-        // TRY CORS PROXY FIRST TO SAVE BROWSER PROXY BANDWIDTH
-        body = await fetchViaCorsProxy(url);
-        
-        if (!body) {
-            const response = await page.request.get(url);
-            if (response.ok()) body = await response.body();
-        }
-
-        if (body) {
-            const ext = path.extname(fs_path).toLowerCase();
-            if (ext === '.css' || ext === '.js') {
-                const text = Buffer.isBuffer(body) ? body.toString('utf8') : body;
-                await fs.outputFile(fs_path, await beautifyContent(text, ext.substring(1)));
-            } else { await fs.outputFile(fs_path, body); }
-        }
-    } catch (e) {}
-}
-
 async function run() {
-    await getLocalIp();
     await fs.ensureDir(OUTPUT_DIR);
-    await fs.ensureDir(SNAPSHOT_DIR);
+    await fs.ensureDir(path.dirname(CONFIG_FILE));
     
-    console.log(`\x1b[1;32m[ENGINE START] PROXIES: ${ProxyManager.proxies.length} | CONCURRENCY: ${config.maxConcurrency}\x1b[0m`);
+    logAction(`Starting Resilient Scraper (3 Parallel Workers | 120s Timeout | 2s Max Retry Jitter)...`);
 
-    const proxyConfiguration = new ProxyConfiguration({
-        proxyUrls: ProxyManager.proxies
-    });
+    const browser = await chromium.launch({ headless: true });
+    const seeds = await fs.readJson(SEED_FILE);
+    
+    const queue = new PQueue({ concurrency: 3 });
+    let visited = new Set();
 
-    const crawler = new PlaywrightCrawler({
-        requestQueue: await RequestQueue.open(),
-        proxyConfiguration,
-        maxConcurrency: config.maxConcurrency,
-        launchContext: { launcher: chromium, launchOptions: { headless: true } },
-        requestHandler: async ({ request, page, log }) => {
-            log.setLevel(LogLevel.ERROR);
-            
-            const fs_path = getLocalPath(request.url);
-            if (await fs.pathExists(fs_path) && fs_path.endsWith('.html')) return;
+    const processUrl = async (url) => {
+        if (visited.has(url)) return;
+        visited.add(url);
 
-            const jitter = Math.min(Math.floor(Math.random() * config.currentJitter), 4000);
-            await pushUpdate(`[FETCHING] URL: ${request.url}`);
-            await new Promise(r => setTimeout(r, jitter));
+        const fs_path = getLocalPath(url);
+        if (await fs.pathExists(fs_path)) return;
 
+        // Pre-fetch Jitter (Randomly up to currentJitter config)
+        const initialJitter = Math.floor(Math.random() * config.currentJitter);
+        if (initialJitter > 0) {
+            await new Promise(r => setTimeout(r, initialJitter));
+        }
+
+        const page = await browser.newPage();
+        let success = false;
+        let retries = 0;
+
+        while (!success && retries < 2) {
             try {
-                await page.goto(request.url, { waitUntil: 'domcontentloaded', timeout: 90000 });
+                const startTime = Date.now();
+                await logAction(`Fetching: ${url} (Try ${retries + 1})`);
                 
+                const response = await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 120000 });
+                const responseTime = ((Date.now() - startTime) / 1000).toFixed(2);
+                
+                if (!response || !response.ok()) {
+                    const status = response?.status() || 'Unknown';
+                    throw new Error(`HTTP ${status} after ${responseTime}s`);
+                }
+
+                await logAction(`[OK] ${url} responded in ${responseTime}s`);
+
                 // Baking
-                await page.evaluate(async () => {
-                    document.querySelectorAll('[data-role="tab"], [data-action="loadMore"]').forEach(el => {
-                        if (!['login', 'sign in'].some(b => el.innerText.toLowerCase().includes(b))) el.click();
-                    });
-                });
-                await page.waitForLoadState('networkidle', { timeout: 15000 }).catch(() => {});
+                await page.evaluate(() => {
+                    document.querySelectorAll('[data-action="loadMore"], [data-role="tab"]').forEach(el => el.click());
+                }).catch(() => {});
+                
+                // Wait for animations/rendering
+                await new Promise(r => setTimeout(r, 2000));
 
                 const html = await page.content();
                 const $ = cheerio.load(html);
                 
-                // Relativize
-                const assetTasks = [];
-                $('a, img, link, script').each((i, el) => {
-                    ['href', 'src', 'data-src'].forEach(attr => {
-                        const val = $(el).attr(attr);
-                        if (val && val.includes('sikhsangat.com')) {
-                            try {
-                                const full = new URL(val, request.url).href;
-                                const rel = path.posix.relative(path.posix.dirname(getLocalPath(request.url)), getLocalPath(full));
-                                $(el).attr(attr, rel);
-                                if (el.name !== 'a') assetTasks.push(downloadAsset(page, full));
-                            } catch(e) {}
-                        }
-                    });
+                const newLinks = [];
+                $('a[href], img[src], link[href], script[src]').each((i, el) => {
+                    const attr = $(el).attr('href') ? 'href' : 'src';
+                    const val = $(el).attr(attr);
+                    if (val && val.includes('sikhsangat.com')) {
+                        try {
+                            const full = new URL(val, url).href;
+                            const local = getLocalPath(full);
+                            const rel = path.posix.relative(path.posix.dirname(fs_path), local);
+                            $(el).attr(attr, rel);
+                            if (el.name === 'a' && !val.includes('action=') && !visited.has(full)) {
+                                newLinks.push(full);
+                            }
+                        } catch(e) {}
+                    }
                 });
 
-                await Promise.all(assetTasks);
-                await fs.outputFile(fs_path, await beautifyContent($.html(), 'html'));
-                
+                await fs.outputFile(fs_path, $.html());
                 config.downloadedCount++;
                 saveConfig();
-                await pushUpdate(`[SAVED] Path: ${request.url.replace(BASE_URL, '')}`);
+                await logAction(`[SAVED] (${config.downloadedCount}) Path: ${url.replace('https://', '')}`);
                 
-                runBehavioralTest(fs_path);
+                for (const link of newLinks) {
+                    queue.add(() => processUrl(link));
+                }
+                
+                success = true;
             } catch (err) {
-                console.error(`Failed to fetch ${request.url}: ${err.message}`);
-                // Retry later?
+                retries++;
+                const backoff = 2000; // 2s base backoff
+                const jitter = Math.floor(Math.random() * 2000); // 2s max jitter as requested
+                const totalWait = backoff + jitter;
+                
+                await logAction(`[RETRYING] ${url} in ${totalWait}ms: ${err.message}`);
+                await new Promise(r => setTimeout(r, totalWait));
             }
         }
-    });
+        
+        await page.close().catch(() => {});
+    };
 
-    const seeds = await fs.readJson(path.join(ROOT_DIR, 'seed_urls.json'));
-    await crawler.addRequests(seeds.map(u => ({ url: u })));
-    await crawler.run();
+    for (const url of seeds) {
+        queue.add(() => processUrl(url));
+    }
+
+    await queue.onIdle();
+    await browser.close().catch(() => {});
+    logAction("Mirroring Complete.");
 }
 
-run().catch((e) => {
-    console.error(`\x1b[1;31m[UNCAUGHT FATAL] ${e.message}\x1b[0m`);
+run().catch(e => {
+    console.error(`[FATAL] ${e.message}`);
     process.exit(1);
 });

@@ -1,31 +1,25 @@
-# Gemini CLI - Known Hallucinations & Critical Fixes
+# Common Hallucinations & Corrections
 
-## 1. "Silent Failures" & Soft Returns
-**The Hallucination:** The agent will often wrap critical security checks (like `getVerifiedIp`) in a `try/catch`, print an error message, and then quietly `return` or let the script continue, instead of enforcing a hard stop.
-**The Fix:** MUST use `process.exit(1)` immediately upon any critical failure (IP lookup, Dashboard down). Do not allow the script to proceed in a degraded state.
+## 1. The CORS Font Trap (Ignored in early versions)
+- **Hallucination:** "Downloading the CSS is enough to fix the layout."
+- **Correction:** Invision Community CSS contains absolute URLs for fonts (FontAwesome). Simply saving the CSS causes CORS blocks on GitHub Pages. The engine MUST scan every `.css` file for `url()` patterns, download the fonts locally, and rewrite the CSS to use relative paths.
 
-## 2. Background Process Ghosting
-**The Hallucination:** The agent assumes running `node script.js &` inside the CLI will reliably keep a background process alive while returning to chat.
-**The Reality:** The CLI environment aggressively cleans up child processes when a tool call ends.
-**The Fix:** 
-- For testing/debugging: Run everything synchronously in the foreground.
-- For production: Use a single unified process (`index.js` using `spawn` with `stdio: 'inherit'`) and run it via `npm start` in a completely separate MacOS Terminal window.
+## 2. Browser Verification Memory Leak (The February 2026 Crash)
+- **Hallucination:** "We can launch a new browser for every page verification to ensure a clean state."
+- **Correction:** This leads to a `JS heap out of memory` error (The Heap Stack Crisis). Launching 50+ browser processes concurrently exhausts system memory. The engine MUST use a single, shared `testBrowser` instance for all offline verifications.
 
-## 3. "Empty Dashboard" Race Conditions
-**The Hallucination:** Assuming a React/Socket.io frontend will perfectly sync with a fast-booting backend scraper.
-**The Reality:** The scraper often starts working before the dashboard is ready, or the dashboard JS fails silently (e.g., `btoa` failing on unicode paths).
-**The Fix:** Use Server-Side Rendering (SSR) to inject the absolute latest state (Jitter, Count, Logs) directly into the HTML before sending it to the client. Do not rely exclusively on WebSockets for initial state.
+## 3. GitHub Pages Directory Misalignment
+- **Hallucination:** "Saving to `sikhsangat_offline` is fine for Git."
+- **Correction:** GitHub Pages defaults to the `docs/` folder for branch-based deployment. The scraper must save directly to `docs/` to ensure the archive is immediately hostable without manual moving.
 
-## 4. Playwright Over-Clicking
-**The Hallucination:** "Click all links to trigger AJAX" is a good idea.
-**The Reality:** Clicking `<a>` tags with real URLs causes the headless browser to navigate away from the page it's supposed to be saving, destroying the mirror.
-**The Fix:** Only click elements that are known AJAX triggers (`[data-action="loadMore"]`, `[data-role="tab"]`) and strictly blacklist elements like "login" or "sign in" to avoid baking modals into the HTML.
+## 4. Local IP Leakage
+- **Hallucination:** "The local IP is safe for small asset fetches."
+- **Correction:** Any connection to `sikhsangat.com` from the local IP risks a block. ALL requests, including images and fonts, must go through the proxy rotation or the CORS proxy pool.
 
-## 5. False "True Parallelism"
-**The Hallucination:** Setting `maxConcurrency: 25` means 25 requests happen at once.
-**The Reality:** If all 25 requests route through a single Tor port (`127.0.0.1:9050`), the target server (or Tor itself) will bottleneck, resulting in 500 Errors ("Too many connections") or timeouts.
-**The Fix:** To achieve true high concurrency, a pool of distinct, verified proxy servers is required. If using a single Tor node, concurrency must be kept low (e.g., 5) with a hard-capped Jitter (e.g., 4000ms max).
+## 5. Offline Integrity (Runtime Leaks)
+- **Hallucination:** "Absolute links in HTML are fine as long as they point to the live site."
+- **Correction:** A 100% offline mirror must never attempt to contact the live site at runtime. All absolute URLs to the target domain must be relativized before saving to ensure the archive is standalone and survives live-site downtime.
 
-## Current Operational State (As of Last Logout)
-- The scraper is currently set to **Test Mode (Local IP)** with `maxConcurrency: 3` to isolate whether the failures are caused by bad proxies or bad code.
-- To resume the full anonymous run, the Tor proxy (`127.0.0.1:8081`) must be reinstated in `src/main.js`.
+## 6. Background Process Failure
+- **Hallucination:** "Running long-running tasks like the scraper with `is_background: true` is more efficient."
+- **Correction:** Background execution in the agent environment frequently leads to lost stdout/stderr, failed service bindings (e.g., dashboard port 3000), and unobserved startup crashes. For reliability and real-time observability, the scraper MUST be run in the **foreground**.

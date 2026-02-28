@@ -1,6 +1,31 @@
 # Project: SikhSangat Mirroring (Scrapper)
 **Copyright (c) 2026 Anupam Khosla. All Rights Reserved.**
 
+## Hard Operational Mandates
+- **The macOS Project Enclosure:** The agent is **strictly confined** to the `/Users/anupamkhosla/Desktop/Coding/Scrapper` directory. This is enforced by the macOS Kernel via a mandatory Sandbox profile (`scripts/full-jail.sb`).
+- **Enclosure Verification:** Before performing **any** task, the agent **MUST** verify it is "Enclosed" by running:
+    - `ls /Users/anupamkhosla/Desktop/Documents 2>&1`
+    - **Pass:** If the command returns `Operation not permitted`, the enclosure is active.
+    - **Fail:** If the command successfully lists files outside the project, the agent **MUST** halt immediately and remind the user to run: `sandbox-exec -f scripts/full-jail.sb /bin/zsh`.
+- **The Hallucination Guard:** At the beginning of **EVERY** turn/session, the agent **MUST** read `hallucinations.md`. This is a non-negotiable step to prevent recurring mistakes.
+- **The No-Git Mandate:** Git execution remains strictly prohibited and is physically blocked by the same sandbox profile.
+- **No Sudo Policy:** The agent is strictly forbidden from requesting or using `sudo`.
+
+## The 3*3 Stealth Strategy (Network Mandate)
+- **MANDATORY:** Never use local IP for any request to the target site.
+- **Rotation Method:**
+    1. **Tor Proxy:** Use the local Tor SOCKS5 proxy (port 9050) for primary HTML fetches.
+    2. **Firefox/SOCKS5 Proxy:** Use a rotating SOCKS5 proxy list via a dedicated Firefox-style header.
+    3. **CORS Proxy Pool:** Use the verified list of CORS proxies (`https://test.cors.workers.dev/?`, etc.) for asset-heavy fetches.
+- **Zero Backgrounding:** The scraper **MUST** be run in the **FOREGROUND** (`node index.js`). Background processes (`is_background: true`) are strictly forbidden as they lead to silent failures and port binding issues.
+
+## The Jailbreak (For Human Operator Only)
+To perform Git operations (staging, committing, pushing), the human operator should:
+1.  **Open a separate Terminal tab or window.** (This session will NOT be sandboxed).
+2.  Perform the required Git commands.
+3.  Return to the sandboxed terminal to continue agent operations.
+4.  Alternatively, use a GUI Git client (e.g., Sourcetree, GitHub Desktop) which is not affected by the terminal sandbox.
+
 ## Mission
 To create a high-performance, anonymous, and robust scraper that generates a fully functional offline mirror of `sikhsangat.com`.
 
@@ -63,6 +88,8 @@ To create a high-performance, anonymous, and robust scraper that generates a ful
 - **Watchdog Halt:** A 60s timer monitors the `systemIsBroken` flag and performs a Full System Halt on any failure.
 
 ## Lessons Learned (Operational History)
+- **The Heap Stack Crisis (February 2026):** The scraper crashed with a `JS heap out of memory` error because it was launching a fresh Playwright browser for every single page's behavioral verification. With multiple concurrent threads, this created a massive browser process leak that exhausted the heap.
+- **Solution:** Switched to a single, persistent `testBrowser` instance for all verifications. Pages are opened and closed within this shared instance, keeping memory usage constant and stable.
 - **Background Fragility:** Early attempts at backgrounding failed due to silent startup errors. 
 - **Solution:** Use `src/heartbeat.js` to verify port status and log activity before reporting success.
 - **Server Bottleneck:** High concurrency (10+) triggers "Too many connections" errors on the Apache/IPS server.
@@ -71,17 +98,19 @@ To create a high-performance, anonymous, and robust scraper that generates a ful
 - **Solution:** Universal AJAX expansion script clicks all `data-ips*` elements before saving.
 
 ## Operational Pitfalls & Recurring Mistakes
+- **CORS Font Trap:** External fonts (FontAwesome) fail to load in the mirror because of absolute URLs in CSS.
+- **Resolution:** The engine now scans CSS files, downloads fonts locally, and relativizes paths.
+- **Offline Integrity Mandate:** All pages must function 100% offline via `file://` or static hosting. NO external calls to `sikhsangat.com` are permitted at runtime.
 - **IP Lookup Failures:** Occasionally `getVerifiedIp()` fails due to Tor circuit instability or API rate limits.
-- **Agent Hallucination (Silent Failures):** The agent has a recurring tendency to return error strings (e.g., "IP_LOOKUP_FAILED") instead of throwing a hard error. 
 - **MANDATORY FIX:** The scraper MUST NOT proceed with a fetch if the IP lookup fails. It must use `process.exit(1)` to kill the entire process immediately. No soft returns are allowed in the error path.
 - **DB Overload Persistence:** Even with 4s jitter, the server can still return "Too many connections." 
 - **Strategy:** Quarantine the URL immediately and move on to maintain throughput.
+- **Background Process Unreliability:** Running the scraper as a background process (`is_background: true`) frequently leads to silent failures, missing dashboard connectivity (port 3000), and incomplete startup.
+- **MANDATORY FIX:** Always prefer running the scraper in the **foreground** (`node index.js`) to ensure real-time logging, immediate error visibility, and guaranteed service availability.
 - **Foreground Error Catching:** When running the scraper in the foreground, any uncaught exception must explicitly trigger a process crash to force immediate agent intervention.
-- **Proxy/Tor Limits:** Because Tor provides only one IP at a time, high concurrency (25+) leads to timeouts or 500 errors. 
-- **Test Strategy:** Temporarily test with LOCAL IP at low concurrency (3 workers) to verify the core scraping logic works without the proxy bottleneck.
 
 ## How to Start / Resume
 1. **Full Start:** Run `node index.js`. This starts the Proxy, Seed Waiter, and Scraper.
-2. **Monitoring:** Open `http://localhost:3000` for the macOS QA Dashboard.
+2. **Monitoring:** Open `http://127.0.0.1:3000` for the macOS QA Dashboard.
 3. **Health Check:** Run `node src/heartbeat.js` to verify all background workers are healthy.
 4. **Stopping:** Run `node stop.js`.

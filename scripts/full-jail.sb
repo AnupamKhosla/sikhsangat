@@ -1,0 +1,40 @@
+(version 1)
+(deny default)
+
+;; 1. ALLOW SYSTEM BASICS (Required for Node.js to function)
+(allow file-read*
+    (subpath "/usr/lib")
+    (subpath "/System/Library")
+    (subpath "/usr/share")
+    (subpath "/private/var/db/timezone")
+)
+
+;; 2. ALLOW PROJECT ACCESS (The "Enclosure")
+;; This limits me ONLY to this folder. I cannot see or touch anything else on your Mac.
+(allow file-read* file-write*
+    (subpath "/Users/anupamkhosla/Desktop/Coding/Scrapper")
+    (subpath "/private/tmp")
+    (subpath "/var/tmp")
+    (literal "/dev/null")
+    (literal "/dev/random")
+    (literal "/dev/urandom")
+)
+
+;; 3. ALLOW NETWORK (Required for the scraper)
+(allow network*)
+
+;; 4. ALLOW EXECUTION (Required for Node.js and Playwright)
+(allow process-exec
+    (subpath "/Users/anupamkhosla/Desktop/Coding/Scrapper/node_modules")
+    (subpath "/Users/anupamkhosla/.nvm/versions/node/v20.19.6/bin/node")
+    (subpath "/Users/anupamkhosla/Library/Caches/ms-playwright")
+)
+
+;; 5. HARD DENY GIT/GH (Reinforcing the block)
+(deny process-exec 
+    (literal "/usr/bin/git")
+    (literal "/usr/local/bin/git")
+    (literal "/opt/homebrew/bin/git")
+    (literal "/usr/local/bin/gh")
+    (literal "/opt/homebrew/bin/gh")
+)

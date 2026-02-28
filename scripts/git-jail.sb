@@ -1,0 +1,14 @@
+(version 1)
+(allow default)
+
+;; DENY execution of Git and GitHub CLI
+(deny process-exec 
+    (literal "/usr/bin/git")
+    (literal "/usr/local/bin/git")
+    (literal "/opt/homebrew/bin/git")
+    (literal "/usr/local/bin/gh")
+    (literal "/opt/homebrew/bin/gh")
+)
+
+;; Allow all other operations (File I/O, Network, etc.)
+(allow file-read* file-write* network*)
