@@ -1,0 +1,36 @@
+var ipsJavascriptMap = {
+  core: {
+    global_core: "https://files.sikhsangat.com/javascript_core/global_global_core.js",
+    admin_core: "https://files.sikhsangat.com/javascript_core/admin_admin_core.js",
+    admin_support: "https://files.sikhsangat.com/javascript_core/admin_admin_support.js",
+    admin_system: "https://files.sikhsangat.com/javascript_core/admin_admin_system.js",
+    admin_dashboard: "https://files.sikhsangat.com/javascript_core/admin_admin_dashboard.js",
+    admin_files: "https://files.sikhsangat.com/javascript_core/admin_admin_files.js",
+    admin_settings: "https://files.sikhsangat.com/javascript_core/admin_admin_settings.js",
+    admin_marketplace: "https://files.sikhsangat.com/javascript_core/admin_admin_marketplace.js",
+    admin_customization:
+      "https://files.sikhsangat.com/javascript_core/admin_admin_customization.js",
+    admin_stats: "https://files.sikhsangat.com/javascript_core/admin_admin_stats.js",
+    admin_members: "https://files.sikhsangat.com/javascript_core/admin_admin_members.js",
+    admin_templates: "https://files.sikhsangat.com/javascript_core/admin_admin_templates.js",
+    front_core: "https://files.sikhsangat.com/javascript_core/front_front_core.js",
+    front_widgets: "https://files.sikhsangat.com/javascript_core/front_front_widgets.js",
+    front_search: "https://files.sikhsangat.com/javascript_core/front_front_search.js",
+    front_statuses: "https://files.sikhsangat.com/javascript_core/front_front_statuses.js",
+    front_profile: "https://files.sikhsangat.com/javascript_core/front_front_profile.js",
+    front_streams: "https://files.sikhsangat.com/javascript_core/front_front_streams.js",
+    front_system: "https://files.sikhsangat.com/javascript_core/front_front_system.js",
+    front_messages: "https://files.sikhsangat.com/javascript_core/front_front_messages.js",
+    front_clubs: "https://files.sikhsangat.com/javascript_core/front_front_clubs.js",
+    front_modcp: "https://files.sikhsangat.com/javascript_core/front_front_modcp.js",
+    front_ignore: "https://files.sikhsangat.com/javascript_core/front_front_ignore.js",
+  },
+  forums: {
+    front_forum: "https://files.sikhsangat.com/javascript_forums/front_front_forum.js",
+    front_topic: "https://files.sikhsangat.com/javascript_forums/front_front_topic.js",
+  },
+  calendar: {
+    front_browse: "https://files.sikhsangat.com/javascript_calendar/front_front_browse.js",
+    front_submit: "https://files.sikhsangat.com/javascript_calendar/front_front_submit.js",
+  },
+};
