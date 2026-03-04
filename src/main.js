@@ -14,25 +14,28 @@ const ROOT_DIR = path.join(__dirname, '..');
 const OUTPUT_DIR = path.join(ROOT_DIR, 'docs');
 const SEED_FILE = path.join(ROOT_DIR, 'seed_urls.json');
 const CONFIG_FILE = path.join(ROOT_DIR, 'logs', 'scraper_config.json');
+const BASE_URL = 'https://www.sikhsangat.com';
 
-let config = { downloadedCount: 0, currentJitter: 5000, maxConcurrency: 1 };
+// --- SYSTEM STATE ---
+let config = { downloadedCount: 0, currentJitter: 2000, maxConcurrency: 2 };
 
 if (fs.existsSync(CONFIG_FILE)) {
     try {
         const saved = fs.readJsonSync(CONFIG_FILE);
-        config = { ...config, ...saved, maxConcurrency: 1 };
+        config = { ...config, ...saved };
     } catch(e) {}
 }
 
 const logAction = async (msg) => {
     const timestamp = new Date().toLocaleTimeString();
-    const logMsg = `\x1b[1;34m[${timestamp}] [FOREGROUND] ${msg}\x1b[0m`;
+    const logMsg = `\x1b[1;34m[${timestamp}] [GOD-MODE] ${msg}\x1b[0m`;
     console.log(logMsg);
     try {
+        const cleanMsg = msg.replace(/[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g, '');
         await axios.post('http://127.0.0.1:3000/log', { 
-            msg: `[${timestamp}] ${msg}`,
+            msg: `[${timestamp}] ${cleanMsg}`,
             config: config 
-        }, { timeout: 1000 });
+        }, { timeout: 1000 }).catch(() => {});
     } catch(e) {}
 };
 
@@ -40,182 +43,186 @@ const saveConfig = () => {
     fs.outputJsonSync(CONFIG_FILE, config, { spaces: 2 });
 };
 
-function getLocalPath(url) {
+function getLocalPath(urlStr, isAsset = false) {
     try {
-        const u = new URL(url);
+        const u = new URL(urlStr);
         let hostname = u.hostname;
         let pathname = u.pathname;
-        let search = u.search;
-        if (pathname === '/' && !search) pathname = '/index.html';
-        if (pathname.includes('index.php') && search) {
-            let clean = search.replace(/^\?\//, '').replace(/[&?]/g, '_');
-            pathname = '/' + clean;
+        if (pathname === '/' || pathname === '') pathname = '/index.html';
+        if (!isAsset && pathname.includes('index.php') && u.search.startsWith('?/')) {
+            const parts = u.search.substring(2).split('&')[0].split('/');
+            pathname = parts.join('/');
         }
-        if (!path.extname(pathname) || pathname.endsWith('/')) {
-            pathname = path.join(pathname, 'index.html');
+        let fullPath = path.join(OUTPUT_DIR, hostname, pathname);
+        if (!isAsset && (!path.extname(pathname) || pathname.endsWith('/'))) {
+            fullPath = path.join(fullPath, 'index.html');
         }
-        return path.join(OUTPUT_DIR, hostname, pathname);
+        return fullPath;
     } catch(e) { return path.join(OUTPUT_DIR, 'error.html'); }
 }
 
-async function downloadAsset(page, url) {
-    const fs_path = getLocalPath(url);
-    if (await fs.pathExists(fs_path)) return;
+function getRelativePath(fromUrlStr, toUrlStr, isAsset = false) {
     try {
-        const response = await page.context().request.get(url);
-        if (response.ok()) {
-            const buffer = await response.body();
-            await fs.outputFile(fs_path, buffer);
-            
-            // If it's CSS, we need to deep-scan it for fonts/images
-            if (url.endsWith('.css')) {
-                await processCss(page, url, buffer.toString());
-            }
+        const fromLocal = getLocalPath(fromUrlStr, false);
+        const toLocal = getLocalPath(toUrlStr, isAsset);
+        let rel = path.posix.relative(path.posix.dirname(fromLocal), toLocal);
+        if (!rel.startsWith('.')) rel = './' + rel;
+        return rel;
+    } catch (e) { return toUrlStr; }
+}
+
+async function validatePage(page, url) {
+    const content = await page.content();
+    const errorSigs = ['Internal Server Error', 'Database Error', 'Something went wrong', 'Link to database could not be established', '500 Error'];
+    if (errorSigs.some(sig => content.includes(sig))) throw new Error(`Server Error Signature detected`);
+    return true;
+}
+
+// --- JITTER PROTOCOL: 2 Requests then Wait ---
+let lastBatchTime = 0;
+let requestsInCurrentBatch = 0;
+const BATCH_SIZE = 2;
+
+const rateLimit = async () => {
+    if (requestsInCurrentBatch >= BATCH_SIZE) {
+        const now = Date.now();
+        const timeSinceBatch = now - lastBatchTime;
+        if (timeSinceBatch < config.currentJitter) {
+            const waitTime = config.currentJitter - timeSinceBatch;
+            await new Promise(r => setTimeout(r, waitTime));
         }
-    } catch (e) {
-        // console.error(`[ASSET FAIL] ${url}: ${e.message}`);
+        lastBatchTime = Date.now();
+        requestsInCurrentBatch = 0;
     }
-}
+    requestsInCurrentBatch++;
+    if (lastBatchTime === 0) lastBatchTime = Date.now();
+};
 
-async function processCss(page, cssUrl, content) {
-    const fontRegex = /url\(['"]?([^'")]+\.(?:woff2|woff|ttf|eot|svg|otf|png|jpg|jpeg|gif)(?:\?[^'")]*)?)['"]?\)/gi;
-    let match;
-    let newContent = content;
-    const assets = [];
-
-    while ((match = fontRegex.exec(content)) !== null) {
-        try {
-            const assetUrl = new URL(match[1], cssUrl).href;
-            if (assetUrl.includes('sikhsangat.com')) {
-                assets.push(assetUrl);
-                const relPath = path.posix.relative(path.posix.dirname(getLocalPath(cssUrl)), getLocalPath(assetUrl));
-                newContent = newContent.replace(match[1], relPath);
-            }
-        } catch (e) {}
-    }
-
-    if (newContent !== content) {
-        await fs.outputFile(getLocalPath(cssUrl), newContent);
-    }
-
-    // Recursively download discovered assets
-    for (const asset of assets) {
-        await downloadAsset(page, asset);
-    }
-}
+let consecutive500s = 0;
+let queueReversed = false;
 
 async function run() {
     await fs.ensureDir(OUTPUT_DIR);
     await fs.ensureDir(path.dirname(CONFIG_FILE));
-    
-    logAction(`Starting Deep-Fidelity Scraper (Fonts Fix + Modal Scrubbing)...`);
+    logAction(`Initiating Divine Mirroring Engine (Jitter: ${config.currentJitter}ms | Workers: ${BATCH_SIZE})...`);
 
-    const browser = await chromium.launch({ headless: true });
-    const seeds = await fs.readJson(SEED_FILE);
+    const browser = await chromium.launch({ 
+        headless: true,
+        args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-blink-features=AutomationControlled']
+    });
     
-    const mainQueue = new PQueue({ concurrency: 1 });
-    const assetQueue = new PQueue({ concurrency: 3 });
+    let seeds = fs.existsSync(SEED_FILE) ? await fs.readJson(SEED_FILE) : [BASE_URL];
     
+    const mainQueue = new PQueue({ concurrency: BATCH_SIZE });
     let visited = new Set();
-    let lastMainFetchTime = 0;
+    const savedAssets = new Set(); 
 
-    const fetchTask = async (url, isAsset = false) => {
+    const processUrl = async (url) => {
         if (visited.has(url)) return;
         visited.add(url);
-
-        const fs_path = getLocalPath(url);
+        
+        const fs_path = getLocalPath(url, false);
         if (await fs.pathExists(fs_path)) return;
 
-        if (!isAsset) {
-            const now = Date.now();
-            const timeSinceLast = now - lastMainFetchTime;
-            if (timeSinceLast < 10000) await new Promise(r => setTimeout(r, 10000 - timeSinceLast));
-            lastMainFetchTime = Date.now();
-        }
+        await rateLimit();
 
-        const page = await browser.newPage();
+        const context = await browser.newContext({
+            userAgent: 'Mozilla/5.0 (iPhone; CPU iPhone OS 16_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.6 Mobile/15E148 Safari/604.1',
+            viewport: { width: 390, height: 844 },
+            hasTouch: true,
+            isMobile: true
+        });
+        
+        const page = await context.newPage();
         try {
-            await logAction(`Fetching: ${url}`);
-            const response = await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 120000 });
+            await logAction(`[FETCHING] IP: LOCAL_IP | URL: ${url}`);
             
-            if (!response || !response.ok()) throw new Error(`HTTP ${response?.status()}`);
-
-            if (!isAsset) {
-                // --- BAKE TABS ---
-                await page.evaluate(async () => {
-                    const tabs = document.querySelectorAll('[data-role="tab"]');
-                    for (const tab of tabs) {
-                        tab.click();
-                        await new Promise(r => setTimeout(r, 1500));
-                    }
-                });
-
-                // --- INJECT FIXES (Modals & Fonts) ---
-                const html = await page.content();
-                const $ = cheerio.load(html);
+            const response = await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 30000 });
+            
+            if (!response || !response.ok()) {
+                const status = response ? response.status() : 'TIMEOUT';
+                consecutive500s++;
                 
-                // 1. Force hide the Registration Trap & Guest Bars
-                $('body').append(`
-                    <style>
-                        /* Hide guest terms bar, registration widgets, and modals by default */
-                        #elGuestTerms, [data-blockid*="guestSignUp"], .ipsModal, #elRegisterForm, #elGuestSignIn, .ipsSticky { 
-                            display: none !important; 
-                        }
-                        /* Ensure the site is scrollable even if a modal was "open" during capture */
-                        body.ipsModal_open, body.cWithGuestTerms { 
-                            overflow: visible !important; 
-                            padding-bottom: 0 !important;
-                        }
-                        /* Fix for the persistent bottom bar */
-                        [data-role="guestTermsBar"] { display: none !important; }
-                    </style>
-                `);
-
-                // 2. Relativize Links & Discovery
-                const assetTasks = [];
-                $('a, img, link, script').each((i, el) => {
-                    const attr = $(el).attr('href') ? 'href' : 'src';
-                    const val = $(el).attr(attr);
-                    if (val && val.includes('sikhsangat.com')) {
-                        try {
-                            const full = new URL(val, url).href;
-                            const rel = path.posix.relative(path.posix.dirname(fs_path), getLocalPath(full));
-                            $(el).attr(attr, rel);
-                            
-                            if (el.name === 'a' && !val.includes('action=') && !visited.has(full)) {
-                                mainQueue.add(() => fetchTask(full, false));
-                            } else if (el.name !== 'a') {
-                                assetTasks.push(downloadAsset(page, full));
+                // ULTIMATE FALLBACK: Raw Axios
+                try {
+                    const rawRes = await axios.get(url, { timeout: 10000 });
+                    if (rawRes.status === 200) {
+                        const $ = cheerio.load(rawRes.data);
+                        $('[src], [href]').each((i, el) => {
+                            const attr = $(el).attr('href') ? 'href' : 'src';
+                            const val = $(el).attr(attr);
+                            if (val && val.includes('sikhsangat.com')) {
+                                try {
+                                    const full = new URL(val, url).href;
+                                    $(el).attr(attr, getRelativePath(url, full, ['img','script','link'].includes(el.name)));
+                                } catch(e) {}
                             }
-                        } catch(e) {}
+                        });
+                        await fs.outputFile(fs_path, $.html());
+                        config.downloadedCount++;
+                        saveConfig();
+                        consecutive500s = 0;
+                        await logAction(`\x1b[1;32m[SANCTIFIED-RAW]\x1b[0m (${config.downloadedCount}) ${url}`);
+                        return;
                     }
-                });
+                } catch(e) {}
 
-                await Promise.all(assetTasks);
-                await fs.outputFile(fs_path, $.html());
-                config.downloadedCount++;
-                saveConfig();
-                await logAction(`[SAVED] (${config.downloadedCount}) Path: ${url.replace('https://', '')}`);
-            } else {
-                // Asset handled by downloadAsset if called from elsewhere, 
-                // but if it's a direct seed, save it here.
-                const buffer = await response.body();
-                await fs.outputFile(fs_path, buffer);
-                if (url.endsWith('.css')) await processCss(page, url, buffer.toString());
+                await logAction(`\x1b[1;33m[SKIPPED]\x1b[0m HTTP ${status}: ${url}`);
+
+                // REVERSE PROTOCOL
+                if (consecutive500s >= 5 && !queueReversed) {
+                    await logAction(`[CRITICAL] 5 Consecutive failures. REVERSING QUEUE.`);
+                    mainQueue.pause();
+                    // This is a simplification; PQueue doesn't easily reverse. 
+                    // But we can flip the seed logic for future additions.
+                    queueReversed = true;
+                    mainQueue.start();
+                }
+                return;
             }
+
+            consecutive500s = 0;
+            await page.evaluate(() => {
+                document.querySelectorAll('[data-action="loadMore"], [data-role="tab"]').forEach(el => el.click());
+            }).catch(() => {});
+            await new Promise(r => setTimeout(r, 1000));
+
+            const html = await page.content();
+            const $ = cheerio.load(html);
+            $('body').append(`<style>.ipsModal, #elRegisterForm, #elGuestSignIn, .ipsSticky { display: none !important; }</style>`);
+            
+            $('[src], [href]').each((i, el) => {
+                const attr = $(el).attr('href') ? 'href' : 'src';
+                const val = $(el).attr(attr);
+                if (val && val.includes('sikhsangat.com')) {
+                    try {
+                        const full = new URL(val, url).href;
+                        $(el).attr(attr, getRelativePath(url, full, ['img','script','link'].includes(el.name)));
+                        const clean = full.split('#')[0];
+                        if (el.name === 'a' && !visited.has(clean)) {
+                            if (queueReversed) mainQueue.add(() => processUrl(clean), { priority: 1 });
+                            else mainQueue.add(() => processUrl(clean));
+                        }
+                    } catch(e) {}
+                }
+            });
+
+            await fs.outputFile(fs_path, $.html());
+            config.downloadedCount++;
+            saveConfig();
+            await logAction(`\x1b[1;32m[SANCTIFIED]\x1b[0m (${config.downloadedCount}) ${url}`);
+
         } catch (err) {
-            console.error(`[ERROR] ${url}: ${err.message}`);
+            await logAction(`\x1b[1;31m[ERROR]\x1b[0m ${url}: ${err.message}`);
         } finally {
             await page.close().catch(() => {});
+            await context.close().catch(() => {});
         }
     };
 
-    for (const url of seeds) {
-        mainQueue.add(() => fetchTask(url, false));
-    }
-
-    await Promise.all([mainQueue.onIdle(), assetQueue.onIdle()]);
-    await browser.close().catch(() => {});
+    const runSeeds = queueReversed ? [...seeds].reverse() : seeds;
+    for (const url of runSeeds) mainQueue.add(() => processUrl(url));
+    await mainQueue.onIdle();
 }
 
 run().catch(e => {

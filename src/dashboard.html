@@ -21,11 +21,11 @@
 </head>
 <body>
     <div class="header">
-        <div class="fw-bold fs-5">SIKHSANGAT ARCHIVE v4.0</div>
+        <div class="fw-bold fs-5">SIKHSANGAT ARCHIVE v4.0 [GOD-MODE]</div>
         <div class="d-flex">
             <div class="badge-stat">SAVED: <span id="count" class="text-success">__COUNT__</span></div>
             <div class="badge-stat">JITTER: <span id="jitter">__JITTER__</span>ms</div>
-            <div class="badge-stat">THREADS: <span id="parallel">__THREADS__</span></div>
+            <div class="badge-stat">WORKERS: <span id="parallel">__THREADS__</span></div>
         </div>
     </div>
     <div class="main-content">
@@ -47,9 +47,10 @@
         let currentPage = 1;
 
         function addLog(msg) {
+            const cleanMsg = msg.replace(/[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g, '');
             const line = document.createElement('div');
             line.className = 'log-line';
-            line.innerHTML = `<span style="color:#888;margin-right:10px">[${new Date().toLocaleTimeString()}]</span> ${msg}`;
+            line.innerHTML = `<span style="color:#888;margin-right:10px">[${new Date().toLocaleTimeString()}]</span> ${cleanMsg}`;
             logDiv.prepend(line);
             if (logDiv.childNodes.length > 50) logDiv.removeChild(logDiv.lastChild);
         }
@@ -57,7 +58,8 @@
         function renderQaItem(path) {
             const item = document.createElement('div');
             item.className = 'qa-item';
-            const realUrl = 'https://' + path.replace('/index.html', '');
+            let realUrl = 'https://' + path.replace(/\\/index\\.html$/, '/');
+            if (realUrl.endsWith('www.sikhsangat.com/')) realUrl = 'https://www.sikhsangat.com/';
             item.innerHTML = `
                 <div class="text-truncate mb-1" title="${path}">${path}</div>
                 <div class="btn-group btn-group-sm w-100">
@@ -89,7 +91,10 @@
             }
             if (data.msg) {
                 addLog(data.msg);
-                if (data.msg.includes('[SAVED]') && currentPage === 1) loadPage(1);
+                // Only reload QA list on a fresh successful save
+                if (data.msg.includes('[SANCTIFIED]')) {
+                    if (currentPage === 1) loadPage(1);
+                }
             }
         });
 

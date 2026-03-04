@@ -4,12 +4,21 @@ import pixelmatch from 'pixelmatch';
 import { PNG } from 'pngjs';
 import fs from 'fs-extra';
 
-const OUTPUT_DIR = path.join(process.cwd(), 'sikhsangat_offline');
+const OUTPUT_DIR = path.join(process.cwd(), 'docs');
 const SNAPSHOT_DIR = path.join(process.cwd(), 'logs', 'snapshots');
 
+let browser = null;
+
+async function initBrowser() {
+    if (!browser) {
+        browser = await chromium.launch({ headless: true });
+    }
+    return browser;
+}
+
 async function runTest(url, localPath, liveScreenshotPath) {
-    const browser = await chromium.launch({ headless: true });
-    const page = await browser.newPage();
+    const b = await initBrowser();
+    const page = await b.newPage();
     const relPath = path.relative(OUTPUT_DIR, localPath);
     let score = 0;
     
@@ -33,16 +42,19 @@ async function runTest(url, localPath, liveScreenshotPath) {
     } catch (e) {
         process.send({ type: 'ERROR', relPath, error: e.message, url });
     } finally {
-        await browser.close();
+        await page.close(); // Close only the page, keep browser open
         // Clean up temp snapshot
         if (fs.existsSync(liveScreenshotPath)) fs.removeSync(liveScreenshotPath);
-        process.exit(0);
     }
 }
 
 // Receive message from parent
-process.on('message', (msg) => {
+process.on('message', async (msg) => {
+    if (msg.type === 'SHUTDOWN') {
+        if (browser) await browser.close();
+        process.exit(0);
+    }
     if (msg.url && msg.localPath && msg.liveScreenshotPath) {
-        runTest(msg.url, msg.localPath, msg.liveScreenshotPath);
+        await runTest(msg.url, msg.localPath, msg.liveScreenshotPath);
     }
 });
