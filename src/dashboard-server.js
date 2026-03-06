@@ -10,6 +10,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT_DIR = path.join(__dirname, '..');
 const CONFIG_FILE = path.join(ROOT_DIR, 'logs', 'scraper_config.json');
 const LOG_FILE = path.join(ROOT_DIR, 'logs', 'system.log');
+const SESSION_FILE = path.join(ROOT_DIR, 'logs', 'runtime_state.json');
 const OUTPUT_DIR = path.join(ROOT_DIR, 'docs');
 
 const app = express();
@@ -17,6 +18,46 @@ const httpServer = createServer(app);
 const io = new Server(httpServer);
 
 app.use(express.json());
+fs.ensureFileSync(LOG_FILE);
+
+function readConfig() {
+    let config = { downloadedCount: 0, currentJitter: 2000, maxConcurrency: 2 };
+    if (fs.existsSync(CONFIG_FILE)) {
+        try {
+            config = { ...config, ...fs.readJsonSync(CONFIG_FILE) };
+        } catch {}
+    }
+    return config;
+}
+
+function readSessionState() {
+    if (!fs.existsSync(SESSION_FILE)) {
+        return null;
+    }
+
+    try {
+        return fs.readJsonSync(SESSION_FILE);
+    } catch {
+        return null;
+    }
+}
+
+function readRecentSessionLines(limit = 50) {
+    const session = readSessionState();
+    if (!session?.active || !session.sessionId || !fs.existsSync(LOG_FILE)) {
+        return [];
+    }
+
+    try {
+        const fullLog = fs.readFileSync(LOG_FILE, 'utf8');
+        const marker = `SESSION START ${session.sessionId}`;
+        const markerIndex = fullLog.lastIndexOf(marker);
+        const sessionLog = markerIndex >= 0 ? fullLog.slice(markerIndex) : fullLog;
+        return sessionLog.split(/\r?\n/).filter((line) => line.trim()).slice(-limit);
+    } catch {
+        return [];
+    }
+}
 
 app.use('/mirror', express.static(OUTPUT_DIR, {
     setHeaders: (res, filePath) => {
@@ -43,8 +84,9 @@ function getPhysicalCount() {
 }
 
 app.get('/', (req, res) => {
-    let config = { downloadedCount: 0, currentJitter: 2000, maxConcurrency: 2 };
-    if (fs.existsSync(CONFIG_FILE)) config = fs.readJsonSync(CONFIG_FILE);
+    const config = readConfig();
+    res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate');
+    res.setHeader('Pragma', 'no-cache');
     
     const actualCount = getPhysicalCount();
     if (config.downloadedCount !== actualCount) {
@@ -60,9 +102,10 @@ app.get('/', (req, res) => {
 });
 
 app.get('/qa/list', (req, res) => {
-    const page = parseInt(req.query.page) || 1;
+    res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate');
+    res.setHeader('Pragma', 'no-cache');
+    const page = Math.max(parseInt(req.query.page) || 1, 1);
     const limit = 50;
-    const start = (page - 1) * limit;
 
     const files = [];
     const walk = (dir) => {
@@ -71,18 +114,26 @@ app.get('/qa/list', (req, res) => {
             const full = path.join(dir, f);
             if (fs.statSync(full).isDirectory()) walk(full);
             else if (f.endsWith('.html')) {
-                files.push({ path: path.relative(OUTPUT_DIR, full) });
+                files.push({
+                    path: path.relative(OUTPUT_DIR, full),
+                    modifiedAt: fs.statSync(full).mtimeMs,
+                });
             }
         });
     };
     walk(OUTPUT_DIR);
+    files.sort((left, right) => right.modifiedAt - left.modifiedAt || left.path.localeCompare(right.path));
+
+    const totalPages = Math.max(Math.ceil(files.length / limit), 1);
+    const safePage = Math.min(page, totalPages);
+    const start = (safePage - 1) * limit;
     
     const paginated = files.slice(start, start + limit);
     res.json({
         files: paginated,
         total: files.length,
-        pages: Math.ceil(files.length / limit),
-        currentPage: page
+        pages: totalPages,
+        currentPage: safePage
     });
 });
 
@@ -92,30 +143,32 @@ app.post('/log', (req, res) => {
 });
 
 io.on('connection', (socket) => {
-    // Send recent logs from file on connection
-    if (fs.existsSync(LOG_FILE)) {
-        try {
-            const fullLog = fs.readFileSync(LOG_FILE, 'utf8');
-            const lines = fullLog.split(/\r?\n/).filter(l => l.trim()).slice(-50);
-            lines.forEach(line => socket.emit('update', { msg: line }));
-        } catch(e) {}
-    }
-    // Also send current stats
-    let config = { downloadedCount: getPhysicalCount(), currentJitter: 2000, maxConcurrency: 2 };
-    socket.emit('update', { config });
+    readRecentSessionLines().forEach((line) => socket.emit('update', { msg: line }));
+
+    const config = readConfig();
+    config.downloadedCount = getPhysicalCount();
+    socket.emit('update', { config, session: readSessionState() });
 });
 
 // ROBUST TAILING: Listen to the system log file
-if (fs.existsSync(LOG_FILE)) {
-    try {
-        const tail = new Tail(LOG_FILE, { useWatchFile: true });
-        tail.on("line", (data) => {
-            io.emit('update', { msg: data });
-        });
-    } catch(e) {
-        console.error("Tail Error:", e.message);
-    }
+let tail;
+try {
+    tail = new Tail(LOG_FILE, { useWatchFile: true });
+    tail.on("line", (data) => {
+        io.emit('update', { msg: data });
+    });
+    tail.on("error", (error) => {
+        console.error("Tail Error:", error.message);
+    });
+} catch(e) {
+    console.error("Tail Error:", e.message);
 }
+
+httpServer.on('close', () => {
+    if (tail) {
+        tail.unwatch();
+    }
+});
 
 httpServer.listen(3000, '127.0.0.1', () => {
     console.log('STABLE Dashboard live at http://127.0.0.1:3000');

@@ -1,104 +1,587 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>SikhSangat Replicator Console</title>
-    <script src="/socket.io/socket.io.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        :root { --mac-bg: #f5f5f7; --terminal-bg: #1e1e1e; }
-        body { background: var(--mac-bg); font-family: -apple-system, sans-serif; height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
-        .header { background: #fff; border-bottom: 1px solid #ddd; padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; }
-        .main-content { flex: 1; display: flex; overflow: hidden; padding: 20px; gap: 20px; }
-        .terminal { flex: 1.5; background: var(--terminal-bg); border-radius: 12px; color: #fff; padding: 20px; font-family: 'SF Mono', monospace; font-size: 13px; overflow-y: auto; display: flex; flex-direction: column-reverse; box-shadow: inset 0 0 10px #000; }
-        .qa-panel { flex: 1; background: #fff; border-radius: 12px; border: 1px solid #ddd; display: flex; flex-direction: column; overflow: hidden; }
-        .qa-list { flex: 1; overflow-y: auto; padding: 15px; }
-        .log-line { border-bottom: 1px solid #333; padding: 5px 0; white-space: pre-wrap; }
-        .qa-item { border-bottom: 1px solid #eee; padding: 10px 0; font-size: 11px; }
-        .badge-stat { background: #000; color: #fff; padding: 5px 12px; border-radius: 20px; font-weight: bold; margin-left: 10px; }
-        .pagination-container { background: #f8f9fa; border-top: 1px solid #ddd; padding: 10px; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SikhSangat Replicator Console</title>
+  <script src="/socket.io/socket.io.js"></script>
+  <style>
+    :root {
+      --page: #ede7da;
+      --panel: #f9f6ef;
+      --ink: #1f1c17;
+      --muted: #776c5d;
+      --accent: #214a38;
+      --accent-soft: #dbe9de;
+      --terminal: #14120f;
+      --terminal-line: #25211a;
+      --border: rgba(31, 28, 23, 0.14);
+      --shadow: 0 24px 60px rgba(31, 28, 23, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      height: 100vh;
+      height: 100dvh;
+      background:
+        radial-gradient(circle at top left, rgba(255, 255, 255, 0.9), transparent 30%),
+        linear-gradient(135deg, #e6dfd0 0%, #f3eee4 52%, #e9e1d4 100%);
+      color: var(--ink);
+      font-family: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", serif;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .header {
+      display: flex;
+      gap: 16px;
+      justify-content: space-between;
+      align-items: center;
+      padding: 22px 24px 18px;
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(16px);
+    }
+
+    .title {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .title strong {
+      font-size: 1.25rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .title span {
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .stats {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: flex-end;
+    }
+
+    .stat {
+      min-width: 132px;
+      padding: 12px 14px;
+      border: 1px solid var(--border);
+      background: rgba(249, 246, 239, 0.82);
+      border-radius: 14px;
+      box-shadow: var(--shadow);
+    }
+
+    .stat-label {
+      display: block;
+      color: var(--muted);
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    .stat-value {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    .main {
+      flex: 1;
+      display: grid;
+      grid-template-columns: minmax(0, 1.35fr) minmax(320px, 0.9fr);
+      gap: 18px;
+      padding: 20px 24px 24px;
+      min-height: 0;
+      overflow: hidden;
+    }
+
+    .panel {
+      display: flex;
+      flex-direction: column;
+      background: rgba(249, 246, 239, 0.82);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      box-shadow: var(--shadow);
+      min-height: 0;
+      overflow: hidden;
+    }
+
+    .panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      padding: 16px 18px;
+      border-bottom: 1px solid var(--border);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0));
+    }
+
+    .panel-header strong {
+      font-size: 0.9rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .panel-header span {
+      color: var(--muted);
+      font-size: 0.82rem;
+    }
+
+    .terminal {
+      flex: 1;
+      height: 100%;
+      min-height: 0;
+      display: flex;
+      flex-direction: column-reverse;
+      gap: 0;
+      overflow-y: auto;
+      padding: 18px;
+      background:
+        radial-gradient(circle at top, rgba(64, 128, 96, 0.14), transparent 28%),
+        linear-gradient(180deg, #171410, #0f0d0a 58%);
+      color: #f4efe5;
+      font-family: "SFMono-Regular", "Menlo", monospace;
+      font-size: 12px;
+      line-height: 1.55;
+    }
+
+    .log-line {
+      padding: 8px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .log-line time {
+      color: #8ca190;
+      margin-right: 8px;
+    }
+
+    .qa-wrap {
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+      height: 100%;
+    }
+
+    .qa-list {
+      flex: 1;
+      overflow-y: auto;
+      padding: 12px 16px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .qa-item {
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.55);
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .qa-path {
+      font-family: "SFMono-Regular", "Menlo", monospace;
+      font-size: 0.75rem;
+      line-height: 1.45;
+      word-break: break-word;
+    }
+
+    .qa-source {
+      color: var(--muted);
+      font-size: 0.8rem;
+      line-height: 1.4;
+      word-break: break-word;
+    }
+
+    .qa-source a {
+      color: var(--accent);
+      font-weight: 700;
+      text-decoration: none;
+      word-break: break-all;
+    }
+
+    .qa-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .button {
+      appearance: none;
+      border: 1px solid rgba(33, 74, 56, 0.22);
+      background: var(--accent-soft);
+      color: var(--accent);
+      border-radius: 999px;
+      padding: 8px 14px;
+      text-decoration: none;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      transition: transform 120ms ease, background 120ms ease;
+    }
+
+    .button:hover {
+      transform: translateY(-1px);
+      background: #cfe0d3;
+    }
+
+    .pagination {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 16px 18px;
+      border-top: 1px solid var(--border);
+    }
+
+    .pager {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .page-links {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .page-links button {
+      min-width: 40px;
+      padding-left: 10px;
+      padding-right: 10px;
+    }
+
+    .page-links button[aria-current="page"] {
+      background: var(--accent);
+      color: white;
+      border-color: var(--accent);
+    }
+
+    .page-links span {
+      color: var(--muted);
+      font-weight: 700;
+      padding: 0 2px;
+    }
+
+    .page-jump {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--muted);
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .page-jump input {
+      width: 84px;
+      border: 1px solid rgba(33, 74, 56, 0.22);
+      border-radius: 999px;
+      padding: 8px 12px;
+      background: white;
+      color: var(--ink);
+      font: inherit;
+    }
+
+    button {
+      appearance: none;
+      border: 1px solid rgba(33, 74, 56, 0.22);
+      background: white;
+      color: var(--accent);
+      border-radius: 999px;
+      padding: 8px 14px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    button:disabled {
+      opacity: 0.45;
+      cursor: default;
+    }
+
+    @media (max-width: 960px) {
+      .header,
+      .main {
+        padding-left: 16px;
+        padding-right: 16px;
+      }
+
+      .main {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
 </head>
 <body>
-    <div class="header">
-        <div class="fw-bold fs-5">SIKHSANGAT ARCHIVE v4.0 [GOD-MODE]</div>
-        <div class="d-flex">
-            <div class="badge-stat">SAVED: <span id="count" class="text-success">__COUNT__</span></div>
-            <div class="badge-stat">JITTER: <span id="jitter">__JITTER__</span>ms</div>
-            <div class="badge-stat">WORKERS: <span id="parallel">__THREADS__</span></div>
-        </div>
+  <header class="header">
+    <div class="title">
+      <strong>SikhSangat Archive Console</strong>
+      <span>Mirror-only observability. No live-site dependencies.</span>
     </div>
-    <div class="main-content">
-        <div id="logs" class="terminal"></div>
-        <div class="qa-panel">
-            <div class="p-3 bg-light border-bottom fw-bold text-muted small">MIRROR QA LIST (Paginated)</div>
-            <div id="qa-list" class="qa-list"></div>
-            <div class="pagination-container d-flex justify-content-between align-items-center">
-                <button id="prev" class="btn btn-sm btn-outline-primary">Prev</button>
-                <span id="page-info" class="small text-muted">Page 1</span>
-                <button id="next" class="btn btn-sm btn-outline-primary">Next</button>
-            </div>
-        </div>
+    <div class="stats">
+      <div class="stat">
+        <span class="stat-label">Saved Pages</span>
+        <span class="stat-value" id="count">__COUNT__</span>
+      </div>
+      <div class="stat">
+        <span class="stat-label">Jitter</span>
+        <span class="stat-value"><span id="jitter">__JITTER__</span>ms</span>
+      </div>
+      <div class="stat">
+        <span class="stat-label">Workers</span>
+        <span class="stat-value" id="parallel">__THREADS__</span>
+      </div>
     </div>
-    <script>
-        const socket = io();
-        const logDiv = document.getElementById('logs');
-        const qaList = document.getElementById('qa-list');
-        let currentPage = 1;
+  </header>
 
-        function addLog(msg) {
-            const cleanMsg = msg.replace(/[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g, '');
-            const line = document.createElement('div');
-            line.className = 'log-line';
-            line.innerHTML = `<span style="color:#888;margin-right:10px">[${new Date().toLocaleTimeString()}]</span> ${cleanMsg}`;
-            logDiv.prepend(line);
-            if (logDiv.childNodes.length > 50) logDiv.removeChild(logDiv.lastChild);
+  <main class="main">
+    <section class="panel">
+      <div class="panel-header">
+        <strong>Runtime Log</strong>
+        <span>Current session only, last 50 lines</span>
+      </div>
+      <div id="logs" class="terminal"></div>
+    </section>
+
+    <section class="panel qa-wrap">
+      <div class="panel-header">
+        <strong>Mirror QA</strong>
+        <span>Newest saved local pages first</span>
+      </div>
+      <div id="qa-list" class="qa-list"></div>
+      <div class="pagination">
+        <span id="page-info">Page 1</span>
+        <div class="pager">
+          <button id="first">First</button>
+          <button id="prev">Previous</button>
+          <label class="page-jump" for="page-jump">
+            Jump
+            <input id="page-jump" type="number" min="1" step="1" inputmode="numeric">
+          </label>
+          <button id="jump">Go</button>
+          <button id="next">Next</button>
+          <button id="last">Last</button>
+        </div>
+        <div id="page-links" class="page-links"></div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const socket = io();
+    const logDiv = document.getElementById('logs');
+    const qaList = document.getElementById('qa-list');
+    const pageInfo = document.getElementById('page-info');
+    const firstButton = document.getElementById('first');
+    const prevButton = document.getElementById('prev');
+    const jumpButton = document.getElementById('jump');
+    const pageJumpInput = document.getElementById('page-jump');
+    const nextButton = document.getElementById('next');
+    const lastButton = document.getElementById('last');
+    const pageLinks = document.getElementById('page-links');
+    let currentPage = 1;
+    let totalPages = 1;
+    let lastDownloadedCount = Number(document.getElementById('count').textContent) || 0;
+
+    function stripAnsi(value) {
+      return value.replace(/[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g, '');
+    }
+
+    function addLog(message) {
+      const line = document.createElement('div');
+      line.className = 'log-line';
+      line.innerHTML = `<time>${new Date().toLocaleTimeString()}</time>${stripAnsi(message)}`;
+      logDiv.prepend(line);
+      while (logDiv.childNodes.length > 50) {
+        logDiv.removeChild(logDiv.lastChild);
+      }
+    }
+
+    function toSourceUrl(relativePath) {
+      const normalized = relativePath.replace(/\\/g, '/').replace(/\/index\.html$/, '/');
+      if (normalized === 'www.sikhsangat.com' || normalized === 'www.sikhsangat.com/') {
+        return 'https://www.sikhsangat.com/';
+      }
+      if (normalized.startsWith('www.sikhsangat.com/')) {
+        const path = normalized.slice('www.sikhsangat.com/'.length);
+        return path ? `https://www.sikhsangat.com/index.php?/${path}` : 'https://www.sikhsangat.com/';
+      }
+      return `https://${normalized}`;
+    }
+
+    function renderQaItem(relativePath) {
+      const sourceUrl = toSourceUrl(relativePath);
+      const wrapper = document.createElement('article');
+      wrapper.className = 'qa-item';
+      wrapper.innerHTML = `
+        <div class="qa-path">${relativePath}</div>
+        <div class="qa-source">Source URL: <a href="${sourceUrl}" target="_blank" rel="noopener noreferrer">${sourceUrl}</a></div>
+        <div class="qa-actions">
+          <a class="button" href="/mirror/${relativePath}" target="_blank" rel="noopener noreferrer">Open Mirror</a>
+          <a class="button" href="${sourceUrl}" target="_blank" rel="noopener noreferrer">Open Live Source</a>
+        </div>
+      `;
+      return wrapper;
+    }
+
+    function buildVisiblePages() {
+      if (totalPages <= 7) {
+        return Array.from({ length: totalPages }, (_, index) => index + 1);
+      }
+
+      const pages = new Set([1, totalPages, currentPage - 1, currentPage, currentPage + 1]);
+      if (currentPage <= 3) {
+        pages.add(2);
+        pages.add(3);
+        pages.add(4);
+      }
+      if (currentPage >= totalPages - 2) {
+        pages.add(totalPages - 1);
+        pages.add(totalPages - 2);
+        pages.add(totalPages - 3);
+      }
+
+      const sorted = Array.from(pages)
+        .filter((page) => page >= 1 && page <= totalPages)
+        .sort((left, right) => left - right);
+
+      const result = [];
+      for (let index = 0; index < sorted.length; index += 1) {
+        const page = sorted[index];
+        const previous = sorted[index - 1];
+        if (previous && page - previous > 1) {
+          result.push('ellipsis');
+        }
+        result.push(page);
+      }
+      return result;
+    }
+
+    function renderPageLinks() {
+      pageLinks.innerHTML = '';
+
+      buildVisiblePages().forEach((entry) => {
+        if (entry === 'ellipsis') {
+          const dots = document.createElement('span');
+          dots.textContent = '...';
+          pageLinks.appendChild(dots);
+          return;
         }
 
-        function renderQaItem(path) {
-            const item = document.createElement('div');
-            item.className = 'qa-item';
-            let realUrl = 'https://' + path.replace(/\\/index\\.html$/, '/');
-            if (realUrl.endsWith('www.sikhsangat.com/')) realUrl = 'https://www.sikhsangat.com/';
-            item.innerHTML = `
-                <div class="text-truncate mb-1" title="${path}">${path}</div>
-                <div class="btn-group btn-group-sm w-100">
-                    <a href="/mirror/${path}" target="_blank" class="btn btn-outline-dark">View Mirror</a>
-                    <a href="${realUrl}" target="_blank" class="btn btn-outline-secondary">Live Site</a>
-                </div>
-            `;
-            return item;
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.textContent = String(entry);
+        if (entry === currentPage) {
+          button.setAttribute('aria-current', 'page');
+          button.disabled = true;
+        } else {
+          button.addEventListener('click', () => {
+            jumpToPage(entry);
+          });
         }
+        pageLinks.appendChild(button);
+      });
+    }
 
-        async function loadPage(page) {
-            try {
-                const response = await fetch(`/qa/list?page=${page}`);
-                const data = await response.json();
-                qaList.innerHTML = '';
-                data.files.forEach(f => qaList.appendChild(renderQaItem(f.path)));
-                document.getElementById('page-info').innerText = `Page ${data.currentPage} of ${data.pages}`;
-                currentPage = data.currentPage;
-            } catch (e) { addLog("Error loading page: " + e.message); }
-        }
+    async function loadPage(page) {
+      const response = await fetch(`/qa/list?page=${page}`);
+      const data = await response.json();
+      qaList.innerHTML = '';
+      data.files.forEach((file) => qaList.appendChild(renderQaItem(file.path)));
+      currentPage = data.currentPage;
+      totalPages = Math.max(data.pages, 1);
+      pageInfo.textContent = `Page ${currentPage} of ${totalPages}`;
+      pageJumpInput.value = currentPage;
+      pageJumpInput.max = totalPages;
+      firstButton.disabled = currentPage <= 1;
+      prevButton.disabled = currentPage <= 1;
+      nextButton.disabled = currentPage >= totalPages;
+      lastButton.disabled = currentPage >= totalPages;
+      renderPageLinks();
+    }
 
-        document.getElementById('prev').onclick = () => { if (currentPage > 1) loadPage(currentPage - 1); };
-        document.getElementById('next').onclick = () => loadPage(currentPage + 1);
+    function jumpToPage(targetPage) {
+      const safePage = Math.min(Math.max(Number(targetPage) || 1, 1), totalPages);
+      loadPage(safePage).catch((error) => addLog(`Error loading page ${safePage}: ${error.message}`));
+    }
 
-        socket.on('update', (data) => {
-            if (data.config) {
-                document.getElementById('count').innerText = data.config.downloadedCount;
-                document.getElementById('jitter').innerText = data.config.currentJitter;
-            }
-            if (data.msg) {
-                addLog(data.msg);
-                // Only reload QA list on a fresh successful save
-                if (data.msg.includes('[SANCTIFIED]')) {
-                    if (currentPage === 1) loadPage(1);
-                }
-            }
-        });
+    firstButton.addEventListener('click', () => {
+      if (currentPage > 1) {
+        jumpToPage(1);
+      }
+    });
 
-        loadPage(1);
-    </script>
+    prevButton.addEventListener('click', () => {
+      if (currentPage > 1) {
+        jumpToPage(currentPage - 1);
+      }
+    });
+
+    jumpButton.addEventListener('click', () => {
+      jumpToPage(pageJumpInput.value);
+    });
+
+    pageJumpInput.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter') {
+        jumpToPage(pageJumpInput.value);
+      }
+    });
+
+    nextButton.addEventListener('click', () => {
+      if (currentPage < totalPages) {
+        jumpToPage(currentPage + 1);
+      }
+    });
+
+    lastButton.addEventListener('click', () => {
+      if (currentPage < totalPages) {
+        jumpToPage(totalPages);
+      }
+    });
+
+    socket.on('update', (data) => {
+      let shouldRefreshQa = false;
+
+      if (data.config) {
+        const nextCount = Number(data.config.downloadedCount) || 0;
+        shouldRefreshQa = nextCount !== lastDownloadedCount;
+        lastDownloadedCount = nextCount;
+        document.getElementById('count').textContent = nextCount;
+        document.getElementById('jitter').textContent = data.config.currentJitter;
+        document.getElementById('parallel').textContent = data.config.maxConcurrency;
+      }
+      if (data.msg) {
+        addLog(data.msg);
+        shouldRefreshQa = shouldRefreshQa || data.msg.includes('[SAVED]');
+      }
+      if (shouldRefreshQa && currentPage === 1) {
+        loadPage(1).catch((error) => addLog(`Error refreshing QA list: ${error.message}`));
+      }
+    });
+
+    loadPage(1).catch((error) => addLog(`Error loading QA list: ${error.message}`));
+  </script>
 </body>
 </html>

@@ -16,13 +16,16 @@ The mission is to forge a perfect, 100% offline-compatible digital sanctuary of 
 - **State Baking:** Using Playwright to render, trigger AJAX, and flatten dynamic states into static HTML.
 - **Local IP Mandate:** All proxies (Tor, SOCKS5) are DISABLED per user request. Use the local PC IP for all fetches.
 - **Reverse-Fetching Protocol:** If the scraper encounters consecutive HTTP 500 errors (indicating a blocked range), it must reverse its seed list to find unblocked content.
+- **Priority Frontier Rule:** Reverse seed order is the default starting order, but any discovered pagination or related page URL must be promoted ahead of the remaining seed backlog immediately.
 - **Intelligent Discovery:** Dynamic probing of the DOM for interactive triggers (Pagination, "Load More", Tabs).
 
 ## IV. Technical Specs & Verification
 - **Jitter Protocol:** No more than 2 fetches within the jitter period. If jitter is 2000ms, fire 2 requests, then wait 2000ms, then fire next 2.
 - **Concurrency:** Limited by the Jitter Protocol (effectively 2 per jitter).
 - **Verification (VRT):** Pixel-by-pixel audit of mirrored pages vs. live pages. A score below 90% is a failure.
+- **5px Click Sweep:** The old every-5px interaction sweep is explicitly deferred for now. Stabilize mirror completeness, AJAX baking, and asset fidelity first; then restore the sweep as a secondary verification layer.
 - **Offline Integrity:** All absolute links relativized. Sign-up modals neutralized.
+- **Dashboard QA Exception:** The mirrored pages themselves must remain live-free, but the dashboard may expose an explicit live-source QA link for operator testing.
 
 ## V. Strategic Evolution & Pitfalls (The God Level Shift)
 - **The API Timeout Pitfall:** Address Gemini CLI 503 errors by setting environment timeouts.
@@ -30,6 +33,7 @@ The mission is to forge a perfect, 100% offline-compatible digital sanctuary of 
 - **The Proxy Pitfall:** SOCKS5 proxies often lead to 500 errors. Stick to local IP until a better stealth solution is found.
 - **The Background Execution Pitfall:** Agents fail to maintain live logs and dashboard connectivity in the background. Foreground is mandatory until this is solved.
 - **The Dashboard Saved Count Pitfall:** Ensure the UI accurately reflects the physical file count in `docs/`.
+- **The Pagination Burial Pitfall:** Rewriting pagination links is not sufficient if those URLs stay buried behind the seed queue. Discovered pagination must be promoted.
 
 ## VI. How to Command the Engine
 1. **Initiate:** `node index.js`

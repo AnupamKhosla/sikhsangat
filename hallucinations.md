@@ -23,3 +23,11 @@
 ## 6. Background Process Failure
 - **Hallucination:** "Running long-running tasks like the scraper with `is_background: true` is more efficient."
 - **Correction:** Background execution in the agent environment frequently leads to lost stdout/stderr, failed service bindings (e.g., dashboard port 3000), and unobserved startup crashes. For reliability and real-time observability, the scraper MUST be run in the **foreground**.
+
+## 7. Pagination Is Solved Once Links Rewrite
+- **Hallucination:** "If saved HTML points to `./page/2/index.html`, pagination is effectively solved."
+- **Correction:** Link rewriting only fixes offline navigation for pages that already exist. The scraper must also promote discovered pagination and related URLs ahead of the seed backlog, or page 2/page 3 will arrive far too late to feel correct.
+
+## 8. No Live Links Means No QA Source Link Anywhere
+- **Hallucination:** "Strict mirror rules mean the dashboard should not expose any live-source URL."
+- **Correction:** The mirrored archive must stay fully offline, but the operator dashboard is allowed to expose an explicit, opt-in live-source QA link so the user can compare local vs. origin behavior quickly.
