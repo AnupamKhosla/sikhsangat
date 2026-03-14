@@ -425,7 +425,16 @@ function stripLocalPrefix(value = '') {
 }
 
 function normalizePathArtifacts(value = '') {
-  return String(value).replace(/\/\(([^/]+)\/\)(\.[^"'?#<>\s)]+)/g, '($1)$2');
+  return String(value)
+    .replace(/\/\(([^/]+)\/\)(\.[^"'?#<>\s)]+)/g, '($1)$2')
+    .replace(/(^|\/)upload:(av-\d+\.(?:jpg|jpeg|png|gif|webp))/gi, '$1$2');
+}
+
+function fixMalformedLocalizedReference(value = '') {
+  return String(value)
+    .replace(/upload:(av-\d+\.(?:jpg|jpeg|png|gif|webp))/gi, '$1')
+    .replace(/\.xml\/(?=$|[?#])/i, '.xml')
+    .replace(/:\/{3,}/g, '://');
 }
 
 function canonicalizeLocalizedReference(value, currentUrl, { isCss = false, fromFilePath } = {}) {
@@ -433,7 +442,8 @@ function canonicalizeLocalizedReference(value, currentUrl, { isCss = false, from
     return value;
   }
 
-  const stripped = stripLocalPrefix(value);
+  const repairedValue = fixMalformedLocalizedReference(value);
+  const stripped = stripLocalPrefix(repairedValue);
   const fromFile = fromFilePath || getLocalPath(currentUrl, { isAsset: false });
 
   if (/^(?:www|files)\.sikhsangat\.com\//.test(stripped)) {
@@ -445,10 +455,10 @@ function canonicalizeLocalizedReference(value, currentUrl, { isCss = false, from
   }
 
   if (isCss && /^applications\//.test(stripped)) {
-    return value;
+    return repairedValue;
   }
 
-  return value;
+  return repairedValue;
 }
 
 export function normalizeRemoteUrl(rawValue, baseUrl = `https://${PRIMARY_HOST}/`) {

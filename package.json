@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
+    "start:targeted": "SCRAPER_SEED_FILE=seed_targeted_forums.json node index.js",
     "repair": "node src/repair-existing-mirror.js",
     "audit": "node src/audit-existing.js",
     "audit:once": "AUDIT_ONCE=1 node src/audit-existing.js"

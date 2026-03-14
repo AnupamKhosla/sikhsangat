@@ -18,6 +18,8 @@ import {
   rewriteHtmlContent,
   rewriteJavascriptMapContent,
 } from './mirror-utils.js';
+import { MultiLevelSeedManager } from './multilevel-seed-manager.js';
+import { isRemoteFetchEnabled, remoteFetch } from './remote-fetch.js';
 
 chromium.use(StealthPlugin());
 
@@ -27,13 +29,28 @@ const SEED_FILE = process.env.SCRAPER_SEED_FILE
   ? path.resolve(ROOT_DIR, process.env.SCRAPER_SEED_FILE)
   : DEFAULT_SEED_FILE;
 const CONFIG_FILE = path.join(ROOT_DIR, 'logs', 'scraper_config.json');
+const MULTILEVEL_SEED_FILE = path.join(ROOT_DIR, 'seed_multilevel.json');
+const isMultilevelSeedFile = path.resolve(SEED_FILE) === path.resolve(MULTILEVEL_SEED_FILE);
+const multiLevelSeedManager = isMultilevelSeedFile ? new MultiLevelSeedManager(SEED_FILE) : null;
 const BASE_URL = `https://${PRIMARY_HOST}/`;
 const PAGE_CONCURRENCY = 2;
 const DEFAULT_TIMEOUT_MS = 45000;
 const NON_PAGE_PATH_PREFIXES = ['/applications/', '/interface/', '/plugins/', '/uploads/'];
-const BLOCKED_PAGE_PATH_PREFIXES = ['/search/'];
-const SERVER_OUTAGE_THRESHOLD = 5;
-const SERVER_OUTAGE_PAUSE_MS = 5 * 60 * 1000;
+const BLOCKED_PAGE_PATH_PREFIXES = [
+  '/search/',
+  '/profile/',
+  '/login/',
+  '/lostpassword/',
+  '/register/',
+  '/guidelines/',
+  '/leaderboard/',
+  '/ourpicks/',
+  '/contact/',
+  '/privacy/',
+  '/terms/',
+];
+const SERVER_OUTAGE_THRESHOLD = Infinity;
+const SERVER_OUTAGE_PAUSE_MS = 0;
 const BLOCKED_DO_VALUES = new Set([
   'add',
   'addcomment',
@@ -83,11 +100,21 @@ const assetQueue = new PQueue({ concurrency: PAGE_CONCURRENCY });
 const queuedPages = new Set();
 const visitedPages = new Set();
 const queuedAssets = new Set();
+const failedPages = new Set();
 
 let lastBatchTime = 0;
 let requestsInCurrentBatch = 0;
 const BATCH_SIZE = 2;
+let rateLimitLock = Promise.resolve();
 let consecutiveServerErrors = 0;
+const REMOTE_FETCH_ENABLED = isRemoteFetchEnabled();
+const PAGE_ERROR_SIGNATURES = [
+  'Internal Server Error',
+  'Database Error',
+  'Something went wrong',
+  'Link to database could not be established',
+  '500 Error',
+];
 
 function cleanAnsi(value = '') {
   return value.replace(/[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g, '');
@@ -118,7 +145,7 @@ async function sleep(ms) {
   await new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-async function rateLimit() {
+async function applyRateLimitWindow() {
   if (requestsInCurrentBatch >= BATCH_SIZE) {
     const now = Date.now();
     const elapsed = now - lastBatchTime;
@@ -132,6 +159,21 @@ async function rateLimit() {
   requestsInCurrentBatch += 1;
   if (lastBatchTime === 0) {
     lastBatchTime = Date.now();
+  }
+}
+
+async function rateLimit() {
+  const previousLock = rateLimitLock;
+  let releaseLock;
+  rateLimitLock = new Promise((resolve) => {
+    releaseLock = resolve;
+  });
+
+  await previousLock;
+  try {
+    await applyRateLimitWindow();
+  } finally {
+    releaseLock();
   }
 }
 
@@ -194,23 +236,19 @@ function shouldIgnoreUrl(url) {
 
 async function applyServerBackoff(url, statusOrReason) {
   consecutiveServerErrors += 1;
-  const backoffMs = Math.max(config.currentJitter * 2, Math.min(30000, consecutiveServerErrors * 5000));
+  const backoffMs = Math.min(5000, Math.max(config.currentJitter * 2, consecutiveServerErrors * 1000));
   lastBatchTime = Date.now();
   requestsInCurrentBatch = 0;
   await logAction(`[BACKOFF] ${url} after ${statusOrReason}; sleeping ${backoffMs}ms`);
   await sleep(backoffMs);
-
-  if (consecutiveServerErrors >= SERVER_OUTAGE_THRESHOLD) {
-    await logAction(
-      `[PAUSE] ${consecutiveServerErrors} consecutive server errors; sleeping ${SERVER_OUTAGE_PAUSE_MS}ms before retrying the frontier.`,
-    );
-    await sleep(SERVER_OUTAGE_PAUSE_MS);
-    consecutiveServerErrors = 0;
-  }
 }
 
 function clearServerBackoff() {
   consecutiveServerErrors = 0;
+}
+
+function pageHasServerError(content = '') {
+  return PAGE_ERROR_SIGNATURES.some((signature) => content.includes(signature));
 }
 
 function isPageUrl(url) {
@@ -285,7 +323,13 @@ function getPagePriority(url, sourceUrl = null) {
 function queuePage(url, options = {}) {
   const normalized = normalizeRemoteUrl(url, BASE_URL);
   const priority = Number.isFinite(options.priority) ? options.priority : PAGE_PRIORITIES.seed;
-  if (!normalized || shouldIgnoreUrl(normalized) || !isPageUrl(normalized) || visitedPages.has(normalized)) {
+  if (
+    !normalized ||
+    shouldIgnoreUrl(normalized) ||
+    !isPageUrl(normalized) ||
+    visitedPages.has(normalized) ||
+    failedPages.has(normalized)
+  ) {
     return;
   }
 
@@ -508,17 +552,75 @@ async function persistResponseAsset(response) {
 
 async function validatePage(page, url) {
   const content = await page.content();
-  const errorSignatures = [
-    'Internal Server Error',
-    'Database Error',
-    'Something went wrong',
-    'Link to database could not be established',
-    '500 Error',
-  ];
-
-  if (errorSignatures.some((signature) => content.includes(signature))) {
+  if (pageHasServerError(content)) {
     throw new Error(`Server error signature detected for ${url}`);
   }
+}
+
+async function saveMirroredPage(url, html, logLabel = 'SAVED') {
+  const filePath = getLocalPath(url);
+  const rewritten = rewriteHtmlContent(html, url);
+
+  await fs.ensureDir(path.dirname(filePath));
+  await fs.writeFile(filePath, rewritten.html, 'utf8');
+
+  if (multiLevelSeedManager) {
+    await multiLevelSeedManager.markDownloaded(url, rewritten.discoveredPageUrls);
+  }
+
+  config.downloadedCount += 1;
+  saveConfig();
+  clearServerBackoff();
+
+  rewritten.assetUrls.forEach((assetUrl) => queueAsset(assetUrl, url));
+  rewritten.discoveredPageUrls.forEach((pageUrl) =>
+    queuePage(pageUrl, { priority: getPagePriority(pageUrl, url) }),
+  );
+
+  await logAction(`[${logLabel}] (${config.downloadedCount}) ${url}`);
+}
+
+function shouldAttemptRemotePageFallback(error) {
+  if (!REMOTE_FETCH_ENABLED) {
+    return false;
+  }
+
+  const message = error instanceof Error ? error.message : String(error);
+  return (
+    /HTTP 5\d\d\b/.test(message) ||
+    /Server error signature detected/i.test(message) ||
+    /ERR_ABORTED/i.test(message) ||
+    /Timeout|timed out/i.test(message)
+  );
+}
+
+async function tryRemotePageFallback(url, error) {
+  const reason = error instanceof Error ? error.message : String(error);
+  await logAction(`[REMOTE FETCH] ${url} after local failure: ${reason}`);
+
+  const response = await remoteFetch(url, {
+    responseType: 'text',
+    accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+    timeout: DEFAULT_TIMEOUT_MS,
+  });
+
+  if (response.status >= 500) {
+    await applyServerBackoff(url, `REMOTE HTTP ${response.status}`);
+    throw new Error(`Remote fallback HTTP ${response.status}`);
+  }
+
+  if (response.status < 200 || response.status >= 400) {
+    throw new Error(`Remote fallback HTTP ${response.status}`);
+  }
+
+  const html = typeof response.data === 'string' ? response.data : Buffer.from(response.data).toString('utf8');
+  if (pageHasServerError(html)) {
+    await applyServerBackoff(url, 'remote server error signature');
+    throw new Error(`Remote server error signature detected for ${url}`);
+  }
+
+  await saveMirroredPage(url, html, 'REMOTE SAVED');
+  return true;
 }
 
 async function processPage(url) {
@@ -565,22 +667,18 @@ async function processPage(url) {
     await bakeDynamicState(page);
 
     const html = await page.content();
-    const rewritten = rewriteHtmlContent(html, url);
-
-    await fs.ensureDir(path.dirname(filePath));
-    await fs.writeFile(filePath, rewritten.html, 'utf8');
-
-    config.downloadedCount += 1;
-    saveConfig();
-    clearServerBackoff();
-
-    rewritten.assetUrls.forEach((assetUrl) => queueAsset(assetUrl, url));
-    rewritten.discoveredPageUrls.forEach((pageUrl) =>
-      queuePage(pageUrl, { priority: getPagePriority(pageUrl, url) }),
-    );
-
-    await logAction(`[SAVED] (${config.downloadedCount}) ${url}`);
+    await saveMirroredPage(url, html);
   } catch (error) {
+    if (shouldAttemptRemotePageFallback(error)) {
+      try {
+        await tryRemotePageFallback(url, error);
+        return;
+      } catch (remoteError) {
+        await logAction(`[REMOTE ERROR] ${url}: ${remoteError.message}`);
+      }
+    }
+
+    failedPages.add(url);
     if (/Server error signature detected/i.test(error.message)) {
       await applyServerBackoff(url, 'server error signature');
     }
@@ -595,7 +693,14 @@ async function processPage(url) {
 let browser;
 
 function normalizeSeedEntries(rawSeeds) {
-  const entries = Array.isArray(rawSeeds) ? rawSeeds : [rawSeeds];
+  let entries = [];
+  if (Array.isArray(rawSeeds)) {
+    entries = rawSeeds;
+  } else if (rawSeeds && Array.isArray(rawSeeds.layers)) {
+    entries = rawSeeds.layers.flatMap((layer) => (Array.isArray(layer.urls) ? layer.urls : []));
+  } else if (rawSeeds) {
+    entries = [rawSeeds];
+  }
   const seeds = [];
   let skipped = 0;
 
@@ -634,6 +739,9 @@ async function run() {
 
   const rawSeeds = (await fs.pathExists(SEED_FILE)) ? await fs.readJson(SEED_FILE) : [BASE_URL];
   const { seeds, skipped } = normalizeSeedEntries(rawSeeds);
+  if (multiLevelSeedManager) {
+    await multiLevelSeedManager.recordSeeds(seeds);
+  }
   browser = await chromium.launch({
     headless: true,
     args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-blink-features=AutomationControlled'],
@@ -641,6 +749,9 @@ async function run() {
 
   await logAction(`Starting scraper with ${PAGE_CONCURRENCY} workers and ${config.currentJitter}ms jitter.`);
   await logAction(`Loaded ${seeds.length} seeds in reverse order${skipped ? `, skipped ${skipped} flagged/invalid entries` : ''}.`);
+  if (REMOTE_FETCH_ENABLED) {
+    await logAction('Remote fetch fallback is enabled.');
+  }
 
   (seeds.length ? seeds : [BASE_URL]).forEach((seedUrl) =>
     queuePage(seedUrl, { priority: PAGE_PRIORITIES.seed }),

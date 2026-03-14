@@ -9,6 +9,25 @@ const ROOT_DIR = path.join(__dirname, '..');
 const OUTPUT_DIR = path.join(ROOT_DIR, 'docs');
 
 const LIVE_URL_PATTERN = /(https?:)?\/\/(?:www\.)?sikhsangat\.com|(https?:)?\/\/files\.sikhsangat\.com|https:\/\/fonts\.googleapis\.com/i;
+const MALFORMED_LOCAL_REF_PATTERN = /upload:av-\d+\.(?:jpg|jpeg|png|gif|webp)|index\.htmlpage\/|:\/{3,}|\.xml\/(?=["'#\s>])/i;
+const LOCAL_ASSET_REF_PATTERN = /(?:^|\/)(?:_offline\/|files\.sikhsangat\.com\/|www\.sikhsangat\.com\/).+|(?:\.(?:css|js|mjs|png|jpg|jpeg|gif|svg|webp|ico|woff2?|ttf|otf|eot|map|json|xml|txt|pdf|webmanifest))$/i;
+
+function resolveLocalTarget(filePath, reference) {
+  const clean = String(reference || '').split('#')[0].split('?')[0];
+  if (!clean || clean === '#' || /^(?:mailto:|tel:|javascript:|data:|blob:)/i.test(clean)) {
+    return null;
+  }
+  if (/^https?:\/\//i.test(clean) || clean.startsWith('//')) {
+    return null;
+  }
+  if (!/^(?:\.\.\/|\.\/|\/)/.test(clean)) {
+    return null;
+  }
+  const absolute = clean.startsWith('/')
+    ? path.join(OUTPUT_DIR, clean)
+    : path.resolve(path.dirname(filePath), clean);
+  return absolute;
+}
 
 async function logAction(message) {
   const timestamp = new Date().toLocaleTimeString();
@@ -75,6 +94,9 @@ async function auditPages() {
       if (LIVE_URL_PATTERN.test(content)) {
         issues.push('live target URL remains');
       }
+      if (MALFORMED_LOCAL_REF_PATTERN.test(content)) {
+        issues.push('malformed local reference');
+      }
       if ($('script[data-offline-asset="offline-mirror.js"]').length === 0) {
         issues.push('offline runtime missing');
       }
@@ -83,6 +105,34 @@ async function auditPages() {
       }
       if ($('form[action^="http"], form[action^="//"]').length > 0) {
         issues.push('form still points live');
+      }
+
+      const brokenLocalRefs = [];
+      $('[href], [src], [poster], [data-src], [data-background-src]').each((_, element) => {
+        if (brokenLocalRefs.length >= 10) {
+          return;
+        }
+        for (const attr of ['href', 'src', 'poster', 'data-src', 'data-background-src']) {
+          const rawValue = $(element).attr(attr);
+          if (!rawValue) {
+            continue;
+          }
+          const cleanValue = String(rawValue).split('#')[0].split('?')[0];
+          if (!LOCAL_ASSET_REF_PATTERN.test(cleanValue)) {
+            continue;
+          }
+          const target = resolveLocalTarget(filePath, rawValue);
+          if (!target) {
+            continue;
+          }
+          if (!fs.existsSync(target)) {
+            brokenLocalRefs.push(`${attr}:${rawValue}`);
+          }
+        }
+      });
+
+      if (brokenLocalRefs.length > 0) {
+        issues.push(`broken local refs (${brokenLocalRefs.slice(0, 3).join(', ')})`);
       }
 
       if (issues.length > 0) {

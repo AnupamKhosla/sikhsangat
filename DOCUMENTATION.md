@@ -26,6 +26,10 @@ The project mirrors `sikhsangat.com` into `docs/` as a local-first static archiv
    Serves the mirror dashboard and paginated QA list from the local archive.
 7. `src/vrt-worker.js`
    Reuses a shared browser/context for screenshot comparison work to avoid runaway Playwright process growth.
+8. `api/fetch.js`
+   Optional Vercel serverless proxy endpoint with header-based auth and host allowlisting for protected upstream fetches.
+9. `src/remote-fetch.js`
+   Shared client for calling the protected remote fetch endpoint from the scraper.
 
 ## Offline Integrity Rules
 The archive is treated as failed if any of the following remain in saved pages:
@@ -62,6 +66,15 @@ Before saving a page, the scraper now:
 Pagination links are preserved as local links instead of live links.
 The scheduler now upgrades already-queued URLs if they are rediscovered as pagination or related pages, so they are not stranded at seed priority.
 
+## Remote Fetch Fallback
+When `SCRAPER_REMOTE_FETCH_ENDPOINT` and `SCRAPER_REMOTE_FETCH_TOKEN` are present, the scraper enables an authenticated remote HTML fallback:
+- local Playwright fetch remains the primary path
+- if a page hits local HTTP 500, timeout, or `ERR_ABORTED`, the scraper requests the same URL through the protected remote endpoint
+- successful remote HTML is still rewritten through the same mirror pipeline before saving
+- allowed upstream hosts are restricted by the Vercel deployment via `ALLOWED_FETCH_HOSTS`
+
+This gives the project a second network path without exposing an open proxy endpoint.
+
 ## Dashboard Behavior
 The dashboard is now self-contained:
 - no Bootstrap CDN dependency
@@ -82,6 +95,12 @@ The dashboard is now self-contained:
   Runs the audit worker continuously.
 - `node stop.js`
   Stops active workers started by the lifecycle scripts.
+- Vercel endpoint deployment env:
+  - `SCRAPER_PROXY_TOKEN`
+  - `ALLOWED_FETCH_HOSTS=www.sikhsangat.com,files.sikhsangat.com`
+- Local scraper env for fallback:
+  - `SCRAPER_REMOTE_FETCH_ENDPOINT=https://your-project.vercel.app/api/fetch`
+  - `SCRAPER_REMOTE_FETCH_TOKEN=<same token>`
 
 ## Verification Status
 The current local verification baseline is:

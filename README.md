@@ -36,6 +36,24 @@ To ensure the long-term accessibility of public discourse and religious scholars
 4. **Monitor Progress:**
    Access the real-time monitoring dashboard at `http://127.0.0.1:3000`.
 
+## Optional: Vercel Fetch Fallback
+
+If the origin starts returning repeated HTTP 500s to your local IP, you can deploy the repo's `api/fetch.js` as a Vercel serverless endpoint and let the scraper use it as a protected fallback path.
+
+Required Vercel env vars:
+```bash
+SCRAPER_PROXY_TOKEN=choose-a-long-random-secret
+ALLOWED_FETCH_HOSTS=www.sikhsangat.com,files.sikhsangat.com
+```
+
+Required local env vars before `node index.js`:
+```bash
+export SCRAPER_REMOTE_FETCH_ENDPOINT="https://your-project.vercel.app/api/fetch"
+export SCRAPER_REMOTE_FETCH_TOKEN="same-secret-as-vercel"
+```
+
+The endpoint accepts either `Authorization: Bearer <token>` or `x-scraper-token: <token>` and rejects hosts outside `ALLOWED_FETCH_HOSTS`.
+
 ## Publication to Digital Archive (GitHub Pages)
 
 The repository is pre-configured to host the public archive via the `docs/` directory.

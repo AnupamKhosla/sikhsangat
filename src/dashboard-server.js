@@ -170,6 +170,7 @@ httpServer.on('close', () => {
     }
 });
 
-httpServer.listen(3000, '127.0.0.1', () => {
-    console.log('STABLE Dashboard live at http://127.0.0.1:3000');
+const DASHBOARD_PORT = Number(process.env.DASHBOARD_PORT) || 3000;
+httpServer.listen(DASHBOARD_PORT, '127.0.0.1', () => {
+    console.log(`STABLE Dashboard live at http://127.0.0.1:${DASHBOARD_PORT}`);
 });
