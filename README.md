@@ -54,6 +54,24 @@ export SCRAPER_REMOTE_FETCH_TOKEN="same-secret-as-vercel"
 
 The endpoint accepts either `Authorization: Bearer <token>` or `x-scraper-token: <token>` and rejects hosts outside `ALLOWED_FETCH_HOSTS`.
 
+## Verify-First Workflow
+
+Cloning is no longer the only feedback loop. Before broadening coverage, verify mirrored pages against the live source.
+
+Structured page verification:
+```bash
+npm run verify:page -- "https://www.sikhsangat.com/index.php?/topic/88946-monetization-of-gurbani-on-youtube/page/2/"
+```
+
+This compares the live page and the mirrored local page for:
+- topic title
+- pagination state
+- reply/comment counts
+- comment IDs and author order
+- normalized comment body text
+
+Mismatch reports are written to `logs/fidelity-reports/`, and failing pages also get live/local screenshots under `logs/fidelity-reports/snapshots/`.
+
 ## Publication to Digital Archive (GitHub Pages)
 
 The repository is pre-configured to host the public archive via the `docs/` directory.

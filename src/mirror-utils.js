@@ -2,6 +2,7 @@ import fs from 'fs-extra';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import * as cheerio from 'cheerio';
+import crypto from 'crypto';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -19,6 +20,7 @@ const OFFLINE_STYLE_NAME = 'offline-mirror.css';
 const OFFLINE_SCRIPT_NAME = 'offline-mirror.js';
 const OFFLINE_MANIFEST_NAME = 'mirror.webmanifest';
 const OFFLINE_BROWSERCONFIG_NAME = 'browserconfig.xml';
+const MAX_PATH_SEGMENT_BYTES = 72;
 const PAGE_QUERY_ORDER = ['page', 'tab', 'all_activity', 'do', 'sortby', 'sortdirection', 'type', 'status', 'filter'];
 const EPHEMERAL_QUERY_KEYS = new Set(['csrfKey', '_', 'ref', 'referrer', 'token']);
 const URLISH_ATTRS = [
@@ -370,14 +372,36 @@ export function isTargetHost(hostname = '') {
 }
 
 export function sanitizePathSegment(value = '') {
-  return value
+  const cleaned = value
     .trim()
     .replace(/%/g, '-')
     .replace(/[<>:"|?*]/g, '-')
     .replace(/\s+/g, '-')
     .replace(/-+/g, '-')
-    .replace(/^[-.]+|[-.]+$/g, '')
-    .slice(0, 120) || 'index';
+    .replace(/^[-.]+|[-.]+$/g, '');
+
+  if (!cleaned) {
+    return 'index';
+  }
+
+  if (Buffer.byteLength(cleaned, 'utf8') <= MAX_PATH_SEGMENT_BYTES) {
+    return cleaned;
+  }
+
+  const hash = crypto.createHash('sha1').update(cleaned).digest('hex').slice(0, 10);
+  const maxPrefixBytes = MAX_PATH_SEGMENT_BYTES - hash.length - 1;
+  let prefix = '';
+
+  for (const char of cleaned) {
+    const candidate = `${prefix}${char}`;
+    if (Buffer.byteLength(candidate, 'utf8') > maxPrefixBytes) {
+      break;
+    }
+    prefix = candidate;
+  }
+
+  prefix = prefix.replace(/^[-.]+|[-.]+$/g, '') || cleaned.slice(0, 16).replace(/^[-.]+|[-.]+$/g, '') || 'item';
+  return `${prefix}-${hash}`;
 }
 
 function decodeSafe(value = '') {
