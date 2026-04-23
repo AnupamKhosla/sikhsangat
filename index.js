@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import { spawn, execSync } from 'child_process';
 import path from 'path';
 import { fileURLToPath } from 'url';
