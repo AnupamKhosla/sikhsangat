@@ -9,7 +9,9 @@
     "repair": "node src/repair-existing-mirror.js",
     "audit": "node src/audit-existing.js",
     "audit:once": "AUDIT_ONCE=1 node src/audit-existing.js",
-    "verify:page": "node src/verify-page-fidelity.js"
+    "verify:page": "node src/verify-page-fidelity.js",
+    "verify:sweep": "node src/fidelity-sweep.js",
+    "refresh:stale": "SCRAPER_SEED_FILE=logs/fidelity-reports/stale.json node index.js"
   },
   "keywords": [],
   "author": "",

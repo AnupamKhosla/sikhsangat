@@ -95,7 +95,7 @@ async function collectUrls(argv) {
   return [...new Set(normalized)];
 }
 
-async function buildBrowser() {
+export async function buildBrowser() {
   const browser = await chromium.launch({
     headless: true,
     args: ['--no-sandbox', '--disable-setuid-sandbox'],
@@ -110,7 +110,7 @@ async function buildBrowser() {
   return { browser, context };
 }
 
-async function startMirrorServer() {
+export async function startMirrorServer() {
   const app = express();
   app.use('/mirror', express.static(OUTPUT_DIR, {
     extensions: ['html'],
@@ -342,7 +342,7 @@ async function compareScreenshots(livePage, localPage, fileStem) {
   };
 }
 
-async function verifyUrl(context, liveUrl, serverBaseUrl) {
+export async function verifyUrl(context, liveUrl, serverBaseUrl) {
   const localPath = getLocalPath(liveUrl);
   if (!(await fs.pathExists(localPath))) {
     return {
@@ -468,7 +468,10 @@ async function main() {
   }
 }
 
-main().catch((error) => {
-  console.error(`[VERIFY ERROR] ${error.message}`);
-  process.exit(1);
-});
+const INVOKED_DIRECTLY = process.argv[1] && fileURLToPath(import.meta.url) === path.resolve(process.argv[1]);
+if (INVOKED_DIRECTLY) {
+  main().catch((error) => {
+    console.error(`[VERIFY ERROR] ${error.message}`);
+    process.exit(1);
+  });
+}
