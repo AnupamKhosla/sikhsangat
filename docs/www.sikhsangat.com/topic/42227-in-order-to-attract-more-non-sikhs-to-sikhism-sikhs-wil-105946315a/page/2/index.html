@@ -191,7 +191,7 @@
 	
 	
 	<li>
-		<a data-action="defaultStream" href="../../../../discover/index.html"><i class="fa fa-newspaper-o" aria-hidden="true"></i></a>
+		<a data-action="defaultStream" href="../../../../discover/index.html" data-offline-disabled="true"><i class="fa fa-newspaper-o" aria-hidden="true"></i></a>
 	</li>
 
 	
@@ -341,7 +341,7 @@
 		
 			<li>
 				
-					<a href="../../../../register/index.html" data-ipsdialog-size="narrow" data-ipsdialog-title="Sign Up" id="elRegisterButton" class="ipsButton ipsButton_normal ipsButton_primary">Sign Up</a>
+					<a href="#" data-ipsdialog-size="narrow" data-ipsdialog-title="Sign Up" id="elRegisterButton" class="ipsButton ipsButton_normal ipsButton_primary" data-offline-disabled="true">Sign Up</a>
 				
 			</li>
 		
@@ -445,7 +445,7 @@
 			
 
 	<div id="elSearchWrapper">
-		<div id="elSearch" data-controller="core.front.core.quickSearch">
+		<div id="elSearch" data-offline-disabled="true">
 			<form accept-charset="utf-8" action="#" method="post" data-offline-disabled="true">
                 <input type="search" id="elSearchField" placeholder="Search..." name="q" autocomplete="off" aria-label="Search">
                 <details class="cSearchFilter">
@@ -490,7 +490,7 @@
 	<ul class="ipsList_inline ipsPos_right">
 		
 		<li>
-			<a data-action="defaultStream" class="ipsType_light " href="../../../../discover/index.html"><i class="fa fa-newspaper-o" aria-hidden="true"></i> <span>All Activity</span></a>
+			<a data-action="defaultStream" class="ipsType_light " href="../../../../discover/index.html" data-offline-disabled="true"><i class="fa fa-newspaper-o" aria-hidden="true"></i> <span>All Activity</span></a>
 		</li>
 		
 	</ul>
@@ -641,7 +641,7 @@
 						
 
 
-    <a href="#elShareItem_1450666510_menu" id="elShareItem_1450666510" class="ipsShareButton ipsButton ipsButton_verySmall ipsButton_link ipsButton_link--light">
+    <a href="#elShareItem_1450666510_menu" id="elShareItem_1450666510" class="ipsShareButton ipsButton ipsButton_verySmall ipsButton_link ipsButton_link--light" data-offline-disabled="true">
         <span><i class="fa fa-share-alt"></i></span> &nbsp;Share
     </a>
 
@@ -654,10 +654,10 @@
 
 					
 
-<div data-followapp="forums" data-followarea="topic" data-followid="42227" data-controller="core.front.core.followButton">
+<div data-followapp="forums" data-followarea="topic" data-followid="42227" data-controller="core.front.core.followButton" data-offline-disabled="true">
 	
 
-	<a href="../../../../login/index.html" rel="nofollow" class="ipsFollow ipsPos_middle ipsButton ipsButton_light ipsButton_verySmall " data-role="followButton" data-ipstooltip="" title="Sign in to follow this">
+	<a href="../../../../login/index.html" rel="nofollow" class="ipsFollow ipsPos_middle ipsButton ipsButton_light ipsButton_verySmall " data-role="followButton" data-ipstooltip="" title="Sign in to follow this" data-offline-disabled="true">
 		<span>Followers</span>
 		<span class="ipsCommentCount">1</span>
 	</a>
@@ -680,9 +680,9 @@
 	<ul class="ipsToolList ipsToolList_horizontal ipsClearfix ipsSpacer_both ">
 		
 			<li class="ipsToolList_primaryAction">
-				<span data-controller="forums.front.topic.reply">
+				<span data-offline-disabled="true">
 					
-						<a href="#replyForm" rel="nofollow" class="ipsButton ipsButton_important ipsButton_medium ipsButton_fullWidth" data-action="replyToTopic">Reply to this topic</a>
+						<a href="#" rel="nofollow" class="ipsButton ipsButton_important ipsButton_medium ipsButton_fullWidth" data-action="replyToTopic" data-offline-disabled="true" disabled="disabled">Reply to this topic</a>
 					
 				</span>
 			</li>
@@ -762,7 +762,7 @@
 	</div>
 </div>
 	
-	<div id="elPostFeed" data-role="commentFeed" data-controller="core.front.core.moderation">
+	<div id="elPostFeed" data-role="commentFeed" data-offline-disabled="true">
 		<form action="#" method="post" data-ipspageaction="" data-role="moderationTools" data-offline-disabled="true">
 			
 			
@@ -928,7 +928,7 @@
 					
 						
 
-	<div data-controller="core.front.core.reaction" class="ipsItemControls_right ipsClearfix ">	
+	<div class="ipsItemControls_right ipsClearfix " data-offline-disabled="true">	
 		<div class="ipsReact ipsPos_right">
 			
 				
@@ -952,7 +952,7 @@
 								<button class="ipsButton ipsButton_light ipsButton_verySmall ipsButton_narrow cMultiQuote ipsHide" data-action="multiQuoteComment" data-ipstooltip="" data-ipsquote-multiquote="" data-mqid="mq388441" title="MultiQuote" style="display: inline-block;"><i class="fa fa-plus"></i></button>
 							</li>
 							<li data-ipsquote-editor="topic_comment" data-ipsquote-target="#comment-388441" class="ipsJS_show">
-								<a href="#" data-action="quoteComment" data-ipsquote-singlequote="">Quote</a>
+								<a href="#" data-action="quoteComment" data-ipsquote-singlequote="" data-offline-disabled="true" disabled="disabled">Quote</a>
 							</li>
 						
 						
@@ -989,7 +989,7 @@
 	<h5 class="ipsType_normal ipsType_reset ipsSpacer_top">Share on other sites</h5>
 	
 
-	<ul class="ipsList_inline ipsList_noSpacing ipsClearfix" data-controller="core.front.core.sharelink">
+	<ul class="ipsList_inline ipsList_noSpacing ipsClearfix" data-controller="core.front.core.sharelink" data-offline-disabled="true">
 		
 			<li>
 <a href="#" class="cShareLink cShareLink_facebook" target="_blank" data-role="shareLink" title="Share on Facebook" data-ipstooltip="" rel="noopener nofollow">
@@ -1020,13 +1020,13 @@
 
 
 	<hr class="ipsHr">
-	<button class="ipsHide ipsButton ipsButton_small ipsButton_light ipsButton_fullWidth ipsMargin_top:half" data-controller="core.front.core.webshare" data-role="webShare" data-websharetitle="In Order To Attract More Non-sikhs To Sikhism, Sikhs Will Have To Modernize" data-websharetext="cutting our hair is the stupidest idea ever. it wouldnt spread the message of sikhism, it would just show others how we contradict our faith so easily, just like people of other religions do. if we want to spread the message of sikhi, lets start translating the message of the gurus so that everyone can share in it. before anyone accuses me of convert hunting, let me remind you of what our third guru did, and how he helped many of our ancestors into sikhism. " data-webshareurl="../../__do/findComment/__comment/388441/index.html">More sharing options...</button>
+	<button class="ipsHide ipsButton ipsButton_small ipsButton_light ipsButton_fullWidth ipsMargin_top:half" data-controller="core.front.core.webshare" data-role="webShare" data-websharetitle="In Order To Attract More Non-sikhs To Sikhism, Sikhs Will Have To Modernize" data-websharetext="cutting our hair is the stupidest idea ever. it wouldnt spread the message of sikhism, it would just show others how we contradict our faith so easily, just like people of other religions do. if we want to spread the message of sikhi, lets start translating the message of the gurus so that everyone can share in it. before anyone accuses me of convert hunting, let me remind you of what our third guru did, and how he helped many of our ancestors into sikhism. " data-webshareurl="../../__do/findComment/__comment/388441/index.html" data-offline-disabled="true">More sharing options...</button>
 
 	
 </div>
 <ul id="elControls_388441_menu" class="ipsMenu ipsMenu_narrow ipsHide ipsMenu_bottomCenter ipsAnim ipsAnim_fade ipsAnim_out ipsAnim_fast" style="left: 634.141px; top: 46px; position: absolute; z-index: 5150; opacity: 1; display: none;" animating="true">
 						
-							<li class="ipsMenu_item"><a href="../../__do/reportComment/__comment/388441/index.html" data-ipsdialog-remotesubmit="" data-ipsdialog-size="medium" data-ipsdialog-flashmessage="Thanks for your report." data-ipsdialog-title="Report post" data-action="reportComment" title="Report this content">Report</a></li>
+							<li class="ipsMenu_item"><a href="#" data-ipsdialog-remotesubmit="" data-ipsdialog-size="medium" data-ipsdialog-flashmessage="Thanks for your report." data-ipsdialog-title="Report post" data-action="reportComment" title="Report this content" data-offline-disabled="true" disabled="disabled">Report</a></li>
 						
 						
 							<li class="ipsMenu_item"><a href="../../__do/findComment/__comment/388441/index.html" rel="nofollow" title="Share this post" data-ipsdialog-size="narrow" data-ipsdialog-content="#elShareComment_388441_menu" data-ipsdialog-title="Share this post" id="elSharePost_388441" data-role="shareComment">Share</a></li>
@@ -1504,7 +1504,7 @@
 					
 						
 
-	<div data-controller="core.front.core.reaction" class="ipsItemControls_right ipsClearfix ">	
+	<div class="ipsItemControls_right ipsClearfix " data-offline-disabled="true">	
 		<div class="ipsReact ipsPos_right">
 			
 				
@@ -1528,7 +1528,7 @@
 								<button class="ipsButton ipsButton_light ipsButton_verySmall ipsButton_narrow cMultiQuote ipsHide" data-action="multiQuoteComment" data-ipstooltip="" data-ipsquote-multiquote="" data-mqid="mq388442" title="MultiQuote" style="display: inline-block;"><i class="fa fa-plus"></i></button>
 							</li>
 							<li data-ipsquote-editor="topic_comment" data-ipsquote-target="#comment-388442" class="ipsJS_show">
-								<a href="#" data-action="quoteComment" data-ipsquote-singlequote="">Quote</a>
+								<a href="#" data-action="quoteComment" data-ipsquote-singlequote="" data-offline-disabled="true" disabled="disabled">Quote</a>
 							</li>
 						
 						
@@ -1565,7 +1565,7 @@
 	<h5 class="ipsType_normal ipsType_reset ipsSpacer_top">Share on other sites</h5>
 	
 
-	<ul class="ipsList_inline ipsList_noSpacing ipsClearfix" data-controller="core.front.core.sharelink">
+	<ul class="ipsList_inline ipsList_noSpacing ipsClearfix" data-controller="core.front.core.sharelink" data-offline-disabled="true">
 		
 			<li>
 <a href="#" class="cShareLink cShareLink_facebook" target="_blank" data-role="shareLink" title="Share on Facebook" data-ipstooltip="" rel="noopener nofollow">
@@ -1598,13 +1598,13 @@
 	<hr class="ipsHr">
 	<button class="ipsHide ipsButton ipsButton_small ipsButton_light ipsButton_fullWidth ipsMargin_top:half" data-controller="core.front.core.webshare" data-role="webShare" data-websharetitle="In Order To Attract More Non-sikhs To Sikhism, Sikhs Will Have To Modernize" data-websharetext="During Christian Missionaries only 400 Sikhs were left  
 
-" data-webshareurl="../../__do/findComment/__comment/388442/index.html">More sharing options...</button>
+" data-webshareurl="../../__do/findComment/__comment/388442/index.html" data-offline-disabled="true">More sharing options...</button>
 
 	
 </div>
 <ul id="elControls_388442_menu" class="ipsMenu ipsMenu_narrow ipsHide ipsMenu_bottomCenter" style="left: 634.141px; top: 46px; position: absolute; z-index: 5200; opacity: 1; display: none;">
 						
-							<li class="ipsMenu_item"><a href="../../__do/reportComment/__comment/388442/index.html" data-ipsdialog-remotesubmit="" data-ipsdialog-size="medium" data-ipsdialog-flashmessage="Thanks for your report." data-ipsdialog-title="Report post" data-action="reportComment" title="Report this content">Report</a></li>
+							<li class="ipsMenu_item"><a href="#" data-ipsdialog-remotesubmit="" data-ipsdialog-size="medium" data-ipsdialog-flashmessage="Thanks for your report." data-ipsdialog-title="Report post" data-action="reportComment" title="Report this content" data-offline-disabled="true" disabled="disabled">Report</a></li>
 						
 						
 							<li class="ipsMenu_item"><a href="../../__do/findComment/__comment/388442/index.html" rel="nofollow" title="Share this post" data-ipsdialog-size="narrow" data-ipsdialog-content="#elShareComment_388442_menu" data-ipsdialog-title="Share this post" id="elSharePost_388442" data-role="shareComment">Share</a></li>
@@ -1801,7 +1801,7 @@
 					
 						
 
-	<div data-controller="core.front.core.reaction" class="ipsItemControls_right ipsClearfix ">	
+	<div class="ipsItemControls_right ipsClearfix " data-offline-disabled="true">	
 		<div class="ipsReact ipsPos_right">
 			
 				
@@ -1825,7 +1825,7 @@
 								<button class="ipsButton ipsButton_light ipsButton_verySmall ipsButton_narrow cMultiQuote ipsHide" data-action="multiQuoteComment" data-ipstooltip="" data-ipsquote-multiquote="" data-mqid="mq388444" title="MultiQuote" style="display: inline-block;"><i class="fa fa-plus"></i></button>
 							</li>
 							<li data-ipsquote-editor="topic_comment" data-ipsquote-target="#comment-388444" class="ipsJS_show">
-								<a href="#" data-action="quoteComment" data-ipsquote-singlequote="">Quote</a>
+								<a href="#" data-action="quoteComment" data-ipsquote-singlequote="" data-offline-disabled="true" disabled="disabled">Quote</a>
 							</li>
 						
 						
@@ -1862,7 +1862,7 @@
 	<h5 class="ipsType_normal ipsType_reset ipsSpacer_top">Share on other sites</h5>
 	
 
-	<ul class="ipsList_inline ipsList_noSpacing ipsClearfix" data-controller="core.front.core.sharelink">
+	<ul class="ipsList_inline ipsList_noSpacing ipsClearfix" data-controller="core.front.core.sharelink" data-offline-disabled="true">
 		
 			<li>
 <a href="#" class="cShareLink cShareLink_facebook" target="_blank" data-role="shareLink" title="Share on Facebook" data-ipstooltip="" rel="noopener nofollow">
@@ -1903,13 +1903,13 @@ Koi virla gurmat khaleh jeo.
 We dont want numbers, dont need them, 1 Khalsa can counter for 125.000 others. But becoming that khalsa is the main and only objective. 
 Correct me if im wrong, but didnt 40 sikhs fight 1000000 - its written in the zafarnamah.  
 khalsa is unique. We are in kaljug. 
-" data-webshareurl="../../__do/findComment/__comment/388444/index.html">More sharing options...</button>
+" data-webshareurl="../../__do/findComment/__comment/388444/index.html" data-offline-disabled="true">More sharing options...</button>
 
 	
 </div>
 <ul id="elControls_388444_menu" class="ipsMenu ipsMenu_narrow ipsHide ipsMenu_topCenter" style="left: 634.141px; top: -64.375px; position: absolute; z-index: 5250; opacity: 1; display: none;">
 						
-							<li class="ipsMenu_item"><a href="../../__do/reportComment/__comment/388444/index.html" data-ipsdialog-remotesubmit="" data-ipsdialog-size="medium" data-ipsdialog-flashmessage="Thanks for your report." data-ipsdialog-title="Report post" data-action="reportComment" title="Report this content">Report</a></li>
+							<li class="ipsMenu_item"><a href="#" data-ipsdialog-remotesubmit="" data-ipsdialog-size="medium" data-ipsdialog-flashmessage="Thanks for your report." data-ipsdialog-title="Report post" data-action="reportComment" title="Report this content" data-offline-disabled="true" disabled="disabled">Report</a></li>
 						
 						
 							<li class="ipsMenu_item"><a href="../../__do/findComment/__comment/388444/index.html" rel="nofollow" title="Share this post" data-ipsdialog-size="narrow" data-ipsdialog-content="#elShareComment_388444_menu" data-ipsdialog-title="Share this post" id="elSharePost_388444" data-role="shareComment">Share</a></li>
@@ -2095,7 +2095,7 @@ Read Mool-Mantar</span>
 					
 						
 
-	<div data-controller="core.front.core.reaction" class="ipsItemControls_right ipsClearfix ">	
+	<div class="ipsItemControls_right ipsClearfix " data-offline-disabled="true">	
 		<div class="ipsReact ipsPos_right">
 			
 				
@@ -2119,7 +2119,7 @@ Read Mool-Mantar</span>
 								<button class="ipsButton ipsButton_light ipsButton_verySmall ipsButton_narrow cMultiQuote ipsHide" data-action="multiQuoteComment" data-ipstooltip="" data-ipsquote-multiquote="" data-mqid="mq388469" title="MultiQuote" style="display: inline-block;"><i class="fa fa-plus"></i></button>
 							</li>
 							<li data-ipsquote-editor="topic_comment" data-ipsquote-target="#comment-388469" class="ipsJS_show">
-								<a href="#" data-action="quoteComment" data-ipsquote-singlequote="">Quote</a>
+								<a href="#" data-action="quoteComment" data-ipsquote-singlequote="" data-offline-disabled="true" disabled="disabled">Quote</a>
 							</li>
 						
 						
@@ -2156,7 +2156,7 @@ Read Mool-Mantar</span>
 	<h5 class="ipsType_normal ipsType_reset ipsSpacer_top">Share on other sites</h5>
 	
 
-	<ul class="ipsList_inline ipsList_noSpacing ipsClearfix" data-controller="core.front.core.sharelink">
+	<ul class="ipsList_inline ipsList_noSpacing ipsClearfix" data-controller="core.front.core.sharelink" data-offline-disabled="true">
 		
 			<li>
 <a href="#" class="cShareLink cShareLink_facebook" target="_blank" data-role="shareLink" title="Share on Facebook" data-ipstooltip="" rel="noopener nofollow">
@@ -2189,13 +2189,13 @@ Read Mool-Mantar</span>
 	<hr class="ipsHr">
 	<button class="ipsHide ipsButton ipsButton_small ipsButton_light ipsButton_fullWidth ipsMargin_top:half" data-controller="core.front.core.webshare" data-role="webShare" data-websharetitle="In Order To Attract More Non-sikhs To Sikhism, Sikhs Will Have To Modernize" data-websharetext="To the topic starter: Whats your IQ? 
 There was a time in the 18th century when on A VAISAKHI, there were only 65 KHALSA SINGHS ATTENDING SRI HARMANDAR SAHIB !!! 
-" data-webshareurl="../../__do/findComment/__comment/388469/index.html">More sharing options...</button>
+" data-webshareurl="../../__do/findComment/__comment/388469/index.html" data-offline-disabled="true">More sharing options...</button>
 
 	
 </div>
 <ul id="elControls_388469_menu" class="ipsMenu ipsMenu_narrow ipsHide ipsMenu_topCenter" style="left: 634.141px; top: -64.375px; position: absolute; z-index: 5300; opacity: 1; display: none;">
 						
-							<li class="ipsMenu_item"><a href="../../__do/reportComment/__comment/388469/index.html" data-ipsdialog-remotesubmit="" data-ipsdialog-size="medium" data-ipsdialog-flashmessage="Thanks for your report." data-ipsdialog-title="Report post" data-action="reportComment" title="Report this content">Report</a></li>
+							<li class="ipsMenu_item"><a href="#" data-ipsdialog-remotesubmit="" data-ipsdialog-size="medium" data-ipsdialog-flashmessage="Thanks for your report." data-ipsdialog-title="Report post" data-action="reportComment" title="Report this content" data-offline-disabled="true" disabled="disabled">Report</a></li>
 						
 						
 							<li class="ipsMenu_item"><a href="../../__do/findComment/__comment/388469/index.html" rel="nofollow" title="Share this post" data-ipsdialog-size="narrow" data-ipsdialog-content="#elShareComment_388469_menu" data-ipsdialog-title="Share this post" id="elSharePost_388469" data-role="shareComment">Share</a></li>
@@ -2379,7 +2379,7 @@ There was a time in the 18th century when on A VAISAKHI, there were only 65 KHAL
 					
 						
 
-	<div data-controller="core.front.core.reaction" class="ipsItemControls_right ipsClearfix ">	
+	<div class="ipsItemControls_right ipsClearfix " data-offline-disabled="true">	
 		<div class="ipsReact ipsPos_right">
 			
 				
@@ -2403,7 +2403,7 @@ There was a time in the 18th century when on A VAISAKHI, there were only 65 KHAL
 								<button class="ipsButton ipsButton_light ipsButton_verySmall ipsButton_narrow cMultiQuote ipsHide" data-action="multiQuoteComment" data-ipstooltip="" data-ipsquote-multiquote="" data-mqid="mq388475" title="MultiQuote" style="display: inline-block;"><i class="fa fa-plus"></i></button>
 							</li>
 							<li data-ipsquote-editor="topic_comment" data-ipsquote-target="#comment-388475" class="ipsJS_show">
-								<a href="#" data-action="quoteComment" data-ipsquote-singlequote="">Quote</a>
+								<a href="#" data-action="quoteComment" data-ipsquote-singlequote="" data-offline-disabled="true" disabled="disabled">Quote</a>
 							</li>
 						
 						
@@ -2440,7 +2440,7 @@ There was a time in the 18th century when on A VAISAKHI, there were only 65 KHAL
 	<h5 class="ipsType_normal ipsType_reset ipsSpacer_top">Share on other sites</h5>
 	
 
-	<ul class="ipsList_inline ipsList_noSpacing ipsClearfix" data-controller="core.front.core.sharelink">
+	<ul class="ipsList_inline ipsList_noSpacing ipsClearfix" data-controller="core.front.core.sharelink" data-offline-disabled="true">
 		
 			<li>
 <a href="#" class="cShareLink cShareLink_facebook" target="_blank" data-role="shareLink" title="Share on Facebook" data-ipstooltip="" rel="noopener nofollow">
@@ -2472,13 +2472,13 @@ There was a time in the 18th century when on A VAISAKHI, there were only 65 KHAL
 
 	<hr class="ipsHr">
 	<button class="ipsHide ipsButton ipsButton_small ipsButton_light ipsButton_fullWidth ipsMargin_top:half" data-controller="core.front.core.webshare" data-role="webShare" data-websharetitle="In Order To Attract More Non-sikhs To Sikhism, Sikhs Will Have To Modernize" data-websharetext="Very good question!  :gg: 
-" data-webshareurl="../../__do/findComment/__comment/388475/index.html">More sharing options...</button>
+" data-webshareurl="../../__do/findComment/__comment/388475/index.html" data-offline-disabled="true">More sharing options...</button>
 
 	
 </div>
 <ul id="elControls_388475_menu" class="ipsMenu ipsMenu_narrow ipsHide ipsMenu_topCenter" style="left: 634.141px; top: -64.375px; position: absolute; z-index: 5350; opacity: 1; display: none;">
 						
-							<li class="ipsMenu_item"><a href="../../__do/reportComment/__comment/388475/index.html" data-ipsdialog-remotesubmit="" data-ipsdialog-size="medium" data-ipsdialog-flashmessage="Thanks for your report." data-ipsdialog-title="Report post" data-action="reportComment" title="Report this content">Report</a></li>
+							<li class="ipsMenu_item"><a href="#" data-ipsdialog-remotesubmit="" data-ipsdialog-size="medium" data-ipsdialog-flashmessage="Thanks for your report." data-ipsdialog-title="Report post" data-action="reportComment" title="Report this content" data-offline-disabled="true" disabled="disabled">Report</a></li>
 						
 						
 							<li class="ipsMenu_item"><a href="../../__do/findComment/__comment/388475/index.html" rel="nofollow" title="Share this post" data-ipsdialog-size="narrow" data-ipsdialog-content="#elShareComment_388475_menu" data-ipsdialog-title="Share this post" id="elSharePost_388475" data-role="shareComment">Share</a></li>
@@ -2659,7 +2659,7 @@ There was a time in the 18th century when on A VAISAKHI, there were only 65 KHAL
 					
 						
 
-	<div data-controller="core.front.core.reaction" class="ipsItemControls_right ipsClearfix ">	
+	<div class="ipsItemControls_right ipsClearfix " data-offline-disabled="true">	
 		<div class="ipsReact ipsPos_right">
 			
 				
@@ -2683,7 +2683,7 @@ There was a time in the 18th century when on A VAISAKHI, there were only 65 KHAL
 								<button class="ipsButton ipsButton_light ipsButton_verySmall ipsButton_narrow cMultiQuote ipsHide" data-action="multiQuoteComment" data-ipstooltip="" data-ipsquote-multiquote="" data-mqid="mq388476" title="MultiQuote" style="display: inline-block;"><i class="fa fa-plus"></i></button>
 							</li>
 							<li data-ipsquote-editor="topic_comment" data-ipsquote-target="#comment-388476" class="ipsJS_show">
-								<a href="#" data-action="quoteComment" data-ipsquote-singlequote="">Quote</a>
+								<a href="#" data-action="quoteComment" data-ipsquote-singlequote="" data-offline-disabled="true" disabled="disabled">Quote</a>
 							</li>
 						
 						
@@ -2717,7 +2717,7 @@ There was a time in the 18th century when on A VAISAKHI, there were only 65 KHAL
 	<h5 class="ipsType_normal ipsType_reset ipsSpacer_top">Share on other sites</h5>
 	
 
-	<ul class="ipsList_inline ipsList_noSpacing ipsClearfix" data-controller="core.front.core.sharelink">
+	<ul class="ipsList_inline ipsList_noSpacing ipsClearfix" data-controller="core.front.core.sharelink" data-offline-disabled="true">
 		
 			<li>
 <a href="#" class="cShareLink cShareLink_facebook" target="_blank" data-role="shareLink" title="Share on Facebook" data-ipstooltip="" rel="noopener nofollow">
@@ -2748,13 +2748,13 @@ There was a time in the 18th century when on A VAISAKHI, there were only 65 KHAL
 
 
 	<hr class="ipsHr">
-	<button class="ipsHide ipsButton ipsButton_small ipsButton_light ipsButton_fullWidth ipsMargin_top:half" data-controller="core.front.core.webshare" data-role="webShare" data-websharetitle="In Order To Attract More Non-sikhs To Sikhism, Sikhs Will Have To Modernize" data-websharetext="Modernise Sikhi, more like mordernise the world. We are fine, the rest of the world got to catch up with us  :D " data-webshareurl="../../__do/findComment/__comment/388476/index.html">More sharing options...</button>
+	<button class="ipsHide ipsButton ipsButton_small ipsButton_light ipsButton_fullWidth ipsMargin_top:half" data-controller="core.front.core.webshare" data-role="webShare" data-websharetitle="In Order To Attract More Non-sikhs To Sikhism, Sikhs Will Have To Modernize" data-websharetext="Modernise Sikhi, more like mordernise the world. We are fine, the rest of the world got to catch up with us  :D " data-webshareurl="../../__do/findComment/__comment/388476/index.html" data-offline-disabled="true">More sharing options...</button>
 
 	
 </div>
 <ul id="elControls_388476_menu" class="ipsMenu ipsMenu_narrow ipsHide ipsMenu_topCenter" style="left: 634.141px; top: -64.375px; position: absolute; z-index: 5400; opacity: 1; display: none;">
 						
-							<li class="ipsMenu_item"><a href="../../__do/reportComment/__comment/388476/index.html" data-ipsdialog-remotesubmit="" data-ipsdialog-size="medium" data-ipsdialog-flashmessage="Thanks for your report." data-ipsdialog-title="Report post" data-action="reportComment" title="Report this content">Report</a></li>
+							<li class="ipsMenu_item"><a href="#" data-ipsdialog-remotesubmit="" data-ipsdialog-size="medium" data-ipsdialog-flashmessage="Thanks for your report." data-ipsdialog-title="Report post" data-action="reportComment" title="Report this content" data-offline-disabled="true" disabled="disabled">Report</a></li>
 						
 						
 							<li class="ipsMenu_item"><a href="../../__do/findComment/__comment/388476/index.html" rel="nofollow" title="Share this post" data-ipsdialog-size="narrow" data-ipsdialog-content="#elShareComment_388476_menu" data-ipsdialog-title="Share this post" id="elSharePost_388476" data-role="shareComment">Share</a></li>
@@ -2926,7 +2926,7 @@ There was a time in the 18th century when on A VAISAKHI, there were only 65 KHAL
 					
 						
 
-	<div data-controller="core.front.core.reaction" class="ipsItemControls_right ipsClearfix ">	
+	<div class="ipsItemControls_right ipsClearfix " data-offline-disabled="true">	
 		<div class="ipsReact ipsPos_right">
 			
 				
@@ -2950,7 +2950,7 @@ There was a time in the 18th century when on A VAISAKHI, there were only 65 KHAL
 								<button class="ipsButton ipsButton_light ipsButton_verySmall ipsButton_narrow cMultiQuote ipsHide" data-action="multiQuoteComment" data-ipstooltip="" data-ipsquote-multiquote="" data-mqid="mq388480" title="MultiQuote" style="display: inline-block;"><i class="fa fa-plus"></i></button>
 							</li>
 							<li data-ipsquote-editor="topic_comment" data-ipsquote-target="#comment-388480" class="ipsJS_show">
-								<a href="#" data-action="quoteComment" data-ipsquote-singlequote="">Quote</a>
+								<a href="#" data-action="quoteComment" data-ipsquote-singlequote="" data-offline-disabled="true" disabled="disabled">Quote</a>
 							</li>
 						
 						
@@ -2984,7 +2984,7 @@ There was a time in the 18th century when on A VAISAKHI, there were only 65 KHAL
 	<h5 class="ipsType_normal ipsType_reset ipsSpacer_top">Share on other sites</h5>
 	
 
-	<ul class="ipsList_inline ipsList_noSpacing ipsClearfix" data-controller="core.front.core.sharelink">
+	<ul class="ipsList_inline ipsList_noSpacing ipsClearfix" data-controller="core.front.core.sharelink" data-offline-disabled="true">
 		
 			<li>
 <a href="#" class="cShareLink cShareLink_facebook" target="_blank" data-role="shareLink" title="Share on Facebook" data-ipstooltip="" rel="noopener nofollow">
@@ -3020,13 +3020,13 @@ There was a time in the 18th century when on A VAISAKHI, there were only 65 KHAL
                                               Seer Dhar Tali Gali Meri Aao.......... 
                                 If you desire to play this game of love with Me, 
                               Then step onto My Path WITH YouR HEAD IN HAND 
-" data-webshareurl="../../__do/findComment/__comment/388480/index.html">More sharing options...</button>
+" data-webshareurl="../../__do/findComment/__comment/388480/index.html" data-offline-disabled="true">More sharing options...</button>
 
 	
 </div>
 <ul id="elControls_388480_menu" class="ipsMenu ipsMenu_narrow ipsHide ipsMenu_topCenter" style="left: 634.141px; top: -64.375px; position: absolute; z-index: 5450; opacity: 1; display: none;">
 						
-							<li class="ipsMenu_item"><a href="../../__do/reportComment/__comment/388480/index.html" data-ipsdialog-remotesubmit="" data-ipsdialog-size="medium" data-ipsdialog-flashmessage="Thanks for your report." data-ipsdialog-title="Report post" data-action="reportComment" title="Report this content">Report</a></li>
+							<li class="ipsMenu_item"><a href="#" data-ipsdialog-remotesubmit="" data-ipsdialog-size="medium" data-ipsdialog-flashmessage="Thanks for your report." data-ipsdialog-title="Report post" data-action="reportComment" title="Report this content" data-offline-disabled="true" disabled="disabled">Report</a></li>
 						
 						
 							<li class="ipsMenu_item"><a href="../../__do/findComment/__comment/388480/index.html" rel="nofollow" title="Share this post" data-ipsdialog-size="narrow" data-ipsdialog-content="#elShareComment_388480_menu" data-ipsdialog-title="Share this post" id="elSharePost_388480" data-role="shareComment">Share</a></li>
@@ -3196,7 +3196,7 @@ There was a time in the 18th century when on A VAISAKHI, there were only 65 KHAL
 					
 						
 
-	<div data-controller="core.front.core.reaction" class="ipsItemControls_right ipsClearfix ">	
+	<div class="ipsItemControls_right ipsClearfix " data-offline-disabled="true">	
 		<div class="ipsReact ipsPos_right">
 			
 				
@@ -3220,7 +3220,7 @@ There was a time in the 18th century when on A VAISAKHI, there were only 65 KHAL
 								<button class="ipsButton ipsButton_light ipsButton_verySmall ipsButton_narrow cMultiQuote ipsHide" data-action="multiQuoteComment" data-ipstooltip="" data-ipsquote-multiquote="" data-mqid="mq388481" title="MultiQuote" style="display: inline-block;"><i class="fa fa-plus"></i></button>
 							</li>
 							<li data-ipsquote-editor="topic_comment" data-ipsquote-target="#comment-388481" class="ipsJS_show">
-								<a href="#" data-action="quoteComment" data-ipsquote-singlequote="">Quote</a>
+								<a href="#" data-action="quoteComment" data-ipsquote-singlequote="" data-offline-disabled="true" disabled="disabled">Quote</a>
 							</li>
 						
 						
@@ -3254,7 +3254,7 @@ There was a time in the 18th century when on A VAISAKHI, there were only 65 KHAL
 	<h5 class="ipsType_normal ipsType_reset ipsSpacer_top">Share on other sites</h5>
 	
 
-	<ul class="ipsList_inline ipsList_noSpacing ipsClearfix" data-controller="core.front.core.sharelink">
+	<ul class="ipsList_inline ipsList_noSpacing ipsClearfix" data-controller="core.front.core.sharelink" data-offline-disabled="true">
 		
 			<li>
 <a href="#" class="cShareLink cShareLink_facebook" target="_blank" data-role="shareLink" title="Share on Facebook" data-ipstooltip="" rel="noopener nofollow">
@@ -3288,13 +3288,13 @@ There was a time in the 18th century when on A VAISAKHI, there were only 65 KHAL
 	<button class="ipsHide ipsButton ipsButton_small ipsButton_light ipsButton_fullWidth ipsMargin_top:half" data-controller="core.front.core.webshare" data-role="webShare" data-websharetitle="In Order To Attract More Non-sikhs To Sikhism, Sikhs Will Have To Modernize" data-websharetext="Let me add to the list peacemaker cobra commander punjabi_link and now this infidel 
 &quot;As for the infidels do not reckon with them. It is better to be broken (from them). Indeed, their punishment will be severe in the hereafter&quot; 
 By infidel i mean saakat pursh not a kaffir 
-" data-webshareurl="../../__do/findComment/__comment/388481/index.html">More sharing options...</button>
+" data-webshareurl="../../__do/findComment/__comment/388481/index.html" data-offline-disabled="true">More sharing options...</button>
 
 	
 </div>
 <ul id="elControls_388481_menu" class="ipsMenu ipsMenu_narrow ipsHide ipsMenu_topCenter" style="left: 634.141px; top: -64.375px; position: absolute; z-index: 5500; opacity: 1; display: none;">
 						
-							<li class="ipsMenu_item"><a href="../../__do/reportComment/__comment/388481/index.html" data-ipsdialog-remotesubmit="" data-ipsdialog-size="medium" data-ipsdialog-flashmessage="Thanks for your report." data-ipsdialog-title="Report post" data-action="reportComment" title="Report this content">Report</a></li>
+							<li class="ipsMenu_item"><a href="#" data-ipsdialog-remotesubmit="" data-ipsdialog-size="medium" data-ipsdialog-flashmessage="Thanks for your report." data-ipsdialog-title="Report post" data-action="reportComment" title="Report this content" data-offline-disabled="true" disabled="disabled">Report</a></li>
 						
 						
 							<li class="ipsMenu_item"><a href="../../__do/findComment/__comment/388481/index.html" rel="nofollow" title="Share this post" data-ipsdialog-size="narrow" data-ipsdialog-content="#elShareComment_388481_menu" data-ipsdialog-title="Share this post" id="elSharePost_388481" data-role="shareComment">Share</a></li>
@@ -3480,7 +3480,7 @@ By infidel i mean saakat pursh not a kaffir
 					
 						
 
-	<div data-controller="core.front.core.reaction" class="ipsItemControls_right ipsClearfix ">	
+	<div class="ipsItemControls_right ipsClearfix " data-offline-disabled="true">	
 		<div class="ipsReact ipsPos_right">
 			
 				
@@ -3504,7 +3504,7 @@ By infidel i mean saakat pursh not a kaffir
 								<button class="ipsButton ipsButton_light ipsButton_verySmall ipsButton_narrow cMultiQuote ipsHide" data-action="multiQuoteComment" data-ipstooltip="" data-ipsquote-multiquote="" data-mqid="mq388490" title="MultiQuote" style="display: inline-block;"><i class="fa fa-plus"></i></button>
 							</li>
 							<li data-ipsquote-editor="topic_comment" data-ipsquote-target="#comment-388490" class="ipsJS_show">
-								<a href="#" data-action="quoteComment" data-ipsquote-singlequote="">Quote</a>
+								<a href="#" data-action="quoteComment" data-ipsquote-singlequote="" data-offline-disabled="true" disabled="disabled">Quote</a>
 							</li>
 						
 						
@@ -3541,7 +3541,7 @@ By infidel i mean saakat pursh not a kaffir
 	<h5 class="ipsType_normal ipsType_reset ipsSpacer_top">Share on other sites</h5>
 	
 
-	<ul class="ipsList_inline ipsList_noSpacing ipsClearfix" data-controller="core.front.core.sharelink">
+	<ul class="ipsList_inline ipsList_noSpacing ipsClearfix" data-controller="core.front.core.sharelink" data-offline-disabled="true">
 		
 			<li>
 <a href="#" class="cShareLink cShareLink_facebook" target="_blank" data-role="shareLink" title="Share on Facebook" data-ipstooltip="" rel="noopener nofollow">
@@ -3575,13 +3575,13 @@ By infidel i mean saakat pursh not a kaffir
 	<button class="ipsHide ipsButton ipsButton_small ipsButton_light ipsButton_fullWidth ipsMargin_top:half" data-controller="core.front.core.webshare" data-role="webShare" data-websharetitle="In Order To Attract More Non-sikhs To Sikhism, Sikhs Will Have To Modernize" data-websharetext="Khalsa Akaal Purkh Ki Fauj 
 Pragateo Khalsa Parmaatam Ki Mauj. 
 Modernising means NOTHING. Living in the hukam of Akaal Purkh does... 
-" data-webshareurl="../../__do/findComment/__comment/388490/index.html">More sharing options...</button>
+" data-webshareurl="../../__do/findComment/__comment/388490/index.html" data-offline-disabled="true">More sharing options...</button>
 
 	
 </div>
 <ul id="elControls_388490_menu" class="ipsMenu ipsMenu_narrow ipsHide ipsMenu_topCenter" style="left: 634.141px; top: -64.375px; position: absolute; z-index: 5550; opacity: 1; display: none;">
 						
-							<li class="ipsMenu_item"><a href="../../__do/reportComment/__comment/388490/index.html" data-ipsdialog-remotesubmit="" data-ipsdialog-size="medium" data-ipsdialog-flashmessage="Thanks for your report." data-ipsdialog-title="Report post" data-action="reportComment" title="Report this content">Report</a></li>
+							<li class="ipsMenu_item"><a href="#" data-ipsdialog-remotesubmit="" data-ipsdialog-size="medium" data-ipsdialog-flashmessage="Thanks for your report." data-ipsdialog-title="Report post" data-action="reportComment" title="Report this content" data-offline-disabled="true" disabled="disabled">Report</a></li>
 						
 						
 							<li class="ipsMenu_item"><a href="../../__do/findComment/__comment/388490/index.html" rel="nofollow" title="Share this post" data-ipsdialog-size="narrow" data-ipsdialog-content="#elShareComment_388490_menu" data-ipsdialog-title="Share this post" id="elSharePost_388490" data-role="shareComment">Share</a></li>
@@ -3755,7 +3755,7 @@ Modernising means NOTHING. Living in the hukam of Akaal Purkh does...
 					
 						
 
-	<div data-controller="core.front.core.reaction" class="ipsItemControls_right ipsClearfix ">	
+	<div class="ipsItemControls_right ipsClearfix " data-offline-disabled="true">	
 		<div class="ipsReact ipsPos_right">
 			
 				
@@ -3779,7 +3779,7 @@ Modernising means NOTHING. Living in the hukam of Akaal Purkh does...
 								<button class="ipsButton ipsButton_light ipsButton_verySmall ipsButton_narrow cMultiQuote ipsHide" data-action="multiQuoteComment" data-ipstooltip="" data-ipsquote-multiquote="" data-mqid="mq388495" title="MultiQuote" style="display: inline-block;"><i class="fa fa-plus"></i></button>
 							</li>
 							<li data-ipsquote-editor="topic_comment" data-ipsquote-target="#comment-388495" class="ipsJS_show">
-								<a href="#" data-action="quoteComment" data-ipsquote-singlequote="">Quote</a>
+								<a href="#" data-action="quoteComment" data-ipsquote-singlequote="" data-offline-disabled="true" disabled="disabled">Quote</a>
 							</li>
 						
 						
@@ -3813,7 +3813,7 @@ Modernising means NOTHING. Living in the hukam of Akaal Purkh does...
 	<h5 class="ipsType_normal ipsType_reset ipsSpacer_top">Share on other sites</h5>
 	
 
-	<ul class="ipsList_inline ipsList_noSpacing ipsClearfix" data-controller="core.front.core.sharelink">
+	<ul class="ipsList_inline ipsList_noSpacing ipsClearfix" data-controller="core.front.core.sharelink" data-offline-disabled="true">
 		
 			<li>
 <a href="#" class="cShareLink cShareLink_facebook" target="_blank" data-role="shareLink" title="Share on Facebook" data-ipstooltip="" rel="noopener nofollow">
@@ -3844,13 +3844,13 @@ Modernising means NOTHING. Living in the hukam of Akaal Purkh does...
 
 
 	<hr class="ipsHr">
-	<button class="ipsHide ipsButton ipsButton_small ipsButton_light ipsButton_fullWidth ipsMargin_top:half" data-controller="core.front.core.webshare" data-role="webShare" data-websharetitle="In Order To Attract More Non-sikhs To Sikhism, Sikhs Will Have To Modernize" data-websharetext="wow. the original poster got spanked on this thread.... " data-webshareurl="../../__do/findComment/__comment/388495/index.html">More sharing options...</button>
+	<button class="ipsHide ipsButton ipsButton_small ipsButton_light ipsButton_fullWidth ipsMargin_top:half" data-controller="core.front.core.webshare" data-role="webShare" data-websharetitle="In Order To Attract More Non-sikhs To Sikhism, Sikhs Will Have To Modernize" data-websharetext="wow. the original poster got spanked on this thread.... " data-webshareurl="../../__do/findComment/__comment/388495/index.html" data-offline-disabled="true">More sharing options...</button>
 
 	
 </div>
 <ul id="elControls_388495_menu" class="ipsMenu ipsMenu_narrow ipsHide ipsMenu_topCenter" style="left: 634.141px; top: -64.375px; position: absolute; z-index: 5600; opacity: 1; display: block;">
 						
-							<li class="ipsMenu_item"><a href="../../__do/reportComment/__comment/388495/index.html" data-ipsdialog-remotesubmit="" data-ipsdialog-size="medium" data-ipsdialog-flashmessage="Thanks for your report." data-ipsdialog-title="Report post" data-action="reportComment" title="Report this content">Report</a></li>
+							<li class="ipsMenu_item"><a href="#" data-ipsdialog-remotesubmit="" data-ipsdialog-size="medium" data-ipsdialog-flashmessage="Thanks for your report." data-ipsdialog-title="Report post" data-action="reportComment" title="Report this content" data-offline-disabled="true" disabled="disabled">Report</a></li>
 						
 						
 							<li class="ipsMenu_item"><a href="../../__do/findComment/__comment/388495/index.html" rel="nofollow" title="Share this post" data-ipsdialog-size="narrow" data-ipsdialog-content="#elShareComment_388495_menu" data-ipsdialog-title="Share this post" id="elSharePost_388495" data-role="shareComment">Share</a></li>
@@ -3935,7 +3935,7 @@ Modernising means NOTHING. Living in the hukam of Akaal Purkh does...
 	
 	
 		<a id="replyForm"></a>
-	<div data-role="replyArea" class="cTopicPostArea ipsBox ipsResponsive_pull ipsPadding  ipsSpacer_top" data-controller="cloud.front.realtime.forumsReplyArea,cloud.front.realtime.whosTyping">
+	<div data-role="replyArea" class="cTopicPostArea ipsBox ipsResponsive_pull ipsPadding  ipsSpacer_top" data-offline-disabled="true">
 			
 				
 				
@@ -3969,7 +3969,7 @@ Modernising means NOTHING. Living in the hukam of Akaal Purkh does...
 		<input type="hidden" name="MAX_FILE_SIZE" value="5242880">
 		<input type="hidden" name="plupload" value="1572bfd28dd75d5560d6ff505b547474">
 	
-	<div class="ipsComposeArea ipsComposeArea_withPhoto ipsClearfix ipsContained ipsComposeArea_minimized">
+	<div class="ipsComposeArea ipsComposeArea_withPhoto ipsClearfix ipsContained ipsComposeArea_minimized" data-offline-hidden="true">
 		<div data-role="whosTyping" class="ipsHide ipsMargin_bottom"></div>
 		<div class="ipsPos_left ipsResponsive_hidePhone ipsResponsive_block">
 
@@ -4138,11 +4138,11 @@ Modernising means NOTHING. Living in the hukam of Akaal Purkh does...
 					
 
 
-    <a href="#elShareItem_2086763770_menu" id="elShareItem_2086763770" class="ipsShareButton ipsButton ipsButton_verySmall ipsButton_light ">
+    <a href="#elShareItem_2086763770_menu" id="elShareItem_2086763770" class="ipsShareButton ipsButton ipsButton_verySmall ipsButton_light " data-offline-disabled="true">
         <span><i class="fa fa-share-alt"></i></span> &nbsp;Share
     </a>
 
-    <div class="ipsPadding ipsMenu ipsMenu_auto ipsHide" id="elShareItem_2086763770_menu" data-controller="core.front.core.sharelink">
+    <div class="ipsPadding ipsMenu ipsMenu_auto ipsHide" id="elShareItem_2086763770_menu" data-controller="core.front.core.sharelink" data-offline-disabled="true">
         <ul class="ipsList_inline">
             
                 <li>
@@ -4173,7 +4173,7 @@ Modernising means NOTHING. Living in the hukam of Akaal Purkh does...
         </ul>
         
             <hr class="ipsHr">
-            <button class="ipsHide ipsButton ipsButton_verySmall ipsButton_light ipsButton_fullWidth ipsMargin_top:half" data-controller="core.front.core.webshare" data-role="webShare" data-websharetitle="In Order To Attract More Non-sikhs To Sikhism, Sikhs Will Have To Modernize" data-websharetext="In Order To Attract More Non-sikhs To Sikhism, Sikhs Will Have To Modernize" data-webshareurl="../../index.html">More sharing options...</button>
+            <button class="ipsHide ipsButton ipsButton_verySmall ipsButton_light ipsButton_fullWidth ipsMargin_top:half" data-controller="core.front.core.webshare" data-role="webShare" data-websharetitle="In Order To Attract More Non-sikhs To Sikhism, Sikhs Will Have To Modernize" data-websharetext="In Order To Attract More Non-sikhs To Sikhism, Sikhs Will Have To Modernize" data-webshareurl="../../index.html" data-offline-disabled="true">More sharing options...</button>
         
     </div>
 
@@ -4182,10 +4182,10 @@ Modernising means NOTHING. Living in the hukam of Akaal Purkh does...
 			<div class="ipsResponsive_noFloat ipsResponsive_block">
 				
 
-<div data-followapp="forums" data-followarea="topic" data-followid="42227" data-controller="core.front.core.followButton">
+<div data-followapp="forums" data-followarea="topic" data-followid="42227" data-controller="core.front.core.followButton" data-offline-disabled="true">
 	
 
-	<a href="../../../../login/index.html" rel="nofollow" class="ipsFollow ipsPos_middle ipsButton ipsButton_light ipsButton_verySmall " data-role="followButton" data-ipstooltip="" title="Sign in to follow this">
+	<a href="../../../../login/index.html" rel="nofollow" class="ipsFollow ipsPos_middle ipsButton ipsButton_light ipsButton_verySmall " data-role="followButton" data-ipstooltip="" title="Sign in to follow this" data-offline-disabled="true">
 		<span>Followers</span>
 		<span class="ipsCommentCount">1</span>
 	</a>
@@ -4739,7 +4739,7 @@ Modernising means NOTHING. Living in the hukam of Akaal Purkh does...
 	<ul class="ipsList_inline ipsPos_right">
 		
 		<li>
-			<a data-action="defaultStream" class="ipsType_light " href="../../../../discover/index.html"><i class="fa fa-newspaper-o" aria-hidden="true"></i> <span>All Activity</span></a>
+			<a data-action="defaultStream" class="ipsType_light " href="../../../../discover/index.html" data-offline-disabled="true"><i class="fa fa-newspaper-o" aria-hidden="true"></i> <span>All Activity</span></a>
 		</li>
 		
 	</ul>
@@ -4824,7 +4824,7 @@ Modernising means NOTHING. Living in the hukam of Akaal Purkh does...
 						
 							<li>
 								
-									<a href="../../../../register/index.html" data-ipsdialog-size="narrow" data-ipsdialog-title="Sign Up" data-ipsdialog-fixed="true" id="elRegisterButton_mobile" class="ipsButton ipsButton_small ipsButton_fullWidth ipsButton_important">Sign Up</a>
+									<a href="#" data-ipsdialog-size="narrow" data-ipsdialog-title="Sign Up" data-ipsdialog-fixed="true" id="elRegisterButton_mobile" class="ipsButton ipsButton_small ipsButton_fullWidth ipsButton_important" data-offline-disabled="true">Sign Up</a>
 								
 							</li>
 						
@@ -5324,7 +5324,7 @@ Modernising means NOTHING. Living in the hukam of Akaal Purkh does...
 
 
 
-<div id="elGuestTerms" class="ipsPad_half ipsJS_hide" data-role="guestTermsBar" data-controller="core.front.core.guestTerms" style="display: block;" data-offline-disabled="true">
+<div id="elGuestTerms" class="ipsPad_half ipsJS_hide" data-role="guestTermsBar" data-controller="core.front.core.guestTerms" style="display: block;" data-offline-disabled="true" data-offline-hidden="true">
 	<div class="ipsLayout_container">
 		<div class="ipsGrid ipsGrid_collapsePhone">
 			<div class="ipsGrid_span10">
@@ -5342,7 +5342,7 @@ Modernising means NOTHING. Living in the hukam of Akaal Purkh does...
 		
 		
 	
-<span style="visibility: hidden; position: absolute; top: -300px; width: 1px; height: 1px; overflow: hidden; left: -300px;"><span class="ipsLoading ipsLoading_noAnim" style="display: block;"></span></span><div class="ipsPadding ipsMenu ipsMenu_auto ipsHide ipsMenu_bottomCenter" id="elShareItem_1450666510_menu" data-controller="core.front.core.sharelink" style="left: 695.094px; top: 354.219px; position: absolute; z-index: 5050; opacity: 1; display: none;">
+<span style="visibility: hidden; position: absolute; top: -300px; width: 1px; height: 1px; overflow: hidden; left: -300px;"><span class="ipsLoading ipsLoading_noAnim" style="display: block;"></span></span><div class="ipsPadding ipsMenu ipsMenu_auto ipsHide ipsMenu_bottomCenter" id="elShareItem_1450666510_menu" data-controller="core.front.core.sharelink" style="left: 695.094px; top: 354.219px; position: absolute; z-index: 5050; opacity: 1; display: none;" data-offline-disabled="true">
         <ul class="ipsList_inline">
             
                 <li>
@@ -5373,6 +5373,6 @@ Modernising means NOTHING. Living in the hukam of Akaal Purkh does...
         </ul>
         
             <hr class="ipsHr">
-            <button class="ipsHide ipsButton ipsButton_verySmall ipsButton_light ipsButton_fullWidth ipsMargin_top:half" data-controller="core.front.core.webshare" data-role="webShare" data-websharetitle="In Order To Attract More Non-sikhs To Sikhism, Sikhs Will Have To Modernize" data-websharetext="In Order To Attract More Non-sikhs To Sikhism, Sikhs Will Have To Modernize" data-webshareurl="../../index.html">More sharing options...</button>
+            <button class="ipsHide ipsButton ipsButton_verySmall ipsButton_light ipsButton_fullWidth ipsMargin_top:half" data-controller="core.front.core.webshare" data-role="webShare" data-websharetitle="In Order To Attract More Non-sikhs To Sikhism, Sikhs Will Have To Modernize" data-websharetext="In Order To Attract More Non-sikhs To Sikhism, Sikhs Will Have To Modernize" data-webshareurl="../../index.html" data-offline-disabled="true">More sharing options...</button>
         
     </div><script defer="" src="../../../../../_offline/offline-mirror.js" data-offline-asset="offline-mirror.js"></script></body></html>

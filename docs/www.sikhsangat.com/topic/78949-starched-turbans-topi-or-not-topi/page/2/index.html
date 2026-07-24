@@ -199,7 +199,7 @@
 	
 	
 	<li>
-		<a data-action="defaultStream" href="../../../../discover/index.html"><i class="fa fa-newspaper-o" aria-hidden="true"></i></a>
+		<a data-action="defaultStream" href="../../../../discover/index.html" data-offline-disabled="true"><i class="fa fa-newspaper-o" aria-hidden="true"></i></a>
 	</li>
 
 	
@@ -349,7 +349,7 @@
 		
 			<li>
 				
-					<a href="../../../../register/index.html" data-ipsdialog-size="narrow" data-ipsdialog-title="Sign Up" id="elRegisterButton" class="ipsButton ipsButton_normal ipsButton_primary">Sign Up</a>
+					<a href="#" data-ipsdialog-size="narrow" data-ipsdialog-title="Sign Up" id="elRegisterButton" class="ipsButton ipsButton_normal ipsButton_primary" data-offline-disabled="true">Sign Up</a>
 				
 			</li>
 		
@@ -453,7 +453,7 @@
 			
 
 	<div id="elSearchWrapper">
-		<div id="elSearch" data-controller="core.front.core.quickSearch">
+		<div id="elSearch" data-offline-disabled="true">
 			<form accept-charset="utf-8" action="#" method="post" data-offline-disabled="true">
                 <input type="search" id="elSearchField" placeholder="Search..." name="q" autocomplete="off" aria-label="Search">
                 <details class="cSearchFilter">
@@ -498,7 +498,7 @@
 	<ul class="ipsList_inline ipsPos_right">
 		
 		<li>
-			<a data-action="defaultStream" class="ipsType_light " href="../../../../discover/index.html"><i class="fa fa-newspaper-o" aria-hidden="true"></i> <span>All Activity</span></a>
+			<a data-action="defaultStream" class="ipsType_light " href="../../../../discover/index.html" data-offline-disabled="true"><i class="fa fa-newspaper-o" aria-hidden="true"></i> <span>All Activity</span></a>
 		</li>
 		
 	</ul>
@@ -679,7 +679,7 @@
 						
 
 
-    <a href="#elShareItem_688305595_menu" id="elShareItem_688305595" class="ipsShareButton ipsButton ipsButton_verySmall ipsButton_link ipsButton_link--light">
+    <a href="#elShareItem_688305595_menu" id="elShareItem_688305595" class="ipsShareButton ipsButton ipsButton_verySmall ipsButton_link ipsButton_link--light" data-offline-disabled="true">
         <span><i class="fa fa-share-alt"></i></span> &nbsp;Share
     </a>
 
@@ -692,10 +692,10 @@
 
 					
 
-<div data-followapp="forums" data-followarea="topic" data-followid="78949" data-controller="core.front.core.followButton">
+<div data-followapp="forums" data-followarea="topic" data-followid="78949" data-controller="core.front.core.followButton" data-offline-disabled="true">
 	
 
-	<a href="../../../../login/index.html" rel="nofollow" class="ipsFollow ipsPos_middle ipsButton ipsButton_light ipsButton_verySmall " data-role="followButton" data-ipstooltip="" title="Sign in to follow this">
+	<a href="../../../../login/index.html" rel="nofollow" class="ipsFollow ipsPos_middle ipsButton ipsButton_light ipsButton_verySmall " data-role="followButton" data-ipstooltip="" title="Sign in to follow this" data-offline-disabled="true">
 		<span>Followers</span>
 		<span class="ipsCommentCount">2</span>
 	</a>
@@ -718,9 +718,9 @@
 	<ul class="ipsToolList ipsToolList_horizontal ipsClearfix ipsSpacer_both ">
 		
 			<li class="ipsToolList_primaryAction">
-				<span data-controller="forums.front.topic.reply">
+				<span data-offline-disabled="true">
 					
-						<a href="#replyForm" rel="nofollow" class="ipsButton ipsButton_important ipsButton_medium ipsButton_fullWidth" data-action="replyToTopic">Reply to this topic</a>
+						<a href="#" rel="nofollow" class="ipsButton ipsButton_important ipsButton_medium ipsButton_fullWidth" data-action="replyToTopic" data-offline-disabled="true" disabled="disabled">Reply to this topic</a>
 					
 				</span>
 			</li>
@@ -802,7 +802,7 @@
 	</div>
 </div>
 	
-	<div id="elPostFeed" data-role="commentFeed" data-controller="core.front.core.moderation">
+	<div id="elPostFeed" data-role="commentFeed" data-offline-disabled="true">
 		<form action="#" method="post" data-ipspageaction="" data-role="moderationTools" data-offline-disabled="true">
 			
 			
@@ -965,7 +965,7 @@
 					
 						
 
-	<div data-controller="core.front.core.reaction" class="ipsItemControls_right ipsClearfix ">	
+	<div class="ipsItemControls_right ipsClearfix " data-offline-disabled="true">	
 		<div class="ipsReact ipsPos_right">
 			
 				
@@ -989,7 +989,7 @@
 								<button class="ipsButton ipsButton_light ipsButton_verySmall ipsButton_narrow cMultiQuote ipsHide" data-action="multiQuoteComment" data-ipstooltip="" data-ipsquote-multiquote="" data-mqid="mq656956" title="MultiQuote" style="display: inline-block;"><i class="fa fa-plus"></i></button>
 							</li>
 							<li data-ipsquote-editor="topic_comment" data-ipsquote-target="#comment-656956" class="ipsJS_show">
-								<a href="#" data-action="quoteComment" data-ipsquote-singlequote="">Quote</a>
+								<a href="#" data-action="quoteComment" data-ipsquote-singlequote="" data-offline-disabled="true" disabled="disabled">Quote</a>
 							</li>
 						
 						
@@ -1023,7 +1023,7 @@
 	<h5 class="ipsType_normal ipsType_reset ipsSpacer_top">Share on other sites</h5>
 	
 
-	<ul class="ipsList_inline ipsList_noSpacing ipsClearfix" data-controller="core.front.core.sharelink">
+	<ul class="ipsList_inline ipsList_noSpacing ipsClearfix" data-controller="core.front.core.sharelink" data-offline-disabled="true">
 		
 			<li>
 <a href="#" class="cShareLink cShareLink_facebook" target="_blank" data-role="shareLink" title="Share on Facebook" data-ipstooltip="" rel="noopener nofollow">
@@ -1055,13 +1055,13 @@
 
 	<hr class="ipsHr">
 	<button class="ipsHide ipsButton ipsButton_small ipsButton_light ipsButton_fullWidth ipsMargin_top:half" data-controller="core.front.core.webshare" data-role="webShare" data-websharetitle="Starched Turbans - Topi Or Not Topi" data-websharetext="the point is the panj were advodcating keeping them ...which I'm sure Guru ji wouldn't do especially pierced ornamentation 
-" data-webshareurl="../../__do/findComment/__comment/656956/index.html">More sharing options...</button>
+" data-webshareurl="../../__do/findComment/__comment/656956/index.html" data-offline-disabled="true">More sharing options...</button>
 
 	
 </div>
 <ul id="elControls_656956_menu" class="ipsMenu ipsMenu_narrow ipsHide ipsMenu_bottomCenter ipsAnim ipsAnim_fade ipsAnim_out ipsAnim_fast" style="left: 634.141px; top: 46px; position: absolute; z-index: 5150; opacity: 1; display: none;" animating="true">
 						
-							<li class="ipsMenu_item"><a href="../../__do/reportComment/__comment/656956/index.html" data-ipsdialog-remotesubmit="" data-ipsdialog-size="medium" data-ipsdialog-flashmessage="Thanks for your report." data-ipsdialog-title="Report post" data-action="reportComment" title="Report this content">Report</a></li>
+							<li class="ipsMenu_item"><a href="#" data-ipsdialog-remotesubmit="" data-ipsdialog-size="medium" data-ipsdialog-flashmessage="Thanks for your report." data-ipsdialog-title="Report post" data-action="reportComment" title="Report this content" data-offline-disabled="true" disabled="disabled">Report</a></li>
 						
 						
 							<li class="ipsMenu_item"><a href="../../__do/findComment/__comment/656956/index.html" rel="nofollow" title="Share this post" data-ipsdialog-size="narrow" data-ipsdialog-content="#elShareComment_656956_menu" data-ipsdialog-title="Share this post" id="elSharePost_656956" data-role="shareComment">Share</a></li>
@@ -1549,7 +1549,7 @@
 					
 						
 
-	<div data-controller="core.front.core.reaction" class="ipsItemControls_right ipsClearfix ">	
+	<div class="ipsItemControls_right ipsClearfix " data-offline-disabled="true">	
 		<div class="ipsReact ipsPos_right">
 			
 				
@@ -1573,7 +1573,7 @@
 								<button class="ipsButton ipsButton_light ipsButton_verySmall ipsButton_narrow cMultiQuote ipsHide" data-action="multiQuoteComment" data-ipstooltip="" data-ipsquote-multiquote="" data-mqid="mq740131" title="MultiQuote" style="display: inline-block;"><i class="fa fa-plus"></i></button>
 							</li>
 							<li data-ipsquote-editor="topic_comment" data-ipsquote-target="#comment-740131" class="ipsJS_show">
-								<a href="#" data-action="quoteComment" data-ipsquote-singlequote="">Quote</a>
+								<a href="#" data-action="quoteComment" data-ipsquote-singlequote="" data-offline-disabled="true" disabled="disabled">Quote</a>
 							</li>
 						
 						
@@ -1607,7 +1607,7 @@
 	<h5 class="ipsType_normal ipsType_reset ipsSpacer_top">Share on other sites</h5>
 	
 
-	<ul class="ipsList_inline ipsList_noSpacing ipsClearfix" data-controller="core.front.core.sharelink">
+	<ul class="ipsList_inline ipsList_noSpacing ipsClearfix" data-controller="core.front.core.sharelink" data-offline-disabled="true">
 		
 			<li>
 <a href="#" class="cShareLink cShareLink_facebook" target="_blank" data-role="shareLink" title="Share on Facebook" data-ipstooltip="" rel="noopener nofollow">
@@ -1639,13 +1639,13 @@
 
 	<hr class="ipsHr">
 	<button class="ipsHide ipsButton ipsButton_small ipsButton_light ipsButton_fullWidth ipsMargin_top:half" data-controller="core.front.core.webshare" data-role="webShare" data-websharetitle="Starched Turbans - Topi Or Not Topi" data-websharetext="I would say that starched Paghs are better for the Kenyan style. It only becomes a topi if you treat it as one (e.g: take of like a hat rather than not doing the larh to larh).
- " data-webshareurl="../../__do/findComment/__comment/740131/index.html">More sharing options...</button>
+ " data-webshareurl="../../__do/findComment/__comment/740131/index.html" data-offline-disabled="true">More sharing options...</button>
 
 	
 </div>
 <ul id="elControls_740131_menu" class="ipsMenu ipsMenu_narrow ipsHide ipsMenu_bottomCenter" style="left: 634.141px; top: 46px; position: absolute; z-index: 5200; opacity: 1; display: none;">
 						
-							<li class="ipsMenu_item"><a href="../../__do/reportComment/__comment/740131/index.html" data-ipsdialog-remotesubmit="" data-ipsdialog-size="medium" data-ipsdialog-flashmessage="Thanks for your report." data-ipsdialog-title="Report post" data-action="reportComment" title="Report this content">Report</a></li>
+							<li class="ipsMenu_item"><a href="#" data-ipsdialog-remotesubmit="" data-ipsdialog-size="medium" data-ipsdialog-flashmessage="Thanks for your report." data-ipsdialog-title="Report post" data-action="reportComment" title="Report this content" data-offline-disabled="true" disabled="disabled">Report</a></li>
 						
 						
 							<li class="ipsMenu_item"><a href="../../__do/findComment/__comment/740131/index.html" rel="nofollow" title="Share this post" data-ipsdialog-size="narrow" data-ipsdialog-content="#elShareComment_740131_menu" data-ipsdialog-title="Share this post" id="elSharePost_740131" data-role="shareComment">Share</a></li>
@@ -1826,7 +1826,7 @@
 					
 						
 
-	<div data-controller="core.front.core.reaction" class="ipsItemControls_right ipsClearfix ">	
+	<div class="ipsItemControls_right ipsClearfix " data-offline-disabled="true">	
 		<div class="ipsReact ipsPos_right">
 			
 				
@@ -1850,7 +1850,7 @@
 								<button class="ipsButton ipsButton_light ipsButton_verySmall ipsButton_narrow cMultiQuote ipsHide" data-action="multiQuoteComment" data-ipstooltip="" data-ipsquote-multiquote="" data-mqid="mq740134" title="MultiQuote" style="display: inline-block;"><i class="fa fa-plus"></i></button>
 							</li>
 							<li data-ipsquote-editor="topic_comment" data-ipsquote-target="#comment-740134" class="ipsJS_show">
-								<a href="#" data-action="quoteComment" data-ipsquote-singlequote="">Quote</a>
+								<a href="#" data-action="quoteComment" data-ipsquote-singlequote="" data-offline-disabled="true" disabled="disabled">Quote</a>
 							</li>
 						
 						
@@ -1884,7 +1884,7 @@
 	<h5 class="ipsType_normal ipsType_reset ipsSpacer_top">Share on other sites</h5>
 	
 
-	<ul class="ipsList_inline ipsList_noSpacing ipsClearfix" data-controller="core.front.core.sharelink">
+	<ul class="ipsList_inline ipsList_noSpacing ipsClearfix" data-controller="core.front.core.sharelink" data-offline-disabled="true">
 		
 			<li>
 <a href="#" class="cShareLink cShareLink_facebook" target="_blank" data-role="shareLink" title="Share on Facebook" data-ipstooltip="" rel="noopener nofollow">
@@ -1921,13 +1921,13 @@
 
 
 	so theyre nanga-sir during the night. One time my grandpa had to leave his house at night and because he wears starched, he was nanga-sir and had to find another pagg the next day.&nbsp;
- " data-webshareurl="../../__do/findComment/__comment/740134/index.html">More sharing options...</button>
+ " data-webshareurl="../../__do/findComment/__comment/740134/index.html" data-offline-disabled="true">More sharing options...</button>
 
 	
 </div>
 <ul id="elControls_740134_menu" class="ipsMenu ipsMenu_narrow ipsHide ipsMenu_topCenter" style="left: 634.141px; top: -64.375px; position: absolute; z-index: 5250; opacity: 1; display: none;">
 						
-							<li class="ipsMenu_item"><a href="../../__do/reportComment/__comment/740134/index.html" data-ipsdialog-remotesubmit="" data-ipsdialog-size="medium" data-ipsdialog-flashmessage="Thanks for your report." data-ipsdialog-title="Report post" data-action="reportComment" title="Report this content">Report</a></li>
+							<li class="ipsMenu_item"><a href="#" data-ipsdialog-remotesubmit="" data-ipsdialog-size="medium" data-ipsdialog-flashmessage="Thanks for your report." data-ipsdialog-title="Report post" data-action="reportComment" title="Report this content" data-offline-disabled="true" disabled="disabled">Report</a></li>
 						
 						
 							<li class="ipsMenu_item"><a href="../../__do/findComment/__comment/740134/index.html" rel="nofollow" title="Share this post" data-ipsdialog-size="narrow" data-ipsdialog-content="#elShareComment_740134_menu" data-ipsdialog-title="Share this post" id="elSharePost_740134" data-role="shareComment">Share</a></li>
@@ -2113,7 +2113,7 @@
 					
 						
 
-	<div data-controller="core.front.core.reaction" class="ipsItemControls_right ipsClearfix ">	
+	<div class="ipsItemControls_right ipsClearfix " data-offline-disabled="true">	
 		<div class="ipsReact ipsPos_right">
 			
 				
@@ -2137,7 +2137,7 @@
 								<button class="ipsButton ipsButton_light ipsButton_verySmall ipsButton_narrow cMultiQuote ipsHide" data-action="multiQuoteComment" data-ipstooltip="" data-ipsquote-multiquote="" data-mqid="mq740136" title="MultiQuote" style="display: inline-block;"><i class="fa fa-plus"></i></button>
 							</li>
 							<li data-ipsquote-editor="topic_comment" data-ipsquote-target="#comment-740136" class="ipsJS_show">
-								<a href="#" data-action="quoteComment" data-ipsquote-singlequote="">Quote</a>
+								<a href="#" data-action="quoteComment" data-ipsquote-singlequote="" data-offline-disabled="true" disabled="disabled">Quote</a>
 							</li>
 						
 						
@@ -2171,7 +2171,7 @@
 	<h5 class="ipsType_normal ipsType_reset ipsSpacer_top">Share on other sites</h5>
 	
 
-	<ul class="ipsList_inline ipsList_noSpacing ipsClearfix" data-controller="core.front.core.sharelink">
+	<ul class="ipsList_inline ipsList_noSpacing ipsClearfix" data-controller="core.front.core.sharelink" data-offline-disabled="true">
 		
 			<li>
 <a href="#" class="cShareLink cShareLink_facebook" target="_blank" data-role="shareLink" title="Share on Facebook" data-ipstooltip="" rel="noopener nofollow">
@@ -2203,13 +2203,13 @@
 
 	<hr class="ipsHr">
 	<button class="ipsHide ipsButton ipsButton_small ipsButton_light ipsButton_fullWidth ipsMargin_top:half" data-controller="core.front.core.webshare" data-role="webShare" data-websharetitle="Starched Turbans - Topi Or Not Topi" data-websharetext="but I think the point of starching the pagh is to shape it so as to use it as a topi.
- " data-webshareurl="../../__do/findComment/__comment/740136/index.html">More sharing options...</button>
+ " data-webshareurl="../../__do/findComment/__comment/740136/index.html" data-offline-disabled="true">More sharing options...</button>
 
 	
 </div>
 <ul id="elControls_740136_menu" class="ipsMenu ipsMenu_narrow ipsHide ipsMenu_topCenter" style="left: 634.141px; top: -64.375px; position: absolute; z-index: 5300; opacity: 1; display: none;">
 						
-							<li class="ipsMenu_item"><a href="../../__do/reportComment/__comment/740136/index.html" data-ipsdialog-remotesubmit="" data-ipsdialog-size="medium" data-ipsdialog-flashmessage="Thanks for your report." data-ipsdialog-title="Report post" data-action="reportComment" title="Report this content">Report</a></li>
+							<li class="ipsMenu_item"><a href="#" data-ipsdialog-remotesubmit="" data-ipsdialog-size="medium" data-ipsdialog-flashmessage="Thanks for your report." data-ipsdialog-title="Report post" data-action="reportComment" title="Report this content" data-offline-disabled="true" disabled="disabled">Report</a></li>
 						
 						
 							<li class="ipsMenu_item"><a href="../../__do/findComment/__comment/740136/index.html" rel="nofollow" title="Share this post" data-ipsdialog-size="narrow" data-ipsdialog-content="#elShareComment_740136_menu" data-ipsdialog-title="Share this post" id="elSharePost_740136" data-role="shareComment">Share</a></li>
@@ -2397,7 +2397,7 @@
 					
 						
 
-	<div data-controller="core.front.core.reaction" class="ipsItemControls_right ipsClearfix ">	
+	<div class="ipsItemControls_right ipsClearfix " data-offline-disabled="true">	
 		<div class="ipsReact ipsPos_right">
 			
 				
@@ -2421,7 +2421,7 @@
 								<button class="ipsButton ipsButton_light ipsButton_verySmall ipsButton_narrow cMultiQuote ipsHide" data-action="multiQuoteComment" data-ipstooltip="" data-ipsquote-multiquote="" data-mqid="mq740139" title="MultiQuote" style="display: inline-block;"><i class="fa fa-plus"></i></button>
 							</li>
 							<li data-ipsquote-editor="topic_comment" data-ipsquote-target="#comment-740139" class="ipsJS_show">
-								<a href="#" data-action="quoteComment" data-ipsquote-singlequote="">Quote</a>
+								<a href="#" data-action="quoteComment" data-ipsquote-singlequote="" data-offline-disabled="true" disabled="disabled">Quote</a>
 							</li>
 						
 						
@@ -2455,7 +2455,7 @@
 	<h5 class="ipsType_normal ipsType_reset ipsSpacer_top">Share on other sites</h5>
 	
 
-	<ul class="ipsList_inline ipsList_noSpacing ipsClearfix" data-controller="core.front.core.sharelink">
+	<ul class="ipsList_inline ipsList_noSpacing ipsClearfix" data-controller="core.front.core.sharelink" data-offline-disabled="true">
 		
 			<li>
 <a href="#" class="cShareLink cShareLink_facebook" target="_blank" data-role="shareLink" title="Share on Facebook" data-ipstooltip="" rel="noopener nofollow">
@@ -2487,13 +2487,13 @@
 
 	<hr class="ipsHr">
 	<button class="ipsHide ipsButton ipsButton_small ipsButton_light ipsButton_fullWidth ipsMargin_top:half" data-controller="core.front.core.webshare" data-role="webShare" data-websharetitle="Starched Turbans - Topi Or Not Topi" data-websharetext="They are&nbsp;hats&nbsp; &nbsp;iv seen some move them around on their heads like a hat&nbsp; &nbsp; their really hard&nbsp;
- " data-webshareurl="../../__do/findComment/__comment/740139/index.html">More sharing options...</button>
+ " data-webshareurl="../../__do/findComment/__comment/740139/index.html" data-offline-disabled="true">More sharing options...</button>
 
 	
 </div>
 <ul id="elControls_740139_menu" class="ipsMenu ipsMenu_narrow ipsHide ipsMenu_topCenter" style="left: 634.141px; top: -64.375px; position: absolute; z-index: 5350; opacity: 1; display: none;">
 						
-							<li class="ipsMenu_item"><a href="../../__do/reportComment/__comment/740139/index.html" data-ipsdialog-remotesubmit="" data-ipsdialog-size="medium" data-ipsdialog-flashmessage="Thanks for your report." data-ipsdialog-title="Report post" data-action="reportComment" title="Report this content">Report</a></li>
+							<li class="ipsMenu_item"><a href="#" data-ipsdialog-remotesubmit="" data-ipsdialog-size="medium" data-ipsdialog-flashmessage="Thanks for your report." data-ipsdialog-title="Report post" data-action="reportComment" title="Report this content" data-offline-disabled="true" disabled="disabled">Report</a></li>
 						
 						
 							<li class="ipsMenu_item"><a href="../../__do/findComment/__comment/740139/index.html" rel="nofollow" title="Share this post" data-ipsdialog-size="narrow" data-ipsdialog-content="#elShareComment_740139_menu" data-ipsdialog-title="Share this post" id="elSharePost_740139" data-role="shareComment">Share</a></li>
@@ -2673,7 +2673,7 @@
 					
 						
 
-	<div data-controller="core.front.core.reaction" class="ipsItemControls_right ipsClearfix ">	
+	<div class="ipsItemControls_right ipsClearfix " data-offline-disabled="true">	
 		<div class="ipsReact ipsPos_right">
 			
 				
@@ -2697,7 +2697,7 @@
 								<button class="ipsButton ipsButton_light ipsButton_verySmall ipsButton_narrow cMultiQuote ipsHide" data-action="multiQuoteComment" data-ipstooltip="" data-ipsquote-multiquote="" data-mqid="mq740142" title="MultiQuote" style="display: inline-block;"><i class="fa fa-plus"></i></button>
 							</li>
 							<li data-ipsquote-editor="topic_comment" data-ipsquote-target="#comment-740142" class="ipsJS_show">
-								<a href="#" data-action="quoteComment" data-ipsquote-singlequote="">Quote</a>
+								<a href="#" data-action="quoteComment" data-ipsquote-singlequote="" data-offline-disabled="true" disabled="disabled">Quote</a>
 							</li>
 						
 						
@@ -2731,7 +2731,7 @@
 	<h5 class="ipsType_normal ipsType_reset ipsSpacer_top">Share on other sites</h5>
 	
 
-	<ul class="ipsList_inline ipsList_noSpacing ipsClearfix" data-controller="core.front.core.sharelink">
+	<ul class="ipsList_inline ipsList_noSpacing ipsClearfix" data-controller="core.front.core.sharelink" data-offline-disabled="true">
 		
 			<li>
 <a href="#" class="cShareLink cShareLink_facebook" target="_blank" data-role="shareLink" title="Share on Facebook" data-ipstooltip="" rel="noopener nofollow">
@@ -2767,13 +2767,13 @@
 
 
 	So compromising the pagh and turning it into a starch topi was just the start, this lead to a downward spiralling of values for both genders while they were living under the gora masters, overly-liberal adharmik values. In the 2000s it used to shock me seeing Hi5 and Facebook family pictures with fathers and sons with starch pagh and fixo'ed up darhis and with the daughters dressed all nanghi and trashy. Although it's no longer shocking in the 2020s as sikh families have become desensitised somewhat, actually who am I kidding -&nbsp;it is still shocking to see a sardar family like that put up public photos, the SHAME!
- " data-webshareurl="../../__do/findComment/__comment/740142/index.html">More sharing options...</button>
+ " data-webshareurl="../../__do/findComment/__comment/740142/index.html" data-offline-disabled="true">More sharing options...</button>
 
 	
 </div>
 <ul id="elControls_740142_menu" class="ipsMenu ipsMenu_narrow ipsHide ipsMenu_topCenter" style="left: 634.141px; top: -64.375px; position: absolute; z-index: 5400; opacity: 1; display: none;">
 						
-							<li class="ipsMenu_item"><a href="../../__do/reportComment/__comment/740142/index.html" data-ipsdialog-remotesubmit="" data-ipsdialog-size="medium" data-ipsdialog-flashmessage="Thanks for your report." data-ipsdialog-title="Report post" data-action="reportComment" title="Report this content">Report</a></li>
+							<li class="ipsMenu_item"><a href="#" data-ipsdialog-remotesubmit="" data-ipsdialog-size="medium" data-ipsdialog-flashmessage="Thanks for your report." data-ipsdialog-title="Report post" data-action="reportComment" title="Report this content" data-offline-disabled="true" disabled="disabled">Report</a></li>
 						
 						
 							<li class="ipsMenu_item"><a href="../../__do/findComment/__comment/740142/index.html" rel="nofollow" title="Share this post" data-ipsdialog-size="narrow" data-ipsdialog-content="#elShareComment_740142_menu" data-ipsdialog-title="Share this post" id="elSharePost_740142" data-role="shareComment">Share</a></li>
@@ -2975,7 +2975,7 @@
 					
 						
 
-	<div data-controller="core.front.core.reaction" class="ipsItemControls_right ipsClearfix ">	
+	<div class="ipsItemControls_right ipsClearfix " data-offline-disabled="true">	
 		<div class="ipsReact ipsPos_right">
 			
 				
@@ -2999,7 +2999,7 @@
 								<button class="ipsButton ipsButton_light ipsButton_verySmall ipsButton_narrow cMultiQuote ipsHide" data-action="multiQuoteComment" data-ipstooltip="" data-ipsquote-multiquote="" data-mqid="mq740144" title="MultiQuote" style="display: inline-block;"><i class="fa fa-plus"></i></button>
 							</li>
 							<li data-ipsquote-editor="topic_comment" data-ipsquote-target="#comment-740144" class="ipsJS_show">
-								<a href="#" data-action="quoteComment" data-ipsquote-singlequote="">Quote</a>
+								<a href="#" data-action="quoteComment" data-ipsquote-singlequote="" data-offline-disabled="true" disabled="disabled">Quote</a>
 							</li>
 						
 						
@@ -3033,7 +3033,7 @@
 	<h5 class="ipsType_normal ipsType_reset ipsSpacer_top">Share on other sites</h5>
 	
 
-	<ul class="ipsList_inline ipsList_noSpacing ipsClearfix" data-controller="core.front.core.sharelink">
+	<ul class="ipsList_inline ipsList_noSpacing ipsClearfix" data-controller="core.front.core.sharelink" data-offline-disabled="true">
 		
 			<li>
 <a href="#" class="cShareLink cShareLink_facebook" target="_blank" data-role="shareLink" title="Share on Facebook" data-ipstooltip="" rel="noopener nofollow">
@@ -3069,13 +3069,13 @@
 
 
 	Putting your women on display like that for everyone to look at is basically no different to selling them.&nbsp;
- " data-webshareurl="../../__do/findComment/__comment/740144/index.html">More sharing options...</button>
+ " data-webshareurl="../../__do/findComment/__comment/740144/index.html" data-offline-disabled="true">More sharing options...</button>
 
 	
 </div>
 <ul id="elControls_740144_menu" class="ipsMenu ipsMenu_narrow ipsHide ipsMenu_topCenter" style="left: 634.141px; top: -64.375px; position: absolute; z-index: 5450; opacity: 1; display: none;">
 						
-							<li class="ipsMenu_item"><a href="../../__do/reportComment/__comment/740144/index.html" data-ipsdialog-remotesubmit="" data-ipsdialog-size="medium" data-ipsdialog-flashmessage="Thanks for your report." data-ipsdialog-title="Report post" data-action="reportComment" title="Report this content">Report</a></li>
+							<li class="ipsMenu_item"><a href="#" data-ipsdialog-remotesubmit="" data-ipsdialog-size="medium" data-ipsdialog-flashmessage="Thanks for your report." data-ipsdialog-title="Report post" data-action="reportComment" title="Report this content" data-offline-disabled="true" disabled="disabled">Report</a></li>
 						
 						
 							<li class="ipsMenu_item"><a href="../../__do/findComment/__comment/740144/index.html" rel="nofollow" title="Share this post" data-ipsdialog-size="narrow" data-ipsdialog-content="#elShareComment_740144_menu" data-ipsdialog-title="Share this post" id="elSharePost_740144" data-role="shareComment">Share</a></li>
@@ -3263,7 +3263,7 @@
 					
 						
 
-	<div data-controller="core.front.core.reaction" class="ipsItemControls_right ipsClearfix ">	
+	<div class="ipsItemControls_right ipsClearfix " data-offline-disabled="true">	
 		<div class="ipsReact ipsPos_right">
 			
 				
@@ -3287,7 +3287,7 @@
 								<button class="ipsButton ipsButton_light ipsButton_verySmall ipsButton_narrow cMultiQuote ipsHide" data-action="multiQuoteComment" data-ipstooltip="" data-ipsquote-multiquote="" data-mqid="mq740145" title="MultiQuote" style="display: inline-block;"><i class="fa fa-plus"></i></button>
 							</li>
 							<li data-ipsquote-editor="topic_comment" data-ipsquote-target="#comment-740145" class="ipsJS_show">
-								<a href="#" data-action="quoteComment" data-ipsquote-singlequote="">Quote</a>
+								<a href="#" data-action="quoteComment" data-ipsquote-singlequote="" data-offline-disabled="true" disabled="disabled">Quote</a>
 							</li>
 						
 						
@@ -3321,7 +3321,7 @@
 	<h5 class="ipsType_normal ipsType_reset ipsSpacer_top">Share on other sites</h5>
 	
 
-	<ul class="ipsList_inline ipsList_noSpacing ipsClearfix" data-controller="core.front.core.sharelink">
+	<ul class="ipsList_inline ipsList_noSpacing ipsClearfix" data-controller="core.front.core.sharelink" data-offline-disabled="true">
 		
 			<li>
 <a href="#" class="cShareLink cShareLink_facebook" target="_blank" data-role="shareLink" title="Share on Facebook" data-ipstooltip="" rel="noopener nofollow">
@@ -3353,13 +3353,13 @@
 
 	<hr class="ipsHr">
 	<button class="ipsHide ipsButton ipsButton_small ipsButton_light ipsButton_fullWidth ipsMargin_top:half" data-controller="core.front.core.webshare" data-role="webShare" data-websharetitle="Starched Turbans - Topi Or Not Topi" data-websharetext="People who starch their paghs also gell and glue their dharis, this is probably even worse.&nbsp; Your dhari is supposed to flow not be plastered to your face.&nbsp; Most people who glue their dharis to their face have damaged their dharis and have bald patches in their dhari.&nbsp;
- " data-webshareurl="../../__do/findComment/__comment/740145/index.html">More sharing options...</button>
+ " data-webshareurl="../../__do/findComment/__comment/740145/index.html" data-offline-disabled="true">More sharing options...</button>
 
 	
 </div>
 <ul id="elControls_740145_menu" class="ipsMenu ipsMenu_narrow ipsHide ipsMenu_topCenter" style="left: 634.141px; top: -64.375px; position: absolute; z-index: 5500; opacity: 1; display: none;">
 						
-							<li class="ipsMenu_item"><a href="../../__do/reportComment/__comment/740145/index.html" data-ipsdialog-remotesubmit="" data-ipsdialog-size="medium" data-ipsdialog-flashmessage="Thanks for your report." data-ipsdialog-title="Report post" data-action="reportComment" title="Report this content">Report</a></li>
+							<li class="ipsMenu_item"><a href="#" data-ipsdialog-remotesubmit="" data-ipsdialog-size="medium" data-ipsdialog-flashmessage="Thanks for your report." data-ipsdialog-title="Report post" data-action="reportComment" title="Report this content" data-offline-disabled="true" disabled="disabled">Report</a></li>
 						
 						
 							<li class="ipsMenu_item"><a href="../../__do/findComment/__comment/740145/index.html" rel="nofollow" title="Share this post" data-ipsdialog-size="narrow" data-ipsdialog-content="#elShareComment_740145_menu" data-ipsdialog-title="Share this post" id="elSharePost_740145" data-role="shareComment">Share</a></li>
@@ -3566,7 +3566,7 @@
 					
 						
 
-	<div data-controller="core.front.core.reaction" class="ipsItemControls_right ipsClearfix ">	
+	<div class="ipsItemControls_right ipsClearfix " data-offline-disabled="true">	
 		<div class="ipsReact ipsPos_right">
 			
 				
@@ -3590,7 +3590,7 @@
 								<button class="ipsButton ipsButton_light ipsButton_verySmall ipsButton_narrow cMultiQuote ipsHide" data-action="multiQuoteComment" data-ipstooltip="" data-ipsquote-multiquote="" data-mqid="mq740154" title="MultiQuote" style="display: inline-block;"><i class="fa fa-plus"></i></button>
 							</li>
 							<li data-ipsquote-editor="topic_comment" data-ipsquote-target="#comment-740154" class="ipsJS_show">
-								<a href="#" data-action="quoteComment" data-ipsquote-singlequote="">Quote</a>
+								<a href="#" data-action="quoteComment" data-ipsquote-singlequote="" data-offline-disabled="true" disabled="disabled">Quote</a>
 							</li>
 						
 						
@@ -3624,7 +3624,7 @@
 	<h5 class="ipsType_normal ipsType_reset ipsSpacer_top">Share on other sites</h5>
 	
 
-	<ul class="ipsList_inline ipsList_noSpacing ipsClearfix" data-controller="core.front.core.sharelink">
+	<ul class="ipsList_inline ipsList_noSpacing ipsClearfix" data-controller="core.front.core.sharelink" data-offline-disabled="true">
 		
 			<li>
 <a href="#" class="cShareLink cShareLink_facebook" target="_blank" data-role="shareLink" title="Share on Facebook" data-ipstooltip="" rel="noopener nofollow">
@@ -3660,13 +3660,13 @@
 
 
 	Been a year now since exercising with a single dumbbell. For making muscles visible a healthy diet is a must, so sadly I don't have those muscles, though my strength has grown.&nbsp;
- " data-webshareurl="../../__do/findComment/__comment/740154/index.html">More sharing options...</button>
+ " data-webshareurl="../../__do/findComment/__comment/740154/index.html" data-offline-disabled="true">More sharing options...</button>
 
 	
 </div>
 <ul id="elControls_740154_menu" class="ipsMenu ipsMenu_narrow ipsHide ipsMenu_topCenter" style="left: 634.141px; top: -64.375px; position: absolute; z-index: 5550; opacity: 1; display: none;">
 						
-							<li class="ipsMenu_item"><a href="../../__do/reportComment/__comment/740154/index.html" data-ipsdialog-remotesubmit="" data-ipsdialog-size="medium" data-ipsdialog-flashmessage="Thanks for your report." data-ipsdialog-title="Report post" data-action="reportComment" title="Report this content">Report</a></li>
+							<li class="ipsMenu_item"><a href="#" data-ipsdialog-remotesubmit="" data-ipsdialog-size="medium" data-ipsdialog-flashmessage="Thanks for your report." data-ipsdialog-title="Report post" data-action="reportComment" title="Report this content" data-offline-disabled="true" disabled="disabled">Report</a></li>
 						
 						
 							<li class="ipsMenu_item"><a href="../../__do/findComment/__comment/740154/index.html" rel="nofollow" title="Share this post" data-ipsdialog-size="narrow" data-ipsdialog-content="#elShareComment_740154_menu" data-ipsdialog-title="Share this post" id="elSharePost_740154" data-role="shareComment">Share</a></li>
@@ -3880,7 +3880,7 @@
 					
 						
 
-	<div data-controller="core.front.core.reaction" class="ipsItemControls_right ipsClearfix ">	
+	<div class="ipsItemControls_right ipsClearfix " data-offline-disabled="true">	
 		<div class="ipsReact ipsPos_right">
 			
 				
@@ -3904,7 +3904,7 @@
 								<button class="ipsButton ipsButton_light ipsButton_verySmall ipsButton_narrow cMultiQuote ipsHide" data-action="multiQuoteComment" data-ipstooltip="" data-ipsquote-multiquote="" data-mqid="mq740165" title="MultiQuote" style="display: inline-block;"><i class="fa fa-plus"></i></button>
 							</li>
 							<li data-ipsquote-editor="topic_comment" data-ipsquote-target="#comment-740165" class="ipsJS_show">
-								<a href="#" data-action="quoteComment" data-ipsquote-singlequote="">Quote</a>
+								<a href="#" data-action="quoteComment" data-ipsquote-singlequote="" data-offline-disabled="true" disabled="disabled">Quote</a>
 							</li>
 						
 						
@@ -3938,7 +3938,7 @@
 	<h5 class="ipsType_normal ipsType_reset ipsSpacer_top">Share on other sites</h5>
 	
 
-	<ul class="ipsList_inline ipsList_noSpacing ipsClearfix" data-controller="core.front.core.sharelink">
+	<ul class="ipsList_inline ipsList_noSpacing ipsClearfix" data-controller="core.front.core.sharelink" data-offline-disabled="true">
 		
 			<li>
 <a href="#" class="cShareLink cShareLink_facebook" target="_blank" data-role="shareLink" title="Share on Facebook" data-ipstooltip="" rel="noopener nofollow">
@@ -3986,13 +3986,13 @@
 
 
 	&nbsp;
- " data-webshareurl="../../__do/findComment/__comment/740165/index.html">More sharing options...</button>
+ " data-webshareurl="../../__do/findComment/__comment/740165/index.html" data-offline-disabled="true">More sharing options...</button>
 
 	
 </div>
 <ul id="elControls_740165_menu" class="ipsMenu ipsMenu_narrow ipsHide ipsMenu_topCenter" style="left: 634.141px; top: -64.375px; position: absolute; z-index: 5600; opacity: 1; display: block;">
 						
-							<li class="ipsMenu_item"><a href="../../__do/reportComment/__comment/740165/index.html" data-ipsdialog-remotesubmit="" data-ipsdialog-size="medium" data-ipsdialog-flashmessage="Thanks for your report." data-ipsdialog-title="Report post" data-action="reportComment" title="Report this content">Report</a></li>
+							<li class="ipsMenu_item"><a href="#" data-ipsdialog-remotesubmit="" data-ipsdialog-size="medium" data-ipsdialog-flashmessage="Thanks for your report." data-ipsdialog-title="Report post" data-action="reportComment" title="Report this content" data-offline-disabled="true" disabled="disabled">Report</a></li>
 						
 						
 							<li class="ipsMenu_item"><a href="../../__do/findComment/__comment/740165/index.html" rel="nofollow" title="Share this post" data-ipsdialog-size="narrow" data-ipsdialog-content="#elShareComment_740165_menu" data-ipsdialog-title="Share this post" id="elSharePost_740165" data-role="shareComment">Share</a></li>
@@ -4079,7 +4079,7 @@
 	
 	
 		<a id="replyForm"></a>
-	<div data-role="replyArea" class="cTopicPostArea ipsBox ipsResponsive_pull ipsPadding  ipsSpacer_top" data-controller="cloud.front.realtime.forumsReplyArea,cloud.front.realtime.whosTyping">
+	<div data-role="replyArea" class="cTopicPostArea ipsBox ipsResponsive_pull ipsPadding  ipsSpacer_top" data-offline-disabled="true">
 			
 				
 				
@@ -4113,7 +4113,7 @@
 		<input type="hidden" name="MAX_FILE_SIZE" value="5242880">
 		<input type="hidden" name="plupload" value="cefbdede41d63d3e2285b95776c08d4c">
 	
-	<div class="ipsComposeArea ipsComposeArea_withPhoto ipsClearfix ipsContained ipsComposeArea_minimized">
+	<div class="ipsComposeArea ipsComposeArea_withPhoto ipsClearfix ipsContained ipsComposeArea_minimized" data-offline-hidden="true">
 		<div data-role="whosTyping" class="ipsHide ipsMargin_bottom"></div>
 		<div class="ipsPos_left ipsResponsive_hidePhone ipsResponsive_block">
 
@@ -4282,11 +4282,11 @@
 					
 
 
-    <a href="#elShareItem_1971863292_menu" id="elShareItem_1971863292" class="ipsShareButton ipsButton ipsButton_verySmall ipsButton_light ">
+    <a href="#elShareItem_1971863292_menu" id="elShareItem_1971863292" class="ipsShareButton ipsButton ipsButton_verySmall ipsButton_light " data-offline-disabled="true">
         <span><i class="fa fa-share-alt"></i></span> &nbsp;Share
     </a>
 
-    <div class="ipsPadding ipsMenu ipsMenu_auto ipsHide" id="elShareItem_1971863292_menu" data-controller="core.front.core.sharelink">
+    <div class="ipsPadding ipsMenu ipsMenu_auto ipsHide" id="elShareItem_1971863292_menu" data-controller="core.front.core.sharelink" data-offline-disabled="true">
         <ul class="ipsList_inline">
             
                 <li>
@@ -4317,7 +4317,7 @@
         </ul>
         
             <hr class="ipsHr">
-            <button class="ipsHide ipsButton ipsButton_verySmall ipsButton_light ipsButton_fullWidth ipsMargin_top:half" data-controller="core.front.core.webshare" data-role="webShare" data-websharetitle="Starched Turbans - Topi Or Not Topi" data-websharetext="Starched Turbans - Topi Or Not Topi" data-webshareurl="../../index.html">More sharing options...</button>
+            <button class="ipsHide ipsButton ipsButton_verySmall ipsButton_light ipsButton_fullWidth ipsMargin_top:half" data-controller="core.front.core.webshare" data-role="webShare" data-websharetitle="Starched Turbans - Topi Or Not Topi" data-websharetext="Starched Turbans - Topi Or Not Topi" data-webshareurl="../../index.html" data-offline-disabled="true">More sharing options...</button>
         
     </div>
 
@@ -4326,10 +4326,10 @@
 			<div class="ipsResponsive_noFloat ipsResponsive_block">
 				
 
-<div data-followapp="forums" data-followarea="topic" data-followid="78949" data-controller="core.front.core.followButton">
+<div data-followapp="forums" data-followarea="topic" data-followid="78949" data-controller="core.front.core.followButton" data-offline-disabled="true">
 	
 
-	<a href="../../../../login/index.html" rel="nofollow" class="ipsFollow ipsPos_middle ipsButton ipsButton_light ipsButton_verySmall " data-role="followButton" data-ipstooltip="" title="Sign in to follow this">
+	<a href="../../../../login/index.html" rel="nofollow" class="ipsFollow ipsPos_middle ipsButton ipsButton_light ipsButton_verySmall " data-role="followButton" data-ipstooltip="" title="Sign in to follow this" data-offline-disabled="true">
 		<span>Followers</span>
 		<span class="ipsCommentCount">2</span>
 	</a>
@@ -4889,7 +4889,7 @@
 	<ul class="ipsList_inline ipsPos_right">
 		
 		<li>
-			<a data-action="defaultStream" class="ipsType_light " href="../../../../discover/index.html"><i class="fa fa-newspaper-o" aria-hidden="true"></i> <span>All Activity</span></a>
+			<a data-action="defaultStream" class="ipsType_light " href="../../../../discover/index.html" data-offline-disabled="true"><i class="fa fa-newspaper-o" aria-hidden="true"></i> <span>All Activity</span></a>
 		</li>
 		
 	</ul>
@@ -4974,7 +4974,7 @@
 						
 							<li>
 								
-									<a href="../../../../register/index.html" data-ipsdialog-size="narrow" data-ipsdialog-title="Sign Up" data-ipsdialog-fixed="true" id="elRegisterButton_mobile" class="ipsButton ipsButton_small ipsButton_fullWidth ipsButton_important">Sign Up</a>
+									<a href="#" data-ipsdialog-size="narrow" data-ipsdialog-title="Sign Up" data-ipsdialog-fixed="true" id="elRegisterButton_mobile" class="ipsButton ipsButton_small ipsButton_fullWidth ipsButton_important" data-offline-disabled="true">Sign Up</a>
 								
 							</li>
 						
@@ -5474,7 +5474,7 @@
 
 
 
-<div id="elGuestTerms" class="ipsPad_half ipsJS_hide" data-role="guestTermsBar" data-controller="core.front.core.guestTerms" style="display: block;" data-offline-disabled="true">
+<div id="elGuestTerms" class="ipsPad_half ipsJS_hide" data-role="guestTermsBar" data-controller="core.front.core.guestTerms" style="display: block;" data-offline-disabled="true" data-offline-hidden="true">
 	<div class="ipsLayout_container">
 		<div class="ipsGrid ipsGrid_collapsePhone">
 			<div class="ipsGrid_span10">
@@ -5492,7 +5492,7 @@
 		
 		
 	
-<span style="visibility: hidden; position: absolute; top: -300px; width: 1px; height: 1px; overflow: hidden; left: -300px;"><span class="ipsLoading ipsLoading_noAnim" style="display: block;"></span></span><div class="ipsPadding ipsMenu ipsMenu_auto ipsHide ipsMenu_bottomCenter" id="elShareItem_688305595_menu" data-controller="core.front.core.sharelink" style="left: 695.094px; top: 343.719px; position: absolute; z-index: 5050; opacity: 1; display: none;">
+<span style="visibility: hidden; position: absolute; top: -300px; width: 1px; height: 1px; overflow: hidden; left: -300px;"><span class="ipsLoading ipsLoading_noAnim" style="display: block;"></span></span><div class="ipsPadding ipsMenu ipsMenu_auto ipsHide ipsMenu_bottomCenter" id="elShareItem_688305595_menu" data-controller="core.front.core.sharelink" style="left: 695.094px; top: 343.719px; position: absolute; z-index: 5050; opacity: 1; display: none;" data-offline-disabled="true">
         <ul class="ipsList_inline">
             
                 <li>
@@ -5523,6 +5523,6 @@
         </ul>
         
             <hr class="ipsHr">
-            <button class="ipsHide ipsButton ipsButton_verySmall ipsButton_light ipsButton_fullWidth ipsMargin_top:half" data-controller="core.front.core.webshare" data-role="webShare" data-websharetitle="Starched Turbans - Topi Or Not Topi" data-websharetext="Starched Turbans - Topi Or Not Topi" data-webshareurl="../../index.html">More sharing options...</button>
+            <button class="ipsHide ipsButton ipsButton_verySmall ipsButton_light ipsButton_fullWidth ipsMargin_top:half" data-controller="core.front.core.webshare" data-role="webShare" data-websharetitle="Starched Turbans - Topi Or Not Topi" data-websharetext="Starched Turbans - Topi Or Not Topi" data-webshareurl="../../index.html" data-offline-disabled="true">More sharing options...</button>
         
     </div><script defer="" src="../../../../../_offline/offline-mirror.js" data-offline-asset="offline-mirror.js"></script></body></html>

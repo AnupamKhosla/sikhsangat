@@ -191,7 +191,7 @@
 	
 	
 	<li>
-		<a data-action="defaultStream" href="../../../../discover/index.html"><i class="fa fa-newspaper-o" aria-hidden="true"></i></a>
+		<a data-action="defaultStream" href="../../../../discover/index.html" data-offline-disabled="true"><i class="fa fa-newspaper-o" aria-hidden="true"></i></a>
 	</li>
 
 	
@@ -341,7 +341,7 @@
 		
 			<li>
 				
-					<a href="../../../../register/index.html" data-ipsdialog-size="narrow" data-ipsdialog-title="Sign Up" id="elRegisterButton" class="ipsButton ipsButton_normal ipsButton_primary">Sign Up</a>
+					<a href="#" data-ipsdialog-size="narrow" data-ipsdialog-title="Sign Up" id="elRegisterButton" class="ipsButton ipsButton_normal ipsButton_primary" data-offline-disabled="true">Sign Up</a>
 				
 			</li>
 		
@@ -445,7 +445,7 @@
 			
 
 	<div id="elSearchWrapper">
-		<div id="elSearch" data-controller="core.front.core.quickSearch">
+		<div id="elSearch" data-offline-disabled="true">
 			<form accept-charset="utf-8" action="#" method="post" data-offline-disabled="true">
                 <input type="search" id="elSearchField" placeholder="Search..." name="q" autocomplete="off" aria-label="Search">
                 <details class="cSearchFilter">
@@ -490,7 +490,7 @@
 	<ul class="ipsList_inline ipsPos_right">
 		
 		<li>
-			<a data-action="defaultStream" class="ipsType_light " href="../../../../discover/index.html"><i class="fa fa-newspaper-o" aria-hidden="true"></i> <span>All Activity</span></a>
+			<a data-action="defaultStream" class="ipsType_light " href="../../../../discover/index.html" data-offline-disabled="true"><i class="fa fa-newspaper-o" aria-hidden="true"></i> <span>All Activity</span></a>
 		</li>
 		
 	</ul>
@@ -641,7 +641,7 @@
 						
 
 
-    <a href="#elShareItem_619738320_menu" id="elShareItem_619738320" class="ipsShareButton ipsButton ipsButton_verySmall ipsButton_link ipsButton_link--light">
+    <a href="#elShareItem_619738320_menu" id="elShareItem_619738320" class="ipsShareButton ipsButton ipsButton_verySmall ipsButton_link ipsButton_link--light" data-offline-disabled="true">
         <span><i class="fa fa-share-alt"></i></span> &nbsp;Share
     </a>
 
@@ -654,10 +654,10 @@
 
 					
 
-<div data-followapp="forums" data-followarea="topic" data-followid="61566" data-controller="core.front.core.followButton">
+<div data-followapp="forums" data-followarea="topic" data-followid="61566" data-controller="core.front.core.followButton" data-offline-disabled="true">
 	
 
-	<a href="../../../../login/index.html" rel="nofollow" class="ipsFollow ipsPos_middle ipsButton ipsButton_light ipsButton_verySmall " data-role="followButton" data-ipstooltip="" title="Sign in to follow this">
+	<a href="../../../../login/index.html" rel="nofollow" class="ipsFollow ipsPos_middle ipsButton ipsButton_light ipsButton_verySmall " data-role="followButton" data-ipstooltip="" title="Sign in to follow this" data-offline-disabled="true">
 		<span>Followers</span>
 		<span class="ipsCommentCount">1</span>
 	</a>
@@ -680,9 +680,9 @@
 	<ul class="ipsToolList ipsToolList_horizontal ipsClearfix ipsSpacer_both ">
 		
 			<li class="ipsToolList_primaryAction">
-				<span data-controller="forums.front.topic.reply">
+				<span data-offline-disabled="true">
 					
-						<a href="#replyForm" rel="nofollow" class="ipsButton ipsButton_important ipsButton_medium ipsButton_fullWidth" data-action="replyToTopic">Reply to this topic</a>
+						<a href="#" rel="nofollow" class="ipsButton ipsButton_important ipsButton_medium ipsButton_fullWidth" data-action="replyToTopic" data-offline-disabled="true" disabled="disabled">Reply to this topic</a>
 					
 				</span>
 			</li>
@@ -760,7 +760,7 @@
 	</div>
 </div>
 	
-	<div id="elPostFeed" data-role="commentFeed" data-controller="core.front.core.moderation">
+	<div id="elPostFeed" data-role="commentFeed" data-offline-disabled="true">
 		<form action="#" method="post" data-ipspageaction="" data-role="moderationTools" data-offline-disabled="true">
 			
 			
@@ -920,7 +920,7 @@
 					
 						
 
-	<div data-controller="core.front.core.reaction" class="ipsItemControls_right ipsClearfix ">	
+	<div class="ipsItemControls_right ipsClearfix " data-offline-disabled="true">	
 		<div class="ipsReact ipsPos_right">
 			
 				
@@ -944,7 +944,7 @@
 								<button class="ipsButton ipsButton_light ipsButton_verySmall ipsButton_narrow cMultiQuote ipsHide" data-action="multiQuoteComment" data-ipstooltip="" data-ipsquote-multiquote="" data-mqid="mq501212" title="MultiQuote" style="display: inline-block;"><i class="fa fa-plus"></i></button>
 							</li>
 							<li data-ipsquote-editor="topic_comment" data-ipsquote-target="#comment-501212" class="ipsJS_show">
-								<a href="#" data-action="quoteComment" data-ipsquote-singlequote="">Quote</a>
+								<a href="#" data-action="quoteComment" data-ipsquote-singlequote="" data-offline-disabled="true" disabled="disabled">Quote</a>
 							</li>
 						
 						
@@ -978,7 +978,7 @@
 	<h5 class="ipsType_normal ipsType_reset ipsSpacer_top">Share on other sites</h5>
 	
 
-	<ul class="ipsList_inline ipsList_noSpacing ipsClearfix" data-controller="core.front.core.sharelink">
+	<ul class="ipsList_inline ipsList_noSpacing ipsClearfix" data-controller="core.front.core.sharelink" data-offline-disabled="true">
 		
 			<li>
 <a href="#" class="cShareLink cShareLink_facebook" target="_blank" data-role="shareLink" title="Share on Facebook" data-ipstooltip="" rel="noopener nofollow">
@@ -1010,13 +1010,13 @@
 
 	<hr class="ipsHr">
 	<button class="ipsHide ipsButton ipsButton_small ipsButton_light ipsButton_fullWidth ipsMargin_top:half" data-controller="core.front.core.webshare" data-role="webShare" data-websharetitle="Can A Singh Drink Cobra Zero?" data-websharetext="Most drinks that are so called rated zero alocohol have 0.05% eg shandy bass 
-" data-webshareurl="../../__do/findComment/__comment/501212/index.html">More sharing options...</button>
+" data-webshareurl="../../__do/findComment/__comment/501212/index.html" data-offline-disabled="true">More sharing options...</button>
 
 	
 </div>
 <ul id="elControls_501212_menu" class="ipsMenu ipsMenu_narrow ipsHide ipsMenu_bottomCenter ipsAnim ipsAnim_fade ipsAnim_out ipsAnim_fast" style="left: 634.141px; top: 46px; position: absolute; z-index: 5150; opacity: 1; display: none;" animating="true">
 						
-							<li class="ipsMenu_item"><a href="../../__do/reportComment/__comment/501212/index.html" data-ipsdialog-remotesubmit="" data-ipsdialog-size="medium" data-ipsdialog-flashmessage="Thanks for your report." data-ipsdialog-title="Report post" data-action="reportComment" title="Report this content">Report</a></li>
+							<li class="ipsMenu_item"><a href="#" data-ipsdialog-remotesubmit="" data-ipsdialog-size="medium" data-ipsdialog-flashmessage="Thanks for your report." data-ipsdialog-title="Report post" data-action="reportComment" title="Report this content" data-offline-disabled="true" disabled="disabled">Report</a></li>
 						
 						
 							<li class="ipsMenu_item"><a href="../../__do/findComment/__comment/501212/index.html" rel="nofollow" title="Share this post" data-ipsdialog-size="narrow" data-ipsdialog-content="#elShareComment_501212_menu" data-ipsdialog-title="Share this post" id="elSharePost_501212" data-role="shareComment">Share</a></li>
@@ -1486,7 +1486,7 @@ Interesting question though. Is zero percent alcohol sharaab okay for amritdhari
 					
 						
 
-	<div data-controller="core.front.core.reaction" class="ipsItemControls_right ipsClearfix ">	
+	<div class="ipsItemControls_right ipsClearfix " data-offline-disabled="true">	
 		<div class="ipsReact ipsPos_right">
 			
 				
@@ -1510,7 +1510,7 @@ Interesting question though. Is zero percent alcohol sharaab okay for amritdhari
 								<button class="ipsButton ipsButton_light ipsButton_verySmall ipsButton_narrow cMultiQuote ipsHide" data-action="multiQuoteComment" data-ipstooltip="" data-ipsquote-multiquote="" data-mqid="mq501217" title="MultiQuote" style="display: inline-block;"><i class="fa fa-plus"></i></button>
 							</li>
 							<li data-ipsquote-editor="topic_comment" data-ipsquote-target="#comment-501217" class="ipsJS_show">
-								<a href="#" data-action="quoteComment" data-ipsquote-singlequote="">Quote</a>
+								<a href="#" data-action="quoteComment" data-ipsquote-singlequote="" data-offline-disabled="true" disabled="disabled">Quote</a>
 							</li>
 						
 						
@@ -1547,7 +1547,7 @@ Interesting question though. Is zero percent alcohol sharaab okay for amritdhari
 	<h5 class="ipsType_normal ipsType_reset ipsSpacer_top">Share on other sites</h5>
 	
 
-	<ul class="ipsList_inline ipsList_noSpacing ipsClearfix" data-controller="core.front.core.sharelink">
+	<ul class="ipsList_inline ipsList_noSpacing ipsClearfix" data-controller="core.front.core.sharelink" data-offline-disabled="true">
 		
 			<li>
 <a href="#" class="cShareLink cShareLink_facebook" target="_blank" data-role="shareLink" title="Share on Facebook" data-ipstooltip="" rel="noopener nofollow">
@@ -1578,13 +1578,13 @@ Interesting question though. Is zero percent alcohol sharaab okay for amritdhari
 
 
 	<hr class="ipsHr">
-	<button class="ipsHide ipsButton ipsButton_small ipsButton_light ipsButton_fullWidth ipsMargin_top:half" data-controller="core.front.core.webshare" data-role="webShare" data-websharetitle="Can A Singh Drink Cobra Zero?" data-websharetext="The poor guy could've been misinformed? Some mischievous so-and-so told him to buy the 0% alcohol beer (because he's amritdhari) and he doesn't know how to read English, so he went ahead and bought it. Crazier things have happened. " data-webshareurl="../../__do/findComment/__comment/501217/index.html">More sharing options...</button>
+	<button class="ipsHide ipsButton ipsButton_small ipsButton_light ipsButton_fullWidth ipsMargin_top:half" data-controller="core.front.core.webshare" data-role="webShare" data-websharetitle="Can A Singh Drink Cobra Zero?" data-websharetext="The poor guy could've been misinformed? Some mischievous so-and-so told him to buy the 0% alcohol beer (because he's amritdhari) and he doesn't know how to read English, so he went ahead and bought it. Crazier things have happened. " data-webshareurl="../../__do/findComment/__comment/501217/index.html" data-offline-disabled="true">More sharing options...</button>
 
 	
 </div>
 <ul id="elControls_501217_menu" class="ipsMenu ipsMenu_narrow ipsHide ipsMenu_bottomCenter" style="left: 634.141px; top: 46px; position: absolute; z-index: 5200; opacity: 1; display: none;">
 						
-							<li class="ipsMenu_item"><a href="../../__do/reportComment/__comment/501217/index.html" data-ipsdialog-remotesubmit="" data-ipsdialog-size="medium" data-ipsdialog-flashmessage="Thanks for your report." data-ipsdialog-title="Report post" data-action="reportComment" title="Report this content">Report</a></li>
+							<li class="ipsMenu_item"><a href="#" data-ipsdialog-remotesubmit="" data-ipsdialog-size="medium" data-ipsdialog-flashmessage="Thanks for your report." data-ipsdialog-title="Report post" data-action="reportComment" title="Report this content" data-offline-disabled="true" disabled="disabled">Report</a></li>
 						
 						
 							<li class="ipsMenu_item"><a href="../../__do/findComment/__comment/501217/index.html" rel="nofollow" title="Share this post" data-ipsdialog-size="narrow" data-ipsdialog-content="#elShareComment_501217_menu" data-ipsdialog-title="Share this post" id="elSharePost_501217" data-role="shareComment">Share</a></li>
@@ -1761,7 +1761,7 @@ Interesting question though. Is zero percent alcohol sharaab okay for amritdhari
 					
 						
 
-	<div data-controller="core.front.core.reaction" class="ipsItemControls_right ipsClearfix ">	
+	<div class="ipsItemControls_right ipsClearfix " data-offline-disabled="true">	
 		<div class="ipsReact ipsPos_right">
 			
 				
@@ -1785,7 +1785,7 @@ Interesting question though. Is zero percent alcohol sharaab okay for amritdhari
 								<button class="ipsButton ipsButton_light ipsButton_verySmall ipsButton_narrow cMultiQuote ipsHide" data-action="multiQuoteComment" data-ipstooltip="" data-ipsquote-multiquote="" data-mqid="mq501219" title="MultiQuote" style="display: inline-block;"><i class="fa fa-plus"></i></button>
 							</li>
 							<li data-ipsquote-editor="topic_comment" data-ipsquote-target="#comment-501219" class="ipsJS_show">
-								<a href="#" data-action="quoteComment" data-ipsquote-singlequote="">Quote</a>
+								<a href="#" data-action="quoteComment" data-ipsquote-singlequote="" data-offline-disabled="true" disabled="disabled">Quote</a>
 							</li>
 						
 						
@@ -1819,7 +1819,7 @@ Interesting question though. Is zero percent alcohol sharaab okay for amritdhari
 	<h5 class="ipsType_normal ipsType_reset ipsSpacer_top">Share on other sites</h5>
 	
 
-	<ul class="ipsList_inline ipsList_noSpacing ipsClearfix" data-controller="core.front.core.sharelink">
+	<ul class="ipsList_inline ipsList_noSpacing ipsClearfix" data-controller="core.front.core.sharelink" data-offline-disabled="true">
 		
 			<li>
 <a href="#" class="cShareLink cShareLink_facebook" target="_blank" data-role="shareLink" title="Share on Facebook" data-ipstooltip="" rel="noopener nofollow">
@@ -1852,13 +1852,13 @@ Interesting question though. Is zero percent alcohol sharaab okay for amritdhari
 	<hr class="ipsHr">
 	<button class="ipsHide ipsButton ipsButton_small ipsButton_light ipsButton_fullWidth ipsMargin_top:half" data-controller="core.front.core.webshare" data-role="webShare" data-websharetitle="Can A Singh Drink Cobra Zero?" data-websharetext="Its a conspiracy, the aliens got him implanted messages in him :sprint:  !!!! 
 (im joking ofcourse) You probably coudn't tell with me. 
-" data-webshareurl="../../__do/findComment/__comment/501219/index.html">More sharing options...</button>
+" data-webshareurl="../../__do/findComment/__comment/501219/index.html" data-offline-disabled="true">More sharing options...</button>
 
 	
 </div>
 <ul id="elControls_501219_menu" class="ipsMenu ipsMenu_narrow ipsHide ipsMenu_bottomCenter" style="left: 634.141px; top: 46px; position: absolute; z-index: 5250; opacity: 1; display: none;">
 						
-							<li class="ipsMenu_item"><a href="../../__do/reportComment/__comment/501219/index.html" data-ipsdialog-remotesubmit="" data-ipsdialog-size="medium" data-ipsdialog-flashmessage="Thanks for your report." data-ipsdialog-title="Report post" data-action="reportComment" title="Report this content">Report</a></li>
+							<li class="ipsMenu_item"><a href="#" data-ipsdialog-remotesubmit="" data-ipsdialog-size="medium" data-ipsdialog-flashmessage="Thanks for your report." data-ipsdialog-title="Report post" data-action="reportComment" title="Report this content" data-offline-disabled="true" disabled="disabled">Report</a></li>
 						
 						
 							<li class="ipsMenu_item"><a href="../../__do/findComment/__comment/501219/index.html" rel="nofollow" title="Share this post" data-ipsdialog-size="narrow" data-ipsdialog-content="#elShareComment_501219_menu" data-ipsdialog-title="Share this post" id="elSharePost_501219" data-role="shareComment">Share</a></li>
@@ -2046,7 +2046,7 @@ Interesting question though. Is zero percent alcohol sharaab okay for amritdhari
 					
 						
 
-	<div data-controller="core.front.core.reaction" class="ipsItemControls_right ipsClearfix ">	
+	<div class="ipsItemControls_right ipsClearfix " data-offline-disabled="true">	
 		<div class="ipsReact ipsPos_right">
 			
 				
@@ -2070,7 +2070,7 @@ Interesting question though. Is zero percent alcohol sharaab okay for amritdhari
 								<button class="ipsButton ipsButton_light ipsButton_verySmall ipsButton_narrow cMultiQuote ipsHide" data-action="multiQuoteComment" data-ipstooltip="" data-ipsquote-multiquote="" data-mqid="mq501220" title="MultiQuote" style="display: inline-block;"><i class="fa fa-plus"></i></button>
 							</li>
 							<li data-ipsquote-editor="topic_comment" data-ipsquote-target="#comment-501220" class="ipsJS_show">
-								<a href="#" data-action="quoteComment" data-ipsquote-singlequote="">Quote</a>
+								<a href="#" data-action="quoteComment" data-ipsquote-singlequote="" data-offline-disabled="true" disabled="disabled">Quote</a>
 							</li>
 						
 						
@@ -2107,7 +2107,7 @@ Interesting question though. Is zero percent alcohol sharaab okay for amritdhari
 	<h5 class="ipsType_normal ipsType_reset ipsSpacer_top">Share on other sites</h5>
 	
 
-	<ul class="ipsList_inline ipsList_noSpacing ipsClearfix" data-controller="core.front.core.sharelink">
+	<ul class="ipsList_inline ipsList_noSpacing ipsClearfix" data-controller="core.front.core.sharelink" data-offline-disabled="true">
 		
 			<li>
 <a href="#" class="cShareLink cShareLink_facebook" target="_blank" data-role="shareLink" title="Share on Facebook" data-ipstooltip="" rel="noopener nofollow">
@@ -2139,13 +2139,13 @@ Interesting question though. Is zero percent alcohol sharaab okay for amritdhari
 
 	<hr class="ipsHr">
 	<button class="ipsHide ipsButton ipsButton_small ipsButton_light ipsButton_fullWidth ipsMargin_top:half" data-controller="core.front.core.webshare" data-role="webShare" data-websharetitle="Can A Singh Drink Cobra Zero?" data-websharetext="I was wondering how you were going to tie in this topic with the Illuminati, etc., before I read what you posted. :wink2: 
-" data-webshareurl="../../__do/findComment/__comment/501220/index.html">More sharing options...</button>
+" data-webshareurl="../../__do/findComment/__comment/501220/index.html" data-offline-disabled="true">More sharing options...</button>
 
 	
 </div>
 <ul id="elControls_501220_menu" class="ipsMenu ipsMenu_narrow ipsHide ipsMenu_topCenter" style="left: 634.141px; top: -64.375px; position: absolute; z-index: 5300; opacity: 1; display: none;">
 						
-							<li class="ipsMenu_item"><a href="../../__do/reportComment/__comment/501220/index.html" data-ipsdialog-remotesubmit="" data-ipsdialog-size="medium" data-ipsdialog-flashmessage="Thanks for your report." data-ipsdialog-title="Report post" data-action="reportComment" title="Report this content">Report</a></li>
+							<li class="ipsMenu_item"><a href="#" data-ipsdialog-remotesubmit="" data-ipsdialog-size="medium" data-ipsdialog-flashmessage="Thanks for your report." data-ipsdialog-title="Report post" data-action="reportComment" title="Report this content" data-offline-disabled="true" disabled="disabled">Report</a></li>
 						
 						
 							<li class="ipsMenu_item"><a href="../../__do/findComment/__comment/501220/index.html" rel="nofollow" title="Share this post" data-ipsdialog-size="narrow" data-ipsdialog-content="#elShareComment_501220_menu" data-ipsdialog-title="Share this post" id="elSharePost_501220" data-role="shareComment">Share</a></li>
@@ -2340,7 +2340,7 @@ Interesting question though. Is zero percent alcohol sharaab okay for amritdhari
 					
 						
 
-	<div data-controller="core.front.core.reaction" class="ipsItemControls_right ipsClearfix ">	
+	<div class="ipsItemControls_right ipsClearfix " data-offline-disabled="true">	
 		<div class="ipsReact ipsPos_right">
 			
 				
@@ -2364,7 +2364,7 @@ Interesting question though. Is zero percent alcohol sharaab okay for amritdhari
 								<button class="ipsButton ipsButton_light ipsButton_verySmall ipsButton_narrow cMultiQuote ipsHide" data-action="multiQuoteComment" data-ipstooltip="" data-ipsquote-multiquote="" data-mqid="mq501228" title="MultiQuote" style="display: inline-block;"><i class="fa fa-plus"></i></button>
 							</li>
 							<li data-ipsquote-editor="topic_comment" data-ipsquote-target="#comment-501228" class="ipsJS_show">
-								<a href="#" data-action="quoteComment" data-ipsquote-singlequote="">Quote</a>
+								<a href="#" data-action="quoteComment" data-ipsquote-singlequote="" data-offline-disabled="true" disabled="disabled">Quote</a>
 							</li>
 						
 						
@@ -2398,7 +2398,7 @@ Interesting question though. Is zero percent alcohol sharaab okay for amritdhari
 	<h5 class="ipsType_normal ipsType_reset ipsSpacer_top">Share on other sites</h5>
 	
 
-	<ul class="ipsList_inline ipsList_noSpacing ipsClearfix" data-controller="core.front.core.sharelink">
+	<ul class="ipsList_inline ipsList_noSpacing ipsClearfix" data-controller="core.front.core.sharelink" data-offline-disabled="true">
 		
 			<li>
 <a href="#" class="cShareLink cShareLink_facebook" target="_blank" data-role="shareLink" title="Share on Facebook" data-ipstooltip="" rel="noopener nofollow">
@@ -2432,13 +2432,13 @@ Interesting question though. Is zero percent alcohol sharaab okay for amritdhari
 	<button class="ipsHide ipsButton ipsButton_small ipsButton_light ipsButton_fullWidth ipsMargin_top:half" data-controller="core.front.core.webshare" data-role="webShare" data-websharetitle="Can A Singh Drink Cobra Zero?" data-websharetext="Look the minus clowns have struck me again! lol 
 '10 to 1' odds they do this post too. Anyone want to wager? 
 Come out come out...whoever you are! 
-" data-webshareurl="../../__do/findComment/__comment/501228/index.html">More sharing options...</button>
+" data-webshareurl="../../__do/findComment/__comment/501228/index.html" data-offline-disabled="true">More sharing options...</button>
 
 	
 </div>
 <ul id="elControls_501228_menu" class="ipsMenu ipsMenu_narrow ipsHide ipsMenu_topCenter" style="left: 634.141px; top: -64.375px; position: absolute; z-index: 5350; opacity: 1; display: none;">
 						
-							<li class="ipsMenu_item"><a href="../../__do/reportComment/__comment/501228/index.html" data-ipsdialog-remotesubmit="" data-ipsdialog-size="medium" data-ipsdialog-flashmessage="Thanks for your report." data-ipsdialog-title="Report post" data-action="reportComment" title="Report this content">Report</a></li>
+							<li class="ipsMenu_item"><a href="#" data-ipsdialog-remotesubmit="" data-ipsdialog-size="medium" data-ipsdialog-flashmessage="Thanks for your report." data-ipsdialog-title="Report post" data-action="reportComment" title="Report this content" data-offline-disabled="true" disabled="disabled">Report</a></li>
 						
 						
 							<li class="ipsMenu_item"><a href="../../__do/findComment/__comment/501228/index.html" rel="nofollow" title="Share this post" data-ipsdialog-size="narrow" data-ipsdialog-content="#elShareComment_501228_menu" data-ipsdialog-title="Share this post" id="elSharePost_501228" data-role="shareComment">Share</a></li>
@@ -2625,7 +2625,7 @@ Come out come out...whoever you are!
 					
 						
 
-	<div data-controller="core.front.core.reaction" class="ipsItemControls_right ipsClearfix ">	
+	<div class="ipsItemControls_right ipsClearfix " data-offline-disabled="true">	
 		<div class="ipsReact ipsPos_right">
 			
 				
@@ -2649,7 +2649,7 @@ Come out come out...whoever you are!
 								<button class="ipsButton ipsButton_light ipsButton_verySmall ipsButton_narrow cMultiQuote ipsHide" data-action="multiQuoteComment" data-ipstooltip="" data-ipsquote-multiquote="" data-mqid="mq501240" title="MultiQuote" style="display: inline-block;"><i class="fa fa-plus"></i></button>
 							</li>
 							<li data-ipsquote-editor="topic_comment" data-ipsquote-target="#comment-501240" class="ipsJS_show">
-								<a href="#" data-action="quoteComment" data-ipsquote-singlequote="">Quote</a>
+								<a href="#" data-action="quoteComment" data-ipsquote-singlequote="" data-offline-disabled="true" disabled="disabled">Quote</a>
 							</li>
 						
 						
@@ -2683,7 +2683,7 @@ Come out come out...whoever you are!
 	<h5 class="ipsType_normal ipsType_reset ipsSpacer_top">Share on other sites</h5>
 	
 
-	<ul class="ipsList_inline ipsList_noSpacing ipsClearfix" data-controller="core.front.core.sharelink">
+	<ul class="ipsList_inline ipsList_noSpacing ipsClearfix" data-controller="core.front.core.sharelink" data-offline-disabled="true">
 		
 			<li>
 <a href="#" class="cShareLink cShareLink_facebook" target="_blank" data-role="shareLink" title="Share on Facebook" data-ipstooltip="" rel="noopener nofollow">
@@ -2718,13 +2718,13 @@ Come out come out...whoever you are!
 But your question is a good one because I recall, after watching a few episodes of 'Come Dine with me', how strict muslims had no problem whatsoever eating food cooked in wines and spirits. The man that does the voiceover (brilliant voiceover by the way) said it was because when you cook with alcohol all the alcohol is burn't off and so it is no longer haram for a muslim. 
   
  I used to drink a fair few beers before I got married and what they say about Stella being a wife beater does actually have some truth to it. You see, its not all about the alcoholic strength of the beer. The way it is made , fermented etc, creates different chemical balances in different beers. Thus.....with alot of people....the chemical balance in a stella...creates a strange chemical reaction in the brain. Different beers have different effects on different people, and I'm not talking about the alcohol strength here...I'm talking purely on the method of fermentation. Anyway, what I'm saying is that when I did used to drink alcohol, Stella did make me go a bit funny. Fortunately, at the time I had no wife to beat. 
-" data-webshareurl="../../__do/findComment/__comment/501240/index.html">More sharing options...</button>
+" data-webshareurl="../../__do/findComment/__comment/501240/index.html" data-offline-disabled="true">More sharing options...</button>
 
 	
 </div>
 <ul id="elControls_501240_menu" class="ipsMenu ipsMenu_narrow ipsHide ipsMenu_topCenter" style="left: 634.141px; top: -64.375px; position: absolute; z-index: 5400; opacity: 1; display: none;">
 						
-							<li class="ipsMenu_item"><a href="../../__do/reportComment/__comment/501240/index.html" data-ipsdialog-remotesubmit="" data-ipsdialog-size="medium" data-ipsdialog-flashmessage="Thanks for your report." data-ipsdialog-title="Report post" data-action="reportComment" title="Report this content">Report</a></li>
+							<li class="ipsMenu_item"><a href="#" data-ipsdialog-remotesubmit="" data-ipsdialog-size="medium" data-ipsdialog-flashmessage="Thanks for your report." data-ipsdialog-title="Report post" data-action="reportComment" title="Report this content" data-offline-disabled="true" disabled="disabled">Report</a></li>
 						
 						
 							<li class="ipsMenu_item"><a href="../../__do/findComment/__comment/501240/index.html" rel="nofollow" title="Share this post" data-ipsdialog-size="narrow" data-ipsdialog-content="#elShareComment_501240_menu" data-ipsdialog-title="Share this post" id="elSharePost_501240" data-role="shareComment">Share</a></li>
@@ -2911,7 +2911,7 @@ But your question is a good one because I recall, after watching a few episodes 
 					
 						
 
-	<div data-controller="core.front.core.reaction" class="ipsItemControls_right ipsClearfix ">	
+	<div class="ipsItemControls_right ipsClearfix " data-offline-disabled="true">	
 		<div class="ipsReact ipsPos_right">
 			
 				
@@ -2935,7 +2935,7 @@ But your question is a good one because I recall, after watching a few episodes 
 								<button class="ipsButton ipsButton_light ipsButton_verySmall ipsButton_narrow cMultiQuote ipsHide" data-action="multiQuoteComment" data-ipstooltip="" data-ipsquote-multiquote="" data-mqid="mq501284" title="MultiQuote" style="display: inline-block;"><i class="fa fa-plus"></i></button>
 							</li>
 							<li data-ipsquote-editor="topic_comment" data-ipsquote-target="#comment-501284" class="ipsJS_show">
-								<a href="#" data-action="quoteComment" data-ipsquote-singlequote="">Quote</a>
+								<a href="#" data-action="quoteComment" data-ipsquote-singlequote="" data-offline-disabled="true" disabled="disabled">Quote</a>
 							</li>
 						
 						
@@ -2972,7 +2972,7 @@ But your question is a good one because I recall, after watching a few episodes 
 	<h5 class="ipsType_normal ipsType_reset ipsSpacer_top">Share on other sites</h5>
 	
 
-	<ul class="ipsList_inline ipsList_noSpacing ipsClearfix" data-controller="core.front.core.sharelink">
+	<ul class="ipsList_inline ipsList_noSpacing ipsClearfix" data-controller="core.front.core.sharelink" data-offline-disabled="true">
 		
 			<li>
 <a href="#" class="cShareLink cShareLink_facebook" target="_blank" data-role="shareLink" title="Share on Facebook" data-ipstooltip="" rel="noopener nofollow">
@@ -3004,13 +3004,13 @@ But your question is a good one because I recall, after watching a few episodes 
 
 	<hr class="ipsHr">
 	<button class="ipsHide ipsButton ipsButton_small ipsButton_light ipsButton_fullWidth ipsMargin_top:half" data-controller="core.front.core.webshare" data-role="webShare" data-websharetitle="Can A Singh Drink Cobra Zero?" data-websharetext="Surely the wine has been absorbed into whatever you're cooking be it vegetables or meat, i.e. there's still traces of alcohol in the food that's been cooked even though the wine in the pan may have evaporated? 
-" data-webshareurl="../../__do/findComment/__comment/501284/index.html">More sharing options...</button>
+" data-webshareurl="../../__do/findComment/__comment/501284/index.html" data-offline-disabled="true">More sharing options...</button>
 
 	
 </div>
 <ul id="elControls_501284_menu" class="ipsMenu ipsMenu_narrow ipsHide ipsMenu_topCenter" style="left: 634.141px; top: -64.375px; position: absolute; z-index: 5450; opacity: 1; display: none;">
 						
-							<li class="ipsMenu_item"><a href="../../__do/reportComment/__comment/501284/index.html" data-ipsdialog-remotesubmit="" data-ipsdialog-size="medium" data-ipsdialog-flashmessage="Thanks for your report." data-ipsdialog-title="Report post" data-action="reportComment" title="Report this content">Report</a></li>
+							<li class="ipsMenu_item"><a href="#" data-ipsdialog-remotesubmit="" data-ipsdialog-size="medium" data-ipsdialog-flashmessage="Thanks for your report." data-ipsdialog-title="Report post" data-action="reportComment" title="Report this content" data-offline-disabled="true" disabled="disabled">Report</a></li>
 						
 						
 							<li class="ipsMenu_item"><a href="../../__do/findComment/__comment/501284/index.html" rel="nofollow" title="Share this post" data-ipsdialog-size="narrow" data-ipsdialog-content="#elShareComment_501284_menu" data-ipsdialog-title="Share this post" id="elSharePost_501284" data-role="shareComment">Share</a></li>
@@ -3206,7 +3206,7 @@ But your question is a good one because I recall, after watching a few episodes 
 					
 						
 
-	<div data-controller="core.front.core.reaction" class="ipsItemControls_right ipsClearfix ">	
+	<div class="ipsItemControls_right ipsClearfix " data-offline-disabled="true">	
 		<div class="ipsReact ipsPos_right">
 			
 				
@@ -3230,7 +3230,7 @@ But your question is a good one because I recall, after watching a few episodes 
 								<button class="ipsButton ipsButton_light ipsButton_verySmall ipsButton_narrow cMultiQuote ipsHide" data-action="multiQuoteComment" data-ipstooltip="" data-ipsquote-multiquote="" data-mqid="mq501303" title="MultiQuote" style="display: inline-block;"><i class="fa fa-plus"></i></button>
 							</li>
 							<li data-ipsquote-editor="topic_comment" data-ipsquote-target="#comment-501303" class="ipsJS_show">
-								<a href="#" data-action="quoteComment" data-ipsquote-singlequote="">Quote</a>
+								<a href="#" data-action="quoteComment" data-ipsquote-singlequote="" data-offline-disabled="true" disabled="disabled">Quote</a>
 							</li>
 						
 						
@@ -3264,7 +3264,7 @@ But your question is a good one because I recall, after watching a few episodes 
 	<h5 class="ipsType_normal ipsType_reset ipsSpacer_top">Share on other sites</h5>
 	
 
-	<ul class="ipsList_inline ipsList_noSpacing ipsClearfix" data-controller="core.front.core.sharelink">
+	<ul class="ipsList_inline ipsList_noSpacing ipsClearfix" data-controller="core.front.core.sharelink" data-offline-disabled="true">
 		
 			<li>
 <a href="#" class="cShareLink cShareLink_facebook" target="_blank" data-role="shareLink" title="Share on Facebook" data-ipstooltip="" rel="noopener nofollow">
@@ -3299,13 +3299,13 @@ But your question is a good one because I recall, after watching a few episodes 
 I mean what if an Amritdhari theoretically took a small does of alcohol as contained in a prescribed medicine. Not enough to get you drunk say but something that was there in a tiny amount. Would they need to do pesh? 
 Another example could be if they use a mouthwash that contains alcohol. Obviously this isn't to drink or wouldn't effect one's state but f used would it constitute a breaking of Amrit? Just curious. 
 Alcohol is in quite a few products it seems. See this list. 
-" data-webshareurl="../../__do/findComment/__comment/501303/index.html">More sharing options...</button>
+" data-webshareurl="../../__do/findComment/__comment/501303/index.html" data-offline-disabled="true">More sharing options...</button>
 
 	
 </div>
 <ul id="elControls_501303_menu" class="ipsMenu ipsMenu_narrow ipsHide ipsMenu_topCenter" style="left: 634.141px; top: -64.375px; position: absolute; z-index: 5500; opacity: 1; display: none;">
 						
-							<li class="ipsMenu_item"><a href="../../__do/reportComment/__comment/501303/index.html" data-ipsdialog-remotesubmit="" data-ipsdialog-size="medium" data-ipsdialog-flashmessage="Thanks for your report." data-ipsdialog-title="Report post" data-action="reportComment" title="Report this content">Report</a></li>
+							<li class="ipsMenu_item"><a href="#" data-ipsdialog-remotesubmit="" data-ipsdialog-size="medium" data-ipsdialog-flashmessage="Thanks for your report." data-ipsdialog-title="Report post" data-action="reportComment" title="Report this content" data-offline-disabled="true" disabled="disabled">Report</a></li>
 						
 						
 							<li class="ipsMenu_item"><a href="../../__do/findComment/__comment/501303/index.html" rel="nofollow" title="Share this post" data-ipsdialog-size="narrow" data-ipsdialog-content="#elShareComment_501303_menu" data-ipsdialog-title="Share this post" id="elSharePost_501303" data-role="shareComment">Share</a></li>
@@ -3539,7 +3539,7 @@ Alcohol is in quite a few products it seems. See this list.
 					
 						
 
-	<div data-controller="core.front.core.reaction" class="ipsItemControls_right ipsClearfix ">	
+	<div class="ipsItemControls_right ipsClearfix " data-offline-disabled="true">	
 		<div class="ipsReact ipsPos_right">
 			
 				
@@ -3563,7 +3563,7 @@ Alcohol is in quite a few products it seems. See this list.
 								<button class="ipsButton ipsButton_light ipsButton_verySmall ipsButton_narrow cMultiQuote ipsHide" data-action="multiQuoteComment" data-ipstooltip="" data-ipsquote-multiquote="" data-mqid="mq790331" title="MultiQuote" style="display: inline-block;"><i class="fa fa-plus"></i></button>
 							</li>
 							<li data-ipsquote-editor="topic_comment" data-ipsquote-target="#comment-790331" class="ipsJS_show">
-								<a href="#" data-action="quoteComment" data-ipsquote-singlequote="">Quote</a>
+								<a href="#" data-action="quoteComment" data-ipsquote-singlequote="" data-offline-disabled="true" disabled="disabled">Quote</a>
 							</li>
 						
 						
@@ -3597,7 +3597,7 @@ Alcohol is in quite a few products it seems. See this list.
 	<h5 class="ipsType_normal ipsType_reset ipsSpacer_top">Share on other sites</h5>
 	
 
-	<ul class="ipsList_inline ipsList_noSpacing ipsClearfix" data-controller="core.front.core.sharelink">
+	<ul class="ipsList_inline ipsList_noSpacing ipsClearfix" data-controller="core.front.core.sharelink" data-offline-disabled="true">
 		
 			<li>
 <a href="#" class="cShareLink cShareLink_facebook" target="_blank" data-role="shareLink" title="Share on Facebook" data-ipstooltip="" rel="noopener nofollow">
@@ -3646,13 +3646,13 @@ Alcohol is in quite a few products it seems. See this list.
 
 	&nbsp;
  
-" data-webshareurl="../../__do/findComment/__comment/790331/index.html">More sharing options...</button>
+" data-webshareurl="../../__do/findComment/__comment/790331/index.html" data-offline-disabled="true">More sharing options...</button>
 
 	
 </div>
 <ul id="elControls_790331_menu" class="ipsMenu ipsMenu_narrow ipsHide ipsMenu_topCenter" style="left: 634.141px; top: -64.375px; position: absolute; z-index: 5550; opacity: 1; display: none;">
 						
-							<li class="ipsMenu_item"><a href="../../__do/reportComment/__comment/790331/index.html" data-ipsdialog-remotesubmit="" data-ipsdialog-size="medium" data-ipsdialog-flashmessage="Thanks for your report." data-ipsdialog-title="Report post" data-action="reportComment" title="Report this content">Report</a></li>
+							<li class="ipsMenu_item"><a href="#" data-ipsdialog-remotesubmit="" data-ipsdialog-size="medium" data-ipsdialog-flashmessage="Thanks for your report." data-ipsdialog-title="Report post" data-action="reportComment" title="Report this content" data-offline-disabled="true" disabled="disabled">Report</a></li>
 						
 						
 							<li class="ipsMenu_item"><a href="../../__do/findComment/__comment/790331/index.html" rel="nofollow" title="Share this post" data-ipsdialog-size="narrow" data-ipsdialog-content="#elShareComment_790331_menu" data-ipsdialog-title="Share this post" id="elSharePost_790331" data-role="shareComment">Share</a></li>
@@ -3863,7 +3863,7 @@ Alcohol is in quite a few products it seems. See this list.
 					
 						
 
-	<div data-controller="core.front.core.reaction" class="ipsItemControls_right ipsClearfix ">	
+	<div class="ipsItemControls_right ipsClearfix " data-offline-disabled="true">	
 		<div class="ipsReact ipsPos_right">
 			
 				
@@ -3887,7 +3887,7 @@ Alcohol is in quite a few products it seems. See this list.
 								<button class="ipsButton ipsButton_light ipsButton_verySmall ipsButton_narrow cMultiQuote ipsHide" data-action="multiQuoteComment" data-ipstooltip="" data-ipsquote-multiquote="" data-mqid="mq790333" title="MultiQuote" style="display: inline-block;"><i class="fa fa-plus"></i></button>
 							</li>
 							<li data-ipsquote-editor="topic_comment" data-ipsquote-target="#comment-790333" class="ipsJS_show">
-								<a href="#" data-action="quoteComment" data-ipsquote-singlequote="">Quote</a>
+								<a href="#" data-action="quoteComment" data-ipsquote-singlequote="" data-offline-disabled="true" disabled="disabled">Quote</a>
 							</li>
 						
 						
@@ -3921,7 +3921,7 @@ Alcohol is in quite a few products it seems. See this list.
 	<h5 class="ipsType_normal ipsType_reset ipsSpacer_top">Share on other sites</h5>
 	
 
-	<ul class="ipsList_inline ipsList_noSpacing ipsClearfix" data-controller="core.front.core.sharelink">
+	<ul class="ipsList_inline ipsList_noSpacing ipsClearfix" data-controller="core.front.core.sharelink" data-offline-disabled="true">
 		
 			<li>
 <a href="#" class="cShareLink cShareLink_facebook" target="_blank" data-role="shareLink" title="Share on Facebook" data-ipstooltip="" rel="noopener nofollow">
@@ -3954,13 +3954,13 @@ Alcohol is in quite a few products it seems. See this list.
 	<hr class="ipsHr">
 	<button class="ipsHide ipsButton ipsButton_small ipsButton_light ipsButton_fullWidth ipsMargin_top:half" data-controller="core.front.core.webshare" data-role="webShare" data-websharetitle="Can A Singh Drink Cobra Zero?" data-websharetext="Something I wonder is Nihangs and their use of Bhang, it's always been used for medical purposes; even though now people are just drinking it left and right. No one has peshed for Sukha, so I doubt it would be a problem for them, but for most mainstream Singh Sabha Sikhs, it would cause an uproar if an amritdhari was taking it.
  
-" data-webshareurl="../../__do/findComment/__comment/790333/index.html">More sharing options...</button>
+" data-webshareurl="../../__do/findComment/__comment/790333/index.html" data-offline-disabled="true">More sharing options...</button>
 
 	
 </div>
 <ul id="elControls_790333_menu" class="ipsMenu ipsMenu_narrow ipsHide ipsMenu_topCenter" style="left: 634.141px; top: -64.375px; position: absolute; z-index: 5600; opacity: 1; display: block;">
 						
-							<li class="ipsMenu_item"><a href="../../__do/reportComment/__comment/790333/index.html" data-ipsdialog-remotesubmit="" data-ipsdialog-size="medium" data-ipsdialog-flashmessage="Thanks for your report." data-ipsdialog-title="Report post" data-action="reportComment" title="Report this content">Report</a></li>
+							<li class="ipsMenu_item"><a href="#" data-ipsdialog-remotesubmit="" data-ipsdialog-size="medium" data-ipsdialog-flashmessage="Thanks for your report." data-ipsdialog-title="Report post" data-action="reportComment" title="Report this content" data-offline-disabled="true" disabled="disabled">Report</a></li>
 						
 						
 							<li class="ipsMenu_item"><a href="../../__do/findComment/__comment/790333/index.html" rel="nofollow" title="Share this post" data-ipsdialog-size="narrow" data-ipsdialog-content="#elShareComment_790333_menu" data-ipsdialog-title="Share this post" id="elSharePost_790333" data-role="shareComment">Share</a></li>
@@ -4043,7 +4043,7 @@ Alcohol is in quite a few products it seems. See this list.
 	
 	
 		<a id="replyForm"></a>
-	<div data-role="replyArea" class="cTopicPostArea ipsBox ipsResponsive_pull ipsPadding  ipsSpacer_top" data-controller="cloud.front.realtime.forumsReplyArea,cloud.front.realtime.whosTyping">
+	<div data-role="replyArea" class="cTopicPostArea ipsBox ipsResponsive_pull ipsPadding  ipsSpacer_top" data-offline-disabled="true">
 			
 				
 				
@@ -4077,7 +4077,7 @@ Alcohol is in quite a few products it seems. See this list.
 		<input type="hidden" name="MAX_FILE_SIZE" value="5242880">
 		<input type="hidden" name="plupload" value="afb1f7089990b30a9d7a9b1b346a0065">
 	
-	<div class="ipsComposeArea ipsComposeArea_withPhoto ipsClearfix ipsContained ipsComposeArea_minimized">
+	<div class="ipsComposeArea ipsComposeArea_withPhoto ipsClearfix ipsContained ipsComposeArea_minimized" data-offline-hidden="true">
 		<div data-role="whosTyping" class="ipsHide ipsMargin_bottom"></div>
 		<div class="ipsPos_left ipsResponsive_hidePhone ipsResponsive_block">
 
@@ -4246,11 +4246,11 @@ Alcohol is in quite a few products it seems. See this list.
 					
 
 
-    <a href="#elShareItem_2085348151_menu" id="elShareItem_2085348151" class="ipsShareButton ipsButton ipsButton_verySmall ipsButton_light ">
+    <a href="#elShareItem_2085348151_menu" id="elShareItem_2085348151" class="ipsShareButton ipsButton ipsButton_verySmall ipsButton_light " data-offline-disabled="true">
         <span><i class="fa fa-share-alt"></i></span> &nbsp;Share
     </a>
 
-    <div class="ipsPadding ipsMenu ipsMenu_auto ipsHide" id="elShareItem_2085348151_menu" data-controller="core.front.core.sharelink">
+    <div class="ipsPadding ipsMenu ipsMenu_auto ipsHide" id="elShareItem_2085348151_menu" data-controller="core.front.core.sharelink" data-offline-disabled="true">
         <ul class="ipsList_inline">
             
                 <li>
@@ -4281,7 +4281,7 @@ Alcohol is in quite a few products it seems. See this list.
         </ul>
         
             <hr class="ipsHr">
-            <button class="ipsHide ipsButton ipsButton_verySmall ipsButton_light ipsButton_fullWidth ipsMargin_top:half" data-controller="core.front.core.webshare" data-role="webShare" data-websharetitle="Can A Singh Drink Cobra Zero?" data-websharetext="Can A Singh Drink Cobra Zero?" data-webshareurl="../../index.html">More sharing options...</button>
+            <button class="ipsHide ipsButton ipsButton_verySmall ipsButton_light ipsButton_fullWidth ipsMargin_top:half" data-controller="core.front.core.webshare" data-role="webShare" data-websharetitle="Can A Singh Drink Cobra Zero?" data-websharetext="Can A Singh Drink Cobra Zero?" data-webshareurl="../../index.html" data-offline-disabled="true">More sharing options...</button>
         
     </div>
 
@@ -4290,10 +4290,10 @@ Alcohol is in quite a few products it seems. See this list.
 			<div class="ipsResponsive_noFloat ipsResponsive_block">
 				
 
-<div data-followapp="forums" data-followarea="topic" data-followid="61566" data-controller="core.front.core.followButton">
+<div data-followapp="forums" data-followarea="topic" data-followid="61566" data-controller="core.front.core.followButton" data-offline-disabled="true">
 	
 
-	<a href="../../../../login/index.html" rel="nofollow" class="ipsFollow ipsPos_middle ipsButton ipsButton_light ipsButton_verySmall " data-role="followButton" data-ipstooltip="" title="Sign in to follow this">
+	<a href="../../../../login/index.html" rel="nofollow" class="ipsFollow ipsPos_middle ipsButton ipsButton_light ipsButton_verySmall " data-role="followButton" data-ipstooltip="" title="Sign in to follow this" data-offline-disabled="true">
 		<span>Followers</span>
 		<span class="ipsCommentCount">1</span>
 	</a>
@@ -4853,7 +4853,7 @@ Interesting question though. Is... </p>
 	<ul class="ipsList_inline ipsPos_right">
 		
 		<li>
-			<a data-action="defaultStream" class="ipsType_light " href="../../../../discover/index.html"><i class="fa fa-newspaper-o" aria-hidden="true"></i> <span>All Activity</span></a>
+			<a data-action="defaultStream" class="ipsType_light " href="../../../../discover/index.html" data-offline-disabled="true"><i class="fa fa-newspaper-o" aria-hidden="true"></i> <span>All Activity</span></a>
 		</li>
 		
 	</ul>
@@ -4938,7 +4938,7 @@ Interesting question though. Is... </p>
 						
 							<li>
 								
-									<a href="../../../../register/index.html" data-ipsdialog-size="narrow" data-ipsdialog-title="Sign Up" data-ipsdialog-fixed="true" id="elRegisterButton_mobile" class="ipsButton ipsButton_small ipsButton_fullWidth ipsButton_important">Sign Up</a>
+									<a href="#" data-ipsdialog-size="narrow" data-ipsdialog-title="Sign Up" data-ipsdialog-fixed="true" id="elRegisterButton_mobile" class="ipsButton ipsButton_small ipsButton_fullWidth ipsButton_important" data-offline-disabled="true">Sign Up</a>
 								
 							</li>
 						
@@ -5438,7 +5438,7 @@ Interesting question though. Is... </p>
 
 
 
-<div id="elGuestTerms" class="ipsPad_half ipsJS_hide" data-role="guestTermsBar" data-controller="core.front.core.guestTerms" style="display: block;" data-offline-disabled="true">
+<div id="elGuestTerms" class="ipsPad_half ipsJS_hide" data-role="guestTermsBar" data-controller="core.front.core.guestTerms" style="display: block;" data-offline-disabled="true" data-offline-hidden="true">
 	<div class="ipsLayout_container">
 		<div class="ipsGrid ipsGrid_collapsePhone">
 			<div class="ipsGrid_span10">
@@ -5456,7 +5456,7 @@ Interesting question though. Is... </p>
 		
 		
 	
-<span style="visibility: hidden; position: absolute; top: -300px; width: 1px; height: 1px; overflow: hidden; left: -300px;"><span class="ipsLoading ipsLoading_noAnim" style="display: block;"></span></span><div class="ipsPadding ipsMenu ipsMenu_auto ipsHide ipsMenu_bottomCenter" id="elShareItem_619738320_menu" data-controller="core.front.core.sharelink" style="left: 695.094px; top: 315.719px; position: absolute; z-index: 5050; opacity: 1; display: none;">
+<span style="visibility: hidden; position: absolute; top: -300px; width: 1px; height: 1px; overflow: hidden; left: -300px;"><span class="ipsLoading ipsLoading_noAnim" style="display: block;"></span></span><div class="ipsPadding ipsMenu ipsMenu_auto ipsHide ipsMenu_bottomCenter" id="elShareItem_619738320_menu" data-controller="core.front.core.sharelink" style="left: 695.094px; top: 315.719px; position: absolute; z-index: 5050; opacity: 1; display: none;" data-offline-disabled="true">
         <ul class="ipsList_inline">
             
                 <li>
@@ -5487,6 +5487,6 @@ Interesting question though. Is... </p>
         </ul>
         
             <hr class="ipsHr">
-            <button class="ipsHide ipsButton ipsButton_verySmall ipsButton_light ipsButton_fullWidth ipsMargin_top:half" data-controller="core.front.core.webshare" data-role="webShare" data-websharetitle="Can A Singh Drink Cobra Zero?" data-websharetext="Can A Singh Drink Cobra Zero?" data-webshareurl="../../index.html">More sharing options...</button>
+            <button class="ipsHide ipsButton ipsButton_verySmall ipsButton_light ipsButton_fullWidth ipsMargin_top:half" data-controller="core.front.core.webshare" data-role="webShare" data-websharetitle="Can A Singh Drink Cobra Zero?" data-websharetext="Can A Singh Drink Cobra Zero?" data-webshareurl="../../index.html" data-offline-disabled="true">More sharing options...</button>
         
     </div><script defer="" src="../../../../../_offline/offline-mirror.js" data-offline-asset="offline-mirror.js"></script></body></html>

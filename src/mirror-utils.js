@@ -98,6 +98,12 @@ body[data-offline-mirror="true"] form[data-offline-disabled="true"] {
 
 body[data-offline-mirror="true"] [data-offline-disabled="true"] {
   pointer-events: none !important;
+  opacity: 0.4 !important;
+  cursor: default !important;
+}
+
+body[data-offline-mirror="true"] [data-offline-hidden="true"] {
+  display: none !important;
 }
 
 body[data-offline-mirror="true"] [data-offline-tab-panel][hidden] {
@@ -322,6 +328,41 @@ const OFFLINE_SCRIPT_CONTENT = `(() => {
     });
   };
 
+  const disableInteractiveElements = () => {
+    document.querySelectorAll('[data-offline-hidden="true"]').forEach((el) => {
+      el.style.display = 'none';
+    });
+
+    const deadActions = new Set([
+      'replyToTopic', 'quoteComment', 'reportComment', 'report',
+      'dismissTerms', 'close', 'defaultStream', 'loadMore',
+      'keepPasteFormatting', 'removePasteFormatting',
+      'keepEmbeddedMedia', 'removeEmbeddedMedia',
+      'keepRestoredContents', 'clearEditorContents',
+      'removeImageMessage', 'closePreview', 'resizePreview',
+    ]);
+
+    document.addEventListener('click', (event) => {
+      const target = event.target.closest('[data-action], [data-offline-disabled], a[href="#"], button[disabled]');
+      if (!target) return;
+      const action = target.getAttribute('data-action') || '';
+      if (deadActions.has(action) || target.getAttribute('data-offline-disabled') === 'true' || target.hasAttribute('disabled')) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+    }, true);
+
+    document.querySelectorAll('.ipsShareButton, [data-controller*="sharelink"], [data-controller*="webshare"]').forEach((el) => {
+      el.style.pointerEvents = 'none';
+      el.style.opacity = '0.4';
+    });
+
+    document.querySelectorAll('[data-controller*="followButton"], .ipsFollow').forEach((el) => {
+      el.style.pointerEvents = 'none';
+      el.style.opacity = '0.4';
+    });
+  };
+
   hardenIpsSettings();
   disableHistory();
   disableNetwork();
@@ -333,6 +374,7 @@ const OFFLINE_SCRIPT_CONTENT = `(() => {
     installCompiledScriptShim();
     hydrateLazyMedia();
     disableForms();
+    disableInteractiveElements();
     setupTabs();
   };
 
@@ -936,6 +978,41 @@ export function rewriteHtmlContent(html, currentUrl) {
   });
 
   $('[data-action="dismissTerms"], #elGuestTerms, #elRegisterForm, #elGuestSignIn').attr('data-offline-disabled', 'true');
+
+  $('[data-controller*="forums.front.topic.reply"], [data-controller*="cloud.front.realtime"]').each((_, el) => {
+    $(el).attr('data-offline-hidden', 'true').removeAttr('data-controller');
+  });
+  $('[data-action="replyToTopic"]').closest('.ipsToolList, ul, .ipsButtonBar').attr('data-offline-hidden', 'true');
+  $('#elReplyForm, .cReplyArea, [data-role="replyForm"], .ipsComposeArea, #elFullpageReply, [data-role="commentForm"]').attr('data-offline-hidden', 'true');
+  $('[data-action="quoteComment"], [data-action="reportComment"]').each((_, el) => {
+    $(el).closest('li, .ipsMenu_item').attr('data-offline-hidden', 'true');
+  });
+  $('.ipsShareButton, [data-controller*="core.front.core.sharelink"], [data-controller*="core.front.core.webshare"]').each((_, el) => {
+    $(el).attr('data-offline-disabled', 'true');
+  });
+  $('[data-controller*="core.front.core.followButton"], .ipsFollow').each((_, el) => {
+    $(el).attr('data-offline-disabled', 'true');
+  });
+  $('[data-action="defaultStream"]').attr('data-offline-disabled', 'true');
+  $('.ipsButton[href*="register"], a[href*="register"]').each((_, el) => {
+    $(el).attr('href', '#').attr('data-offline-disabled', 'true');
+  });
+  $('a[href*="login"], a[href*="login/"]').each((_, el) => {
+    $(el).attr('href', '#').attr('data-offline-disabled', 'true');
+  });
+  $('[data-controller*="core.front.core.navBar"] a[href*="login"]').closest('li').attr('data-offline-hidden', 'true');
+  $('#elSignInButton, #elUserSignIn, .ipsSignIn').attr('data-offline-hidden', 'true');
+  $('[data-controller*="core.front.core.guestTerms"]').attr('data-offline-hidden', 'true');
+  $('[data-role="commentForm"], .ipsComposeArea, #elFullpageReply').attr('data-offline-hidden', 'true');
+  $('[data-controller*="core.front.core.quickSearch"]').each((_, el) => {
+    $(el).attr('data-offline-disabled', 'true').removeAttr('data-controller');
+  });
+  $('[data-controller*="core.front.core.moderation"]').each((_, el) => {
+    $(el).attr('data-offline-disabled', 'true').removeAttr('data-controller');
+  });
+  $('[data-controller*="core.front.core.reaction"]').each((_, el) => {
+    $(el).attr('data-offline-disabled', 'true').removeAttr('data-controller');
+  });
 
   $('[data-ipscaptcha]').each((_, element) => {
     $(element)

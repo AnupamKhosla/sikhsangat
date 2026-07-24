@@ -209,6 +209,41 @@
     });
   };
 
+  const disableInteractiveElements = () => {
+    document.querySelectorAll('[data-offline-hidden="true"]').forEach((el) => {
+      el.style.display = 'none';
+    });
+
+    const deadActions = new Set([
+      'replyToTopic', 'quoteComment', 'reportComment', 'report',
+      'dismissTerms', 'close', 'defaultStream', 'loadMore',
+      'keepPasteFormatting', 'removePasteFormatting',
+      'keepEmbeddedMedia', 'removeEmbeddedMedia',
+      'keepRestoredContents', 'clearEditorContents',
+      'removeImageMessage', 'closePreview', 'resizePreview',
+    ]);
+
+    document.addEventListener('click', (event) => {
+      const target = event.target.closest('[data-action], [data-offline-disabled], a[href="#"], button[disabled]');
+      if (!target) return;
+      const action = target.getAttribute('data-action') || '';
+      if (deadActions.has(action) || target.getAttribute('data-offline-disabled') === 'true' || target.hasAttribute('disabled')) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+    }, true);
+
+    document.querySelectorAll('.ipsShareButton, [data-controller*="sharelink"], [data-controller*="webshare"]').forEach((el) => {
+      el.style.pointerEvents = 'none';
+      el.style.opacity = '0.4';
+    });
+
+    document.querySelectorAll('[data-controller*="followButton"], .ipsFollow').forEach((el) => {
+      el.style.pointerEvents = 'none';
+      el.style.opacity = '0.4';
+    });
+  };
+
   hardenIpsSettings();
   disableHistory();
   disableNetwork();
@@ -220,6 +255,7 @@
     installCompiledScriptShim();
     hydrateLazyMedia();
     disableForms();
+    disableInteractiveElements();
     setupTabs();
   };
 

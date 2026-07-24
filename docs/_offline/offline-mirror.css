@@ -22,6 +22,12 @@ body[data-offline-mirror="true"] form[data-offline-disabled="true"] {
 
 body[data-offline-mirror="true"] [data-offline-disabled="true"] {
   pointer-events: none !important;
+  opacity: 0.4 !important;
+  cursor: default !important;
+}
+
+body[data-offline-mirror="true"] [data-offline-hidden="true"] {
+  display: none !important;
 }
 
 body[data-offline-mirror="true"] [data-offline-tab-panel][hidden] {
