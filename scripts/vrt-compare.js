@@ -38,6 +38,7 @@ const OFFLINE_MASK_JS = `
   hide('#elGuestTerms, [data-role="guestTermsBar"]');
   hide('[data-controller*="forums.front.topic.reply"], [data-controller*="cloud.front.realtime"]');
   hide('[data-action="dismissTerms"]');
+  hide('[data-controller*="announcementBanner"], #elAnnouncement, .ipsAnnouncement, [data-role="announcementBanner"]');
 })();
 `;
 
