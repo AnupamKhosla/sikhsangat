@@ -106,6 +106,20 @@ body[data-offline-mirror="true"] [data-offline-hidden="true"] {
   display: none !important;
 }
 
+body[data-offline-mirror="true"] form[data-ipspageaction],
+body[data-offline-mirror="true"] form[data-role="moderationTools"],
+body[data-offline-mirror="true"] [data-role="commentFeed"] {
+  display: block !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+}
+
+body[data-offline-mirror="true"] form[data-role="moderationTools"] > .ipsButtonBar,
+body[data-offline-mirror="true"] .ipsDataItem_checkbox,
+body[data-offline-mirror="true"] [data-role="moderationTools"] [data-role="moderationSelectAll"] {
+  display: none !important;
+}
+
 body[data-offline-mirror="true"] [data-offline-tab-panel][hidden] {
   display: none !important;
 }
@@ -654,9 +668,8 @@ export function getLocalPath(urlStr, { isAsset = false } = {}) {
   const hostDir = path.join(OUTPUT_DIR, url.hostname);
 
   if (isAsset || isAssetLikeUrl(url)) {
-    let assetPath = pathname === '/' ? '/index.html' : pathname;
+    let assetPath = pathname === '/' ? '/index.html' : pathname.replace(/\/+$/, '');
     if (!path.extname(assetPath)) {
-      assetPath = assetPath.replace(/\/+$/, '');
       assetPath = `${assetPath}/index.html`;
     }
     return path.join(hostDir, assetPath);

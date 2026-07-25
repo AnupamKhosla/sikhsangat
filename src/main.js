@@ -50,6 +50,11 @@ const BLOCKED_PAGE_PATH_PREFIXES = [
   '/privacy/',
   '/terms/',
 ];
+const BLOCKED_ASSET_PATTERNS = [
+  '/html5shiv',
+  '/contact/',
+  'index.php?/contact',
+];
 const SERVER_OUTAGE_THRESHOLD = Infinity;
 const SERVER_OUTAGE_PAUSE_MS = 0;
 const BLOCKED_DO_VALUES = new Set([
@@ -348,9 +353,13 @@ function queuePage(url, options = {}) {
   });
 }
 
+function isBlockedAsset(url) {
+  return BLOCKED_ASSET_PATTERNS.some((pattern) => url.includes(pattern));
+}
+
 function queueAsset(url, sourceUrl = null) {
   const normalized = normalizeRemoteUrl(url, BASE_URL);
-  if (!normalized || shouldIgnoreUrl(normalized)) {
+  if (!normalized || shouldIgnoreUrl(normalized) || isBlockedAsset(normalized)) {
     return;
   }
 
@@ -634,15 +643,7 @@ async function processPage(url) {
 
   await rateLimit();
 
-  const context = await browser.newContext({
-    userAgent:
-      'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36',
-    viewport: { width: 1440, height: 1200 },
-    deviceScaleFactor: 1,
-    isMobile: false,
-    hasTouch: false,
-  });
-
+  const context = await ensureContext();
   const page = await context.newPage();
   const responseTasks = [];
   page.on('response', (response) => {
@@ -686,12 +687,30 @@ async function processPage(url) {
     await logAction(`[ERROR] ${url}: ${error.message}`);
   } finally {
     await Promise.allSettled(responseTasks);
-    await page.close().catch(() => {});
-    await context.close().catch(() => {});
+    await page.close().catch(() => {
+      sharedContext = null;
+    });
   }
 }
 
 let browser;
+let sharedContext;
+
+const CONTEXT_OPTIONS = {
+  userAgent:
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36',
+  viewport: { width: 1440, height: 1200 },
+  deviceScaleFactor: 1,
+  isMobile: false,
+  hasTouch: false,
+};
+
+async function ensureContext() {
+  if (!sharedContext || !sharedContext.browser?.isConnected?.()) {
+    sharedContext = await browser.newContext(CONTEXT_OPTIONS);
+  }
+  return sharedContext;
+}
 
 function normalizeSeedEntries(rawSeeds) {
   let entries = [];
@@ -747,6 +766,7 @@ async function run() {
     headless: true,
     args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-blink-features=AutomationControlled'],
   });
+  sharedContext = await browser.newContext(CONTEXT_OPTIONS);
 
   await logAction(`Starting scraper with ${PAGE_CONCURRENCY} workers and ${config.currentJitter}ms jitter.`);
   await logAction(`Loaded ${seeds.length} seeds in reverse order${skipped ? `, skipped ${skipped} flagged/invalid entries` : ''}.`);
@@ -761,11 +781,13 @@ async function run() {
   await assetQueue.onIdle();
 
   await logAction('Scrape pass complete.');
+  if (sharedContext) await sharedContext.close().catch(() => {});
   await browser.close();
 }
 
 run().catch(async (error) => {
   console.error(`[FATAL] ${error.message}`);
+  if (sharedContext) await sharedContext.close().catch(() => {});
   if (browser) {
     await browser.close().catch(() => {});
   }
