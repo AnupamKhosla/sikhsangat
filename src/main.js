@@ -126,6 +126,15 @@ function cleanAnsi(value = '') {
   return value.replace(/[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g, '');
 }
 
+function readDashboardPort() {
+  try {
+    const p = fs.readFileSync(path.join(ROOT_DIR, 'logs', 'dashboard.port'), 'utf8').trim();
+    if (/^\d+$/.test(p)) return Number(p);
+  } catch {}
+  const envPort = Number(process.env.DASHBOARD_PORT);
+  return envPort || 3000;
+}
+
 async function logAction(message) {
   const timestamp = new Date().toLocaleTimeString();
   const decorated = `\x1b[1;34m[${timestamp}] [MIRROR] ${message}\x1b[0m`;
@@ -133,7 +142,7 @@ async function logAction(message) {
 
   try {
     await axios.post(
-      'http://127.0.0.1:3000/log',
+      `http://127.0.0.1:${readDashboardPort()}/log`,
       {
         msg: `[${timestamp}] ${cleanAnsi(message)}`,
         config,
@@ -694,7 +703,6 @@ async function processPage(url) {
 }
 
 let browser;
-let sharedContext;
 
 const CONTEXT_OPTIONS = {
   userAgent:
@@ -704,13 +712,6 @@ const CONTEXT_OPTIONS = {
   isMobile: false,
   hasTouch: false,
 };
-
-async function ensureContext() {
-  if (!sharedContext || !sharedContext.browser?.isConnected?.()) {
-    sharedContext = await browser.newContext(CONTEXT_OPTIONS);
-  }
-  return sharedContext;
-}
 
 function normalizeSeedEntries(rawSeeds) {
   let entries = [];

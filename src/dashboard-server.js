@@ -170,7 +170,35 @@ httpServer.on('close', () => {
     }
 });
 
-const DASHBOARD_PORT = Number(process.env.DASHBOARD_PORT) || 3000;
-httpServer.listen(DASHBOARD_PORT, '127.0.0.1', () => {
-    console.log(`STABLE Dashboard live at http://127.0.0.1:${DASHBOARD_PORT}`);
-});
+const PREFERRED_PORT = Number(process.env.DASHBOARD_PORT) || 3000;
+const PORT_FILE = path.join(ROOT_DIR, 'logs', 'dashboard.port');
+const MAX_PORT_TRIES = 25;
+
+function tryListen(port, remaining) {
+  return new Promise((resolve, reject) => {
+    const onError = (err) => {
+      httpServer.off('error', onError);
+      if (err && err.code === 'EADDRINUSE' && remaining > 0) {
+        resolve(tryListen(port + 1, remaining - 1));
+        return;
+      }
+      reject(err);
+    };
+    httpServer.once('error', onError);
+    httpServer.listen(port, '127.0.0.1', () => {
+      httpServer.off('error', onError);
+      resolve(port);
+    });
+  });
+}
+
+tryListen(PREFERRED_PORT, MAX_PORT_TRIES)
+  .then((boundPort) => {
+    fs.ensureDirSync(path.dirname(PORT_FILE));
+    fs.writeFileSync(PORT_FILE, String(boundPort));
+    console.log(`STABLE Dashboard live at http://127.0.0.1:${boundPort}`);
+  })
+  .catch((err) => {
+    console.error(`Dashboard could not bind any port in ${PREFERRED_PORT}-${PREFERRED_PORT + MAX_PORT_TRIES}: ${err.message}`);
+    process.exit(1);
+  });

@@ -29,6 +29,15 @@ function resolveLocalTarget(filePath, reference) {
   return absolute;
 }
 
+function readDashboardPort() {
+  try {
+    const p = fs.readFileSync(path.join(ROOT_DIR, 'logs', 'dashboard.port'), 'utf8').trim();
+    if (/^\d+$/.test(p)) return Number(p);
+  } catch {}
+  const envPort = Number(process.env.DASHBOARD_PORT);
+  return envPort || 3000;
+}
+
 async function logAction(message) {
   const timestamp = new Date().toLocaleTimeString();
   const decorated = `\x1b[1;35m[${timestamp}] [AUDIT] ${message}\x1b[0m`;
@@ -36,7 +45,7 @@ async function logAction(message) {
 
   try {
     await axios.post(
-      'http://127.0.0.1:3000/log',
+      `http://127.0.0.1:${readDashboardPort()}/log`,
       {
         msg: `[${timestamp}] ${message}`,
       },
